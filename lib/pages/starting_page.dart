@@ -48,12 +48,18 @@ class StartingPage extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 150,
+            top: 100,
             left: 60,
             child: Wrap(
               alignment: WrapAlignment.start,
               direction: Axis.vertical,
               children: [
+                const Center(
+                  child: Icon(
+                    Icons.delivery_dining_outlined,
+                    size: 100,
+                  ),
+                ),
                 Text(
                   'Food for',
                   style: TextStyle(

@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -7,12 +8,14 @@ class LogInWidget extends StatelessWidget {
       required this.formKey,
       required this.emailController,
       required this.passwordController,
-      required this.onPressed})
+      required this.onPressed,
+      required this.loading})
       : super(key: key);
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
   final void Function() onPressed;
+  final bool loading;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,6 +49,7 @@ class LogInWidget extends StatelessWidget {
                 ),
                 SizedBox(height: 20.h),
                 TextFormField(
+                  obscuringCharacter: '*',
                   controller: passwordController,
                   obscureText: true,
                   textInputAction: TextInputAction.done,
@@ -69,31 +73,36 @@ class LogInWidget extends StatelessWidget {
                       // Navigator.pushReplacementNamed(
                       //     context, RegisterScreen.id);
                     },
-                    child: const Text(
+                    child: Text(
                       'Forgot password?',
                       style: TextStyle(
                           color: Colors.redAccent,
-                          fontSize: 16,
+                          fontSize: 16.sp,
                           fontWeight: FontWeight.w600),
                     )),
               ],
             ),
           ),
         ),
-        SizedBox(height: 220.h),
-        TextButton(
-          onPressed: () {
-            //_submitFormOnLogin();
-          },
-          style: ElevatedButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 100, vertical: 15)),
-          child: const Text(
-            'Login',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-          ),
-        ),
-        const SizedBox(height: 25)
+        SizedBox(height: 180.h),
+        ButtonLoadingWidget(
+            text: 'Login', onPressed: onPressed, loading: loading),
+        // TextButton(
+        //   onPressed: loading ? null : onPressed,
+        //   style: TextButton.styleFrom(
+        //       padding: EdgeInsets.symmetric(horizontal: 100.w, vertical: 15.h)),
+        //   child: loading
+        //       ? SizedBox(
+        //           height: 17.h,
+        //           width: 17.w,
+        //           child: const CircularProgressIndicator(color: Colors.black))
+        //       : Text(
+        //           'Login',
+        //           style:
+        //               TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
+        //         ),
+        // ),
+        SizedBox(height: 25.h)
       ],
     );
   }

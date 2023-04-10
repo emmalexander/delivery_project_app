@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -9,7 +10,8 @@ class SignUpWidget extends StatelessWidget {
       required this.passwordController,
       required this.nameController,
       required this.phoneController,
-      required this.onPressed})
+      required this.onPressed,
+      required this.loading})
       : super(key: key);
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
@@ -17,6 +19,7 @@ class SignUpWidget extends StatelessWidget {
   final TextEditingController nameController;
   final TextEditingController phoneController;
   final void Function() onPressed;
+  final bool loading;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -98,6 +101,7 @@ class SignUpWidget extends StatelessWidget {
                 TextFormField(
                   controller: passwordController,
                   obscureText: true,
+                  obscuringCharacter: '*',
                   textInputAction: TextInputAction.done,
                   validator: (value) {
                     String pattern =
@@ -125,17 +129,24 @@ class SignUpWidget extends StatelessWidget {
           ),
         ),
         SizedBox(height: 30.h),
-        TextButton(
-          onPressed: onPressed,
-          style: ElevatedButton.styleFrom(
-              padding:
-                  const EdgeInsets.symmetric(horizontal: 100, vertical: 15)),
-          child: const Text(
-            'Sign up',
-            style: TextStyle(fontSize: 17, fontWeight: FontWeight.w600),
-          ),
-        ),
-        const SizedBox(height: 25)
+        ButtonLoadingWidget(
+            text: 'Sign up', onPressed: onPressed, loading: loading),
+        // TextButton(
+        //   onPressed: loading ? null : onPressed,
+        //   style: TextButton.styleFrom(
+        //       padding: EdgeInsets.symmetric(horizontal: 100.w, vertical: 15.h)),
+        //   child: loading
+        //       ? SizedBox(
+        //           height: 17.h,
+        //           width: 17.w,
+        //           child: const CircularProgressIndicator(color: Colors.black))
+        //       : Text(
+        //           'Sign up',
+        //           style:
+        //               TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
+        //         ),
+        // ),
+        SizedBox(height: 25.h)
       ],
     );
   }

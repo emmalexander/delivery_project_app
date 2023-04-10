@@ -1,12 +1,10 @@
 import 'package:delivery_project_app/consts/consts.dart';
 import 'package:delivery_project_app/services/exceptions.dart';
 import 'package:dio/dio.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import '../../models/user_model.dart';
 
 class ApiServices {
   Future register(email, password, name, phone) async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
     Map<String, dynamic> data = {
       'email': email,
       'password': password,
@@ -23,11 +21,11 @@ class ApiServices {
         final body = response.data;
         print('Body: $body');
 
-        storage.setString('TOKEN', body['token']);
         return UserModel(
-            email: email,
-            name: name,
-            phone: phone,
+            email: body['email'],
+            name: body['name'],
+            phone: body['phone'],
+            id: body['id'],
             token: body['token'],
             verified: body['verified']);
       } else {
@@ -41,15 +39,12 @@ class ApiServices {
     return null;
   }
 
-  Future<UserModel?> getUser(token) async {
-    SharedPreferences storage = await SharedPreferences.getInstance();
-    //final token = storage.getString('TOKEN');
-    //final email = storage.getString('EMAIL');
+  Future getUser(token) async {
     final dio = Dio();
     Response response;
 
     try {
-      response = await dio.get(signInEndpoint,
+      response = await dio.get(userEndpoint,
           options: Options(headers: {'authorization': 'Bearer $token'}));
 
       if (response.statusCode == 200) {
@@ -58,7 +53,7 @@ class ApiServices {
 
         return UserModel(
             email: body['user']['email'],
-            //name: body['user']['name'],
+            name: body['user']['name'],
             phone: body['user']['phone'],
             // token: body['user']['token'],
             id: body['user']['id'],
@@ -70,6 +65,68 @@ class ApiServices {
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future otpLoginPost(email, password) async {
+    Map<String, dynamic> data = {
+      'email': email,
+      'password': password,
+    };
+    final dio = Dio();
+    Response response;
+
+    try {
+      response = await dio.post(loginEndpoint, data: data);
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        print('Body: $body');
+
+        return body.toString();
+      } else {
+        print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future getUserFromOtp(otp, email) async {
+    Map<String, dynamic> emailQuery = {
+      'email': email,
+    };
+    final dio = Dio();
+    Response response;
+
+    try {
+      response = await dio.put(otpEndpoint,
+          data: {'otp': otp}, queryParameters: emailQuery);
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        print('Body: $body');
+
+        return UserModel(
+          email: body['email'],
+          //name: body['name'],
+          phone: body['phone'],
+          token: body['token'],
+          id: body['id'],
+          verified: body['verified'],
+        );
+      } else {
+        print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error Message: $errorMessage');
+      return errorMessage;
     }
     return null;
   }

@@ -1,9 +1,8 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
-import 'package:delivery_project_app/pages/error_page.dart';
+import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
-import 'package:delivery_project_app/pages/register_page.dart';
-import 'package:delivery_project_app/pages/sign_in_page.dart';
+import 'package:delivery_project_app/pages/otp_page.dart';
 import 'package:delivery_project_app/pages/starting_page.dart';
 import 'package:delivery_project_app/pages/verification_page.dart';
 import 'package:delivery_project_app/services/app_router.dart';
@@ -70,20 +69,22 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is AddingUserState) {
-          return const Scaffold(
-            body: Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        } else if (state is ErrorState) {
-          return ErrorPage(error: state.error);
-        } else if (state is UserAddedState) {
+        //create a new VerificationState
+        if (state is UserAddedState) {
+          //this state should take you to the home page with the userModel as a state variable
+          return const HomePage();
+        } else if (state is VerificationState) {
           return const VerificationPage();
-        } else if (state.userToken == '') {
-          return const StartingPage();
+        } else if (state is OtpState) {
+          return const OtpPage();
+        } else if (state is LoggedInUserState) {
+          return const HomePage();
+        } else if (state.userToken.isEmpty) {
+          return const LogInSignUpPage();
+        } else if (state.userToken.isNotEmpty) {
+          return const HomePage();
         }
-        return const SignInPage();
+        return const StartingPage();
       },
     );
   }

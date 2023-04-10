@@ -1,2 +1,4 @@
-const String signUpEndpoint = 'http://192.168.0.105/api/auth/signup';
-const String signInEndpoint = 'http://192.168.0.105/api/auth/user';
+const String signUpEndpoint = 'http://192.168.0.102/api/auth/signup';
+const String userEndpoint = 'http://192.168.0.102/api/auth/user';
+const String loginEndpoint = 'http://192.168.0.102/api/auth/login';
+const String otpEndpoint = 'http://192.168.0.102/api/auth/otp';

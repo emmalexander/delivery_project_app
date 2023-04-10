@@ -5,13 +5,13 @@ abstract class UserEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class CreateUser extends UserEvent {
+class SignUpToVerificationEvent extends UserEvent {
   final String name;
   final String email;
   final String phone;
   final String password;
 
-  CreateUser(
+  SignUpToVerificationEvent(
       {required this.name,
       required this.email,
       required this.phone,
@@ -21,18 +21,26 @@ class CreateUser extends UserEvent {
   List<Object> get props => [name, email, phone, password];
 }
 
-class AddUserToken extends UserEvent {
-  final String userToken;
-  AddUserToken({required this.userToken});
+class VerificationToHomePageEvent extends UserEvent {}
+
+class GetUserEvent extends UserEvent {}
+
+class RemoveUserToken extends UserEvent {}
+
+class LogToOtpEvent extends UserEvent {
+  final String email;
+  final String password;
+  LogToOtpEvent({required this.email, required this.password});
 
   @override
-  List<Object> get props => [userToken];
+  List<Object> get props => [email, password];
 }
 
-class RemoveUserToken extends UserEvent {
-  final String userToken;
-  RemoveUserToken({required this.userToken});
+class OtpToHomePageEvent extends UserEvent {
+  final String email;
+  final String otp;
+  OtpToHomePageEvent({required this.email, required this.otp});
 
   @override
-  List<Object> get props => [userToken];
+  List<Object> get props => [email, otp];
 }

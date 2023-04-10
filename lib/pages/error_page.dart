@@ -1,4 +1,3 @@
-import 'package:delivery_project_app/pages/sign_in_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -38,9 +37,7 @@ class ErrorPage extends StatelessWidget {
                               EdgeInsets.symmetric(vertical: 5, horizontal: 80),
                           child: Text('Sign In'),
                         ),
-                        onPressed: () {
-                          Navigator.of(context).pushNamed(SignInPage.id);
-                        },
+                        onPressed: () {},
                       ),
                       // const SizedBox(height: 20),
                       // TextButton(
