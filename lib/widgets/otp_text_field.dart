@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 
 class OtpTextField extends StatelessWidget {
-  const OtpTextField(
-      {Key? key,
-      required this.otpController,
-      required this.onChanged,
-      required this.onCompleted})
-      : super(key: key);
+  const OtpTextField({
+    Key? key,
+    required this.otpController,
+    required this.onChanged,
+    required this.onCompleted,
+  }) : super(key: key);
   final TextEditingController otpController;
   final Function(String) onChanged;
   final Function(String) onCompleted;
@@ -23,15 +23,15 @@ class OtpTextField extends StatelessWidget {
       keyboardType: TextInputType.number,
       length: 4,
       textInputAction: TextInputAction.done,
-      validator: (value) {
-        if (value!.isEmpty) {
-          return 'OTP field required';
-        } else if (value.length < 4) {
-          return 'Incomplete field';
-        } else {
-          return null;
-        }
-      },
+      // validator: (value) {
+      //   if (value!.isEmpty) {
+      //     return 'OTP field required';
+      //   } else if (value.length < 4) {
+      //     return 'Incomplete field';
+      //   } else {
+      //     return null;
+      //   }
+      // },
       pinTheme: PinTheme(
         shape: PinCodeFieldShape.box,
         borderRadius: BorderRadius.circular(10),

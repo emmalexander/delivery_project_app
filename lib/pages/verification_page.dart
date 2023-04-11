@@ -43,7 +43,7 @@ class VerificationPage extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Lottie.asset(
-                    'assets/88252-data-security.json',
+                    'assets/98814-email.json',
                     height: 200.h,
                   ),
                   Text(

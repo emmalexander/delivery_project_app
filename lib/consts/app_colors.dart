@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 class AppColors {
   static Color color = const Color(0xFFEFB60E);
+  static Color scaffoldBackgroundColor = const Color(0xFFF2F2F2);
 
   static MaterialColor mainColor = const MaterialColor(0xFFEFB60E, {
     50: Color(0xFFFFF8E1),

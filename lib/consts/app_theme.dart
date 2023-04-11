@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 
 class AppTheme {
   static final appTheme = ThemeData(
+      appBarTheme: AppBarTheme(
+        backgroundColor: AppColors.scaffoldBackgroundColor,
+      ),
       useMaterial3: true,
-      scaffoldBackgroundColor: const Color(0xFFF2F2F2),
+      scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
       fontFamily: 'SF-Pro-Rounded',
       primarySwatch: AppColors.mainColor,
       colorScheme: ColorScheme.fromSwatch(

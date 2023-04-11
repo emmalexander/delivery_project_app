@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/pages/forgot_password.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -70,8 +71,7 @@ class LogInWidget extends StatelessWidget {
                 SizedBox(height: 20.h),
                 InkWell(
                     onTap: () {
-                      // Navigator.pushReplacementNamed(
-                      //     context, RegisterScreen.id);
+                      Navigator.pushNamed(context, ForgotPassword.id);
                     },
                     child: Text(
                       'Forgot password?',

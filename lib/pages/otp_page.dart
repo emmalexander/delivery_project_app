@@ -10,14 +10,14 @@ import 'package:lottie/lottie.dart';
 
 class OtpPage extends StatefulWidget {
   const OtpPage({Key? key}) : super(key: key);
-
+  static const id = 'otp_page';
   @override
   State<OtpPage> createState() => _OtpPageState();
 }
 
 class _OtpPageState extends State<OtpPage> {
   late TextEditingController _otpController;
-  final _otpFormKey = GlobalKey<FormState>();
+  //final _otpFormKey = GlobalKey<FormState>();
   late String otp;
 
   @override
@@ -80,49 +80,45 @@ class _OtpPageState extends State<OtpPage> {
                       decoration: BoxDecoration(
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(15.r)),
-                      child: Form(
-                        key: _otpFormKey,
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            OtpTextField(
-                              otpController: _otpController,
-                              onChanged: (val) {},
-                              onCompleted: (val) {
-                                final isValid =
-                                    _otpFormKey.currentState!.validate();
-                                FocusScope.of(context).unfocus();
-                                if (isValid) {
-                                  _otpFormKey.currentState!.save();
-                                  //code goes here
-                                  context.read<UserBloc>().add(
-                                      OtpToHomePageEvent(
-                                          email: state.email!, otp: val));
-                                }
-                              },
-                            ),
-                            ButtonLoadingWidget(
-                              text: 'Verify',
-                              onPressed: _otpController.text.length > 3
-                                  ? () {
-                                      final isValid =
-                                          _otpFormKey.currentState!.validate();
-                                      FocusScope.of(context).unfocus();
-                                      if (isValid) {
-                                        _otpFormKey.currentState!.save();
-                                        //code goes here
-                                        context.read<UserBloc>().add(
-                                            OtpToHomePageEvent(
-                                                email: state.email!,
-                                                otp: _otpController.text));
-                                      }
-                                    }
-                                  : null,
-                              loading: state.otpLoading,
-                            )
-                          ],
-                        ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          OtpTextField(
+                            otpController: _otpController,
+                            onChanged: (val) {},
+                            onCompleted: (val) {
+                              // final isValid =
+                              //     _otpFormKey.currentState!.validate();
+                              FocusScope.of(context).unfocus();
+                              // if (isValid) {
+                              //   _otpFormKey.currentState!.save();
+                              //code goes here
+                              context.read<UserBloc>().add(OtpToHomePageEvent(
+                                  email: state.email!, otp: val));
+                              // }
+                            },
+                          ),
+                          ButtonLoadingWidget(
+                            text: 'Verify',
+                            onPressed: _otpController.text.length > 3
+                                ? () {
+                                    // final isValid =
+                                    //     _otpFormKey.currentState!.validate();
+                                    FocusScope.of(context).unfocus();
+                                    // if (isValid) {
+                                    //   _otpFormKey.currentState!.save();
+                                    //code goes here
+                                    context.read<UserBloc>().add(
+                                        OtpToHomePageEvent(
+                                            email: state.email!,
+                                            otp: _otpController.text));
+                                    //}
+                                  }
+                                : null,
+                            loading: state.otpLoading,
+                          )
+                        ],
                       ),
                     ),
                     SizedBox(height: 20.h),
