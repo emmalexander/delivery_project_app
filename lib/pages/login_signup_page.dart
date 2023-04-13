@@ -98,11 +98,9 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Container(),
-                        const Center(
-                          child: Icon(
-                            Icons.delivery_dining_outlined,
-                            size: 100,
-                          ),
+                        Center(
+                          child:
+                              Image.asset('assets/qc-black.png', width: 220.w),
                         ),
                         Align(
                           alignment: Alignment.bottomCenter,
@@ -113,8 +111,8 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
                               labelPadding:
                                   EdgeInsets.symmetric(vertical: 10.h),
                               indicatorColor: AppColors.mainColor,
-                              indicatorPadding:
-                                  EdgeInsets.symmetric(horizontal: 50.w),
+                              // indicatorPadding:
+                              //     EdgeInsets.symmetric(horizontal: 50.w),
                               controller: _tabController,
                               tabs: const [
                                 Text(

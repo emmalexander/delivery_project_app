@@ -102,6 +102,7 @@ class VerificationState extends UserState {
   const VerificationState({
     required super.verified,
     required super.email,
+    required super.id,
     required super.userToken,
     required super.loginLoading,
     required super.signupLoading,

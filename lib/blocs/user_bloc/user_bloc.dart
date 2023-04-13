@@ -35,11 +35,12 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
           verified: user.verified,
           email: user.email,
           userToken: user.token!,
+          id: user.id,
           loginLoading: false,
           signupLoading: false,
           otpLoading: false,
         ));
-        print('User Token: ${user.token.toString()}');
+        print('User ID: ${user.id.toString()}');
       } else {
         if (user is! UserModel && user.toString().contains('User_email_key')) {
           emit(ErrorState(

@@ -1,15 +1,72 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/consts/app_colors.dart';
+import 'package:delivery_project_app/consts/consts.dart';
+import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 
-class VerificationPage extends StatelessWidget {
+class VerificationPage extends StatefulWidget {
   const VerificationPage({Key? key}) : super(key: key);
   static const id = 'verification_page';
+
+  @override
+  State<VerificationPage> createState() => _VerificationPageState();
+}
+
+class _VerificationPageState extends State<VerificationPage> {
+  late Socket socket;
+
+  void _connectToServer() {
+    socket.onConnect((data) => print('Connected'));
+    socket.onConnectError((data) => print('Connection Error: $data'));
+    socket.onDisconnect((data) => print('Socket.IO server disconnected'));
+
+    try {
+      print('here');
+
+      // Connect to websocket
+      socket.connect();
+
+      //Handle socket events
+      socket.on(
+          'connect', (_) => print('connect: ${socket.id} ${_.toString()}'));
+
+      socket.on('verifyCheck', (value) {
+        if (value == true) {
+          Navigator.pushReplacementNamed(context, HomePage.id);
+        }
+        print(value.toString());
+        // BlocProvider.of<UserBloc>(context).add(VerificationToHomePageEvent());
+      });
+
+      socket.on('disconnect', (_) => print('disconnect'));
+      socket.on('fromServer', (_) => print(_));
+    } catch (e) {
+      print(e.toString());
+    }
+  }
+
+  sendId(id) {
+    socket.emit("verifyCheck", id);
+  }
+
+  @override
+  void initState() {
+    final blocProviderState = BlocProvider.of<UserBloc>(context).state;
+    socket = io(
+      socketUri,
+      OptionBuilder()
+          .setTransports(['websocket']).setQuery({'username': 'Reo'}).build(),
+    );
+    _connectToServer();
+    print('ID: ${blocProviderState.id.toString()}');
+    sendId(blocProviderState.id);
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -51,31 +108,15 @@ class VerificationPage extends StatelessWidget {
                     style:
                         TextStyle(fontSize: 25.sp, fontWeight: FontWeight.w600),
                   ),
-                  Wrap(
-                    children: [
-                      Text(
-                        'Click ',
-                        style:
-                            TextStyle(fontSize: 17.sp, color: Colors.black54),
-                      ),
-                      InkWell(
-                          onTap: () {
-                            context
-                                .read<UserBloc>()
-                                .add(VerificationToHomePageEvent());
-                          },
-                          child: Text(
-                            'here',
-                            style: TextStyle(
-                                fontSize: 17.sp, color: AppColors.mainColor),
-                          )),
-                      Text(
-                        ' after email verification',
-                        style:
-                            TextStyle(fontSize: 17.sp, color: Colors.black54),
-                      )
-                    ],
-                  )
+                  Text(
+                    'Check email for verification ',
+                    style: TextStyle(fontSize: 17.sp, color: Colors.black54),
+                  ),
+                  SizedBox(
+                      height: 17.h,
+                      width: 17.w,
+                      child:
+                          const CircularProgressIndicator(color: Colors.black))
                 ],
               ),
             ),

@@ -3,9 +3,23 @@ import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-class StartingPage extends StatelessWidget {
+class StartingPage extends StatefulWidget {
   const StartingPage({Key? key}) : super(key: key);
   static const id = 'starting_page';
+
+  @override
+  State<StartingPage> createState() => _StartingPageState();
+}
+
+class _StartingPageState extends State<StartingPage> {
+  @override
+  void initState() async {
+    await Future.delayed(const Duration(seconds: 2));
+    if (!mounted) return;
+    Navigator.pushReplacementNamed(context, LogInSignUpPage.id);
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,18 +48,10 @@ class StartingPage extends StatelessWidget {
           ),
           Positioned(
             bottom: 20,
-            child: TextButton(
-              style: TextButton.styleFrom(
-                  backgroundColor: Colors.white,
-                  foregroundColor: AppColors.mainColor),
-              onPressed: () {
-                Navigator.pushReplacementNamed(context, LogInSignUpPage.id);
-              },
-              child: Padding(
-                padding: EdgeInsets.symmetric(vertical: 8.h, horizontal: 100.w),
-                child: const Text('Get Started'),
-              ),
-            ),
+            child: SizedBox(
+                height: 17.h,
+                width: 17.w,
+                child: const CircularProgressIndicator(color: Colors.black)),
           ),
           Positioned(
             top: 100,

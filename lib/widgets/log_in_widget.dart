@@ -87,21 +87,6 @@ class LogInWidget extends StatelessWidget {
         SizedBox(height: 180.h),
         ButtonLoadingWidget(
             text: 'Login', onPressed: onPressed, loading: loading),
-        // TextButton(
-        //   onPressed: loading ? null : onPressed,
-        //   style: TextButton.styleFrom(
-        //       padding: EdgeInsets.symmetric(horizontal: 100.w, vertical: 15.h)),
-        //   child: loading
-        //       ? SizedBox(
-        //           height: 17.h,
-        //           width: 17.w,
-        //           child: const CircularProgressIndicator(color: Colors.black))
-        //       : Text(
-        //           'Login',
-        //           style:
-        //               TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
-        //         ),
-        // ),
         SizedBox(height: 25.h)
       ],
     );

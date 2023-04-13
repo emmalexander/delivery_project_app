@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/blocs/bloc_observer.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
@@ -18,6 +19,8 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
+  final observer = MyBlocObserver();
+  Bloc.observer = observer;
 
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
