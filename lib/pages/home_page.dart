@@ -1,6 +1,11 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/widgets/home_app_bar.dart';
+import 'package:delivery_project_app/widgets/my_drawer.dart';
+import 'package:delivery_project_app/widgets/restaurant_widget.dart';
+import 'package:delivery_project_app/widgets/search_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({
@@ -24,42 +29,35 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        return Scaffold(
-          body: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: <Widget>[
-                Text('Email:    ${state.email}'),
-                Text('Token:   ${state.userToken}'),
-                Text('Phone:   ${state.phone}'),
-                Text('Name:   ${state.name}'),
-                Text('Verified Status:   ${state.verified}'),
-                const SizedBox(height: 20),
-                ElevatedButton.icon(
-                  icon: const Text('Logout'),
-                  label: const Icon(Icons.logout),
-                  onPressed: () {
-                    context.read<UserBloc>().add(RemoveUserToken());
-                    // final logoutValue = await RegistrationService().logout();
-                    // if (logoutValue == true) {
-                    //   if (!mounted) return;
-                    //   Navigator.of(context).pushReplacementNamed('/login');
-                    // } else {
-                    //   if (!mounted) return;
-                    //   ScaffoldMessenger.of(context).showSnackBar(
-                    //     const SnackBar(
-                    //       duration: Duration(seconds: 3),
-                    //       content: Text(
-                    //         'error with your token, have to login again',
-                    //       ),
-                    //     ),
-                    //   );
-                    //   Navigator.of(context).pushReplacementNamed('/login');
-                    // }
-                  },
-                ),
-              ],
+        return GestureDetector(
+          onTap: () {
+            FocusScope.of(context).unfocus();
+          },
+          child: Scaffold(
+            appBar: const HomeAppBar(),
+            drawer: const MyDrawer(),
+            body: Padding(
+              padding: EdgeInsets.symmetric(horizontal: 25.w, vertical: 10.h),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const Text(
+                    'Restaurants',
+                    style: TextStyle(
+                      fontSize: 30,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  const CustomSearchBar(),
+                  const SizedBox(height: 20),
+                  Expanded(
+                      child: ListView.builder(
+                          itemCount: 7,
+                          itemBuilder: (context, index) =>
+                              const RestaurantWidget()))
+                ],
+              ),
             ),
           ),
         );

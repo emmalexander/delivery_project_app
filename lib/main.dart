@@ -2,7 +2,6 @@ import 'package:delivery_project_app/blocs/bloc_observer.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/otp_page.dart';
 import 'package:delivery_project_app/pages/starting_page.dart';
 import 'package:delivery_project_app/pages/verification_page.dart';
@@ -11,6 +10,7 @@ import 'package:delivery_project_app/services/api_services.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
@@ -19,8 +19,9 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  final observer = MyBlocObserver();
-  Bloc.observer = observer;
+  // final observer = MyBlocObserver();
+  // Bloc.observer = observer;
+  await dotenv.load();
 
   HydratedBloc.storage = await HydratedStorage.build(
       storageDirectory: await getApplicationDocumentsDirectory());
@@ -72,21 +73,24 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        //create a new VerificationState
         if (state is UserAddedState) {
-          //this state should take you to the home page with the userModel as a state variable
+          // this state should take you to the home page with the userModel as a state variable
           return const HomePage();
         } else if (state is VerificationState) {
           return const VerificationPage();
         } else if (state is OtpState) {
+          print(state.userToken.toString());
           return const OtpPage();
         } else if (state is LoggedInUserState) {
           return const HomePage();
-        } else if (state.userToken.isEmpty) {
-          return const LogInSignUpPage();
-        } else if (state.userToken.isNotEmpty) {
-          return const HomePage();
         }
+        // else if (state.userToken.isEmpty) {
+        //   return const StartingPage();
+        // }
+        // else if (state.userToken.isNotEmpty) {
+        //   print(state.userToken.toString());
+        //   return const HomePage();
+        // }
         return const StartingPage();
       },
     );

@@ -10,6 +10,7 @@ class UserState extends Equatable {
   final String? name;
   final String? id;
   final bool? verified;
+  final XFile? photoFile;
 
   const UserState({
     required this.userToken,
@@ -21,6 +22,7 @@ class UserState extends Equatable {
     this.name,
     this.id,
     this.verified,
+    this.photoFile,
   });
 
   @override
@@ -58,17 +60,18 @@ class UserStateInitial extends UserState {
     required String name,
     required String id,
     required bool verified,
+    XFile? photoFile,
   }) : super(
-          userToken: userToken,
-          loginLoading: loginLoading,
-          signupLoading: signupLoading,
-          otpLoading: otpLoading,
-          email: email,
-          phone: phone,
-          name: name,
-          id: id,
-          verified: verified,
-        );
+            userToken: userToken,
+            loginLoading: loginLoading,
+            signupLoading: signupLoading,
+            otpLoading: otpLoading,
+            email: email,
+            phone: phone,
+            name: name,
+            id: id,
+            verified: verified,
+            photoFile: photoFile);
 }
 
 class AddingUserState extends UserState {

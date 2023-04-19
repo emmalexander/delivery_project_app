@@ -1,7 +1,9 @@
+import 'package:delivery_project_app/pages/change_profile_page.dart';
 import 'package:delivery_project_app/pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/otp_page.dart';
+import 'package:delivery_project_app/pages/profile_page.dart';
 import 'package:delivery_project_app/pages/starting_page.dart';
 import 'package:delivery_project_app/pages/verification_page.dart';
 import 'package:flutter/material.dart';
@@ -22,6 +24,11 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const ForgotPassword());
       case OtpPage.id:
         return MaterialPageRoute(builder: (context) => const OtpPage());
+      case ProfilePage.id:
+        return MaterialPageRoute(builder: (context) => const ProfilePage());
+      case ChangeProfilePage.id:
+        return MaterialPageRoute(
+            builder: (context) => const ChangeProfilePage());
       default:
         return null;
     }

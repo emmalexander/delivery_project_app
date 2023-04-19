@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:flutter/material.dart';
@@ -13,10 +15,9 @@ class StartingPage extends StatefulWidget {
 
 class _StartingPageState extends State<StartingPage> {
   @override
-  void initState() async {
-    await Future.delayed(const Duration(seconds: 2));
-    if (!mounted) return;
-    Navigator.pushReplacementNamed(context, LogInSignUpPage.id);
+  void initState() {
+    Future.delayed(const Duration(seconds: 2),
+        () => Navigator.pushReplacementNamed(context, LogInSignUpPage.id));
     super.initState();
   }
 
@@ -51,7 +52,8 @@ class _StartingPageState extends State<StartingPage> {
             child: SizedBox(
                 height: 17.h,
                 width: 17.w,
-                child: const CircularProgressIndicator(color: Colors.black)),
+                child: const CircularProgressIndicator(
+                    strokeWidth: 2, color: Colors.black)),
           ),
           Positioned(
             top: 100,

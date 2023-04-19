@@ -5,11 +5,13 @@ class CustomErrorDialog extends StatelessWidget {
       {Key? key,
       required this.title,
       required this.description,
-      required this.onPressed})
+      required this.onPressed,
+      this.isLogout = false})
       : super(key: key);
   final String title;
   final String description;
   final Function() onPressed;
+  final bool isLogout;
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
@@ -17,10 +19,23 @@ class CustomErrorDialog extends StatelessWidget {
       title: Text(title),
       content: Text(description),
       actions: [
-        TextButton(
-          onPressed: onPressed,
-          child: const Text('Ok'),
-        )
+        isLogout
+            ? TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('No'),
+              )
+            : Container(),
+        isLogout
+            ? TextButton(
+                onPressed: onPressed,
+                child: const Text('Yes'),
+              )
+            : TextButton(
+                onPressed: onPressed,
+                child: const Text('Ok'),
+              ),
       ],
     );
   }

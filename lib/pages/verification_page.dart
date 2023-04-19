@@ -1,10 +1,10 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/consts/consts.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:socket_io_client/socket_io_client.dart';
@@ -58,7 +58,7 @@ class _VerificationPageState extends State<VerificationPage> {
   void initState() {
     final blocProviderState = BlocProvider.of<UserBloc>(context).state;
     socket = io(
-      socketUri,
+      dotenv.env['SOCKET_URI'],
       OptionBuilder()
           .setTransports(['websocket']).setQuery({'username': 'Reo'}).build(),
     );

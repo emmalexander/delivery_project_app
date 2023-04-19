@@ -3,6 +3,7 @@ import 'package:delivery_project_app/services/api_services.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
+import 'package:image_picker/image_picker.dart';
 
 part 'user_event.dart';
 part 'user_state.dart';
@@ -11,16 +12,18 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
   final ApiServices apiServices;
   final BuildContext context;
   UserBloc({required this.apiServices, required this.context})
-      : super(const UserStateInitial(
-            userToken: '',
-            loginLoading: false,
-            signupLoading: false,
-            otpLoading: false,
-            email: '',
-            phone: '',
-            id: '',
-            name: '',
-            verified: false)) {
+      : super(UserStateInitial(
+          userToken: '',
+          loginLoading: false,
+          signupLoading: false,
+          otpLoading: false,
+          email: '',
+          phone: '',
+          id: '',
+          name: '',
+          verified: false,
+          photoFile: XFile(''),
+        )) {
     on<SignUpToVerificationEvent>((event, emit) async {
       emit(UserState(
         userToken: state.userToken,
@@ -105,16 +108,16 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
         otpLoading: state.otpLoading,
         email: event.email,
       ));
-      await Future.delayed(const Duration(seconds: 1));
+      //await Future.delayed(const Duration(seconds: 1));
       final otpMessage =
           await apiServices.otpLoginPost(event.email, event.password);
       if (otpMessage.toString().contains('Check your email')) {
         emit(OtpState(
           email: event.email,
           userToken: state.userToken,
-          loginLoading: state.loginLoading,
-          signupLoading: state.signupLoading,
-          otpLoading: state.otpLoading,
+          loginLoading: false,
+          signupLoading: false,
+          otpLoading: false,
         ));
       } else {
         emit(ErrorState(
@@ -178,6 +181,16 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
             signupLoading: false,
             otpLoading: false));
       }
+    });
+
+    on<ChangeProfilePictureEvent>((event, emit) {
+      emit(UserState(
+        userToken: state.userToken,
+        loginLoading: state.loginLoading,
+        signupLoading: state.signupLoading,
+        otpLoading: state.otpLoading,
+        photoFile: event.photoFile,
+      ));
     });
   }
 
