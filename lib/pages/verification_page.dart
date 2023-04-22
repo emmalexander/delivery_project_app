@@ -83,6 +83,10 @@ class _VerificationPageState extends State<VerificationPage> {
       },
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
+          // if (state is UserAddedState) {
+          //   // this state should take you to the home page with the userModel as a state variable
+          //   return const HomePage();
+          // }
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,

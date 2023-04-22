@@ -2,25 +2,26 @@ part of 'user_bloc.dart';
 
 class UserState extends Equatable {
   final String userToken;
-  final bool loginLoading;
-  final bool signupLoading;
-  final bool otpLoading;
+  final bool? loginLoading;
+  final bool? signupLoading;
+
   final String? email;
   final String? phone;
   final String? name;
   final String? id;
+  final String? photoUrl;
   final bool? verified;
   final XFile? photoFile;
 
   const UserState({
     required this.userToken,
-    required this.loginLoading,
-    required this.signupLoading,
-    required this.otpLoading,
+    this.loginLoading,
+    this.signupLoading,
     this.email,
     this.phone,
     this.name,
     this.id,
+    this.photoUrl,
     this.verified,
     this.photoFile,
   });
@@ -28,9 +29,9 @@ class UserState extends Equatable {
   @override
   List<Object> get props => [
         userToken,
-        loginLoading,
-        signupLoading,
-        otpLoading,
+        loginLoading ?? false,
+        signupLoading ?? false,
+        photoFile ?? XFile('')
       ];
 
   Map<String, dynamic> toMap() {
@@ -44,7 +45,6 @@ class UserState extends Equatable {
       userToken: map['userToken'] ?? '',
       loginLoading: map['loginLoading'] ?? false,
       signupLoading: map['signupLoading'] ?? false,
-      otpLoading: map['otpLoading'] ?? false,
     );
   }
 }
@@ -54,36 +54,24 @@ class UserStateInitial extends UserState {
     required String userToken,
     required bool loginLoading,
     required bool signupLoading,
-    required bool otpLoading,
     required String email,
     required String phone,
     required String name,
     required String id,
+    required String photoUrl,
     required bool verified,
     XFile? photoFile,
   }) : super(
             userToken: userToken,
             loginLoading: loginLoading,
             signupLoading: signupLoading,
-            otpLoading: otpLoading,
             email: email,
             phone: phone,
             name: name,
             id: id,
+            photoUrl: photoUrl,
             verified: verified,
             photoFile: photoFile);
-}
-
-class AddingUserState extends UserState {
-  const AddingUserState({
-    required super.userToken,
-    required super.loginLoading,
-    required super.signupLoading,
-    required super.otpLoading,
-  });
-
-  @override
-  List<Object> get props => [];
 }
 
 class UserAddedState extends UserState {
@@ -93,7 +81,6 @@ class UserAddedState extends UserState {
     required super.userToken,
     required super.loginLoading,
     required super.signupLoading,
-    required super.otpLoading,
   });
 
   @override
@@ -107,9 +94,7 @@ class VerificationState extends UserState {
     required super.email,
     required super.id,
     required super.userToken,
-    required super.loginLoading,
     required super.signupLoading,
-    required super.otpLoading,
   });
 
   @override
@@ -123,33 +108,7 @@ class OtpState extends UserState {
     //required this.otp,
     required super.email,
     required super.userToken,
-    required super.loginLoading,
-    required super.signupLoading,
-    required super.otpLoading,
-  });
-
-  @override
-  List<Object> get props => [];
-}
-
-class LoggedInUserState extends UserState {
-  const LoggedInUserState({
-    required super.userToken,
-    required super.loginLoading,
-    required super.signupLoading,
-    required super.otpLoading,
-  });
-
-  @override
-  List<Object> get props => [];
-}
-
-class LoggingInState extends UserState {
-  const LoggingInState({
-    required super.userToken,
-    required super.loginLoading,
-    required super.signupLoading,
-    required super.otpLoading,
+    super.loginLoading,
   });
 
   @override
@@ -166,7 +125,6 @@ class ErrorState extends UserState {
     required super.userToken,
     required super.loginLoading,
     required super.signupLoading,
-    required super.otpLoading,
   });
   @override
   List<Object> get props => [error, errorTitle];

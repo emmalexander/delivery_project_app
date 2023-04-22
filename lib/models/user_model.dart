@@ -6,6 +6,7 @@ class UserModel {
   final bool? verified;
   final String? id;
   final int? otp;
+  final String? photoUrl;
 
   UserModel({
     this.email,
@@ -15,5 +16,6 @@ class UserModel {
     this.phone,
     this.name,
     this.verified,
+    this.photoUrl,
   });
 }

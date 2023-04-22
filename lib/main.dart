@@ -1,10 +1,6 @@
-import 'package:delivery_project_app/blocs/bloc_observer.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
-import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/otp_page.dart';
-import 'package:delivery_project_app/pages/starting_page.dart';
-import 'package:delivery_project_app/pages/verification_page.dart';
+import 'package:delivery_project_app/pages/first_loading_page.dart';
 import 'package:delivery_project_app/services/app_router.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:flutter/material.dart';
@@ -43,7 +39,6 @@ class MyApp extends StatelessWidget {
               providers: [
                 BlocProvider(
                     create: (context) => UserBloc(
-                          context: context,
                           apiServices:
                               RepositoryProvider.of<ApiServices>(context),
                         )),
@@ -73,25 +68,14 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        if (state is UserAddedState) {
-          // this state should take you to the home page with the userModel as a state variable
-          return const HomePage();
-        } else if (state is VerificationState) {
-          return const VerificationPage();
-        } else if (state is OtpState) {
-          print(state.userToken.toString());
-          return const OtpPage();
-        } else if (state is LoggedInUserState) {
-          return const HomePage();
-        }
-        // else if (state.userToken.isEmpty) {
-        //   return const StartingPage();
-        // }
-        // else if (state.userToken.isNotEmpty) {
-        //   print(state.userToken.toString());
+        // if (state is UserAddedState) {
         //   return const HomePage();
+        // } else if (state is VerificationState) {
+        //   return const VerificationPage();
+        // } else if (state is OtpState) {
+        //   return const OtpPage();
         // }
-        return const StartingPage();
+        return const FirstLoadingPage();
       },
     );
   }

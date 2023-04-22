@@ -1,5 +1,7 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_colors.dart';
+import 'package:delivery_project_app/pages/home_page.dart';
+import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/profile_page.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +25,7 @@ class MyDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      width: double.maxFinite,
+      width: 370.w,
       child: Drawer(
         backgroundColor: AppColors.mainColor,
         child: Padding(
@@ -39,6 +41,19 @@ class MyDrawer extends StatelessWidget {
                 },
               ),
               SizedBox(height: 40.h),
+              ListTile(
+                leading: const Icon(Icons.home_outlined),
+                title: const Text('Home'),
+                trailing: const Icon(
+                  Icons.arrow_forward_ios_rounded,
+                  size: 15,
+                ),
+                onTap: () {
+                  // do something
+                  Navigator.pushReplacementNamed(context, HomePage.id);
+                },
+              ),
+              const SizedBox(width: 170, child: Divider()),
               ListTile(
                 leading: const Icon(Icons.account_circle_outlined),
                 title: const Text('Profile'),
@@ -113,7 +128,8 @@ class MyDrawer extends StatelessWidget {
                           description: 'Are you sure?',
                           onPressed: () {
                             context.read<UserBloc>().add(RemoveUserToken());
-                            Navigator.pop(context);
+                            Navigator.pushReplacementNamed(
+                                context, LogInSignUpPage.id);
                           }));
                 },
               ),

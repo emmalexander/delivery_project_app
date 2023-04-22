@@ -21,8 +21,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
   late TextEditingController _phoneController;
   late TextEditingController _addressController;
 
-  //File _imageFile = File('assets/images/profile.png');
-  //XFile? _photoFile = XFile('');
   final ImagePicker _picker = ImagePicker();
 
   @override
@@ -43,23 +41,12 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
   }
 
   void takePhoto(ImageSource source) async {
-    // FilePickerResult? result =
-    //     await FilePicker.platform.pickFiles(type: FileType.image);
-    // if (result != null) {
-    //   setState(() {
-    //     _imageFile = File(result.files.single.path ?? '');
-    //   });
-    // }
-    // final blocProviderState = BlocProvider.of<UserBloc>(context).;
-
     final pickedImage = await _picker.pickImage(source: source);
     if (pickedImage != null) {
-      //blocProviderState.photoFile = pickedImage;
       if (!mounted) return;
       context
           .read<UserBloc>()
           .add(ChangeProfilePictureEvent(photoFile: pickedImage));
-      //print(_photoFile!.path.toString());
     }
   }
 
@@ -89,15 +76,16 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   InkWell(
                       onTap: () {
                         showModalBottomSheet(
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.zero,
+                            ),
                             context: context,
                             builder: (context) => PictureSelectBottomSheet(
                                   onPressedCamera: () {
                                     takePhoto(ImageSource.camera);
-                                    Navigator.pop(context);
                                   },
                                   onPressedGallery: () {
                                     takePhoto(ImageSource.gallery);
-                                    Navigator.pop(context);
                                   },
                                 ));
                       },
@@ -191,20 +179,29 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   ),
                   const Spacer(),
                   TextButton(
-                      onPressed: () {
+                      onPressed: () async {
                         File file = File(state.photoFile!.path);
-                        String filename = file.path.split('/').last;
+                        print('token: ${state.userToken}');
+                        await context
+                            .read<ApiServices>()
+                            .postProfilePic(file, state.userToken)
+                            .then((value) {
+                          context
+                              .read<UserBloc>()
+                              .add(AddPhotoUrlEvent(photoUrl: value));
+                          Navigator.pop(context);
+                        });
+                        // await ApiServices()
+                        //     .postProfilePic(file, state.userToken)
+                        //     .then((value) => context.read<UserBloc>().add(
+                        //           AddPhotoUrlEvent(photoUrl: value),
+                        //         ));
 
-                        String filepath = file.path;
-
-                        ApiServices().postProfilePic(
-                            filepath, filename, state.userToken);
-                        print('FileName: $filename, FilePath: $filepath');
-                        Navigator.pop(context);
+                        // Navigator.pop(context);
                       },
-                      child: const Padding(
-                        padding: EdgeInsets.symmetric(horizontal: 15),
-                        child: Text('Save'),
+                      child: Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 15.h),
+                        child: const Text('Save'),
                       ))
                 ],
               ),

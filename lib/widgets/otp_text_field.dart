@@ -5,18 +5,18 @@ import 'package:pin_code_fields/pin_code_fields.dart';
 class OtpTextField extends StatelessWidget {
   const OtpTextField({
     Key? key,
-    required this.otpController,
+    this.otpController,
     required this.onChanged,
     required this.onCompleted,
   }) : super(key: key);
-  final TextEditingController otpController;
+  final TextEditingController? otpController;
   final Function(String) onChanged;
   final Function(String) onCompleted;
 
   @override
   Widget build(BuildContext context) {
     return PinCodeTextField(
-      controller: otpController,
+      //controller: otpController,
       backgroundColor: Colors.transparent,
       animationType: AnimationType.none,
       appContext: context,

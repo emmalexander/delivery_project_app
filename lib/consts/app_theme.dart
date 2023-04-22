@@ -1,8 +1,15 @@
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class AppTheme {
   static final appTheme = ThemeData(
+      tabBarTheme: TabBarTheme(
+        labelStyle: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
+        labelColor: Colors.black,
+        labelPadding: EdgeInsets.symmetric(vertical: 10.h),
+        indicatorColor: AppColors.mainColor,
+      ),
       appBarTheme: AppBarTheme(
         backgroundColor: AppColors.scaffoldBackgroundColor,
       ),

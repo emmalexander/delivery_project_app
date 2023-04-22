@@ -27,6 +27,24 @@ class GetUserEvent extends UserEvent {}
 
 class RemoveUserToken extends UserEvent {}
 
+class AddPhotoUrlEvent extends UserEvent {
+  final String photoUrl;
+
+  AddPhotoUrlEvent({required this.photoUrl});
+
+  @override
+  List<Object> get props => [];
+}
+
+class AddUserTokenEvent extends UserEvent {
+  final String userToken;
+
+  AddUserTokenEvent({required this.userToken});
+
+  @override
+  List<Object> get props => [];
+}
+
 class ChangeProfilePictureEvent extends UserEvent {
   final XFile? photoFile;
 

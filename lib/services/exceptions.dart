@@ -58,7 +58,7 @@ class DioExceptions implements Exception {
         return error.toString();
 
       case 401:
-        return error['error'];
+        return error.toString();
       case 500:
         return 'Internal server error';
       default:

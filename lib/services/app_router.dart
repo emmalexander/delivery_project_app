@@ -1,4 +1,5 @@
 import 'package:delivery_project_app/pages/change_profile_page.dart';
+import 'package:delivery_project_app/pages/first_loading_page.dart';
 import 'package:delivery_project_app/pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
@@ -29,6 +30,9 @@ class AppRouter {
       case ChangeProfilePage.id:
         return MaterialPageRoute(
             builder: (context) => const ChangeProfilePage());
+      case FirstLoadingPage.id:
+        return MaterialPageRoute(
+            builder: (context) => const FirstLoadingPage());
       default:
         return null;
     }

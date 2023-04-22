@@ -2,6 +2,7 @@ import 'package:delivery_project_app/services/exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import '../../models/user_model.dart';
+import 'package:http_parser/http_parser.dart';
 
 class ApiServices {
   Future register(email, password, name, phone) async {
@@ -55,13 +56,15 @@ class ApiServices {
         print('Body: $body');
 
         return UserModel(
-            email: body['user']['email'],
-            name: body['user']['name'],
-            phone: body['user']['phone'],
-            // token: body['user']['token'],
-            id: body['user']['id'],
-            otp: body['user']['OTP'],
-            verified: body['user']['verified']);
+          email: body['user']['email'],
+          name: body['user']['name'],
+          phone: body['user']['phone'],
+          // token: body['user']['token'],
+          id: body['user']['id'],
+          otp: body['user']['OTP'],
+          verified: body['user']['verified'],
+          photoUrl: body['user']['photo'],
+        );
       } else {
         print(response.statusMessage.toString());
       }
@@ -133,25 +136,47 @@ class ApiServices {
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       print('Error Message: $errorMessage');
+      //print('Error: $e');
       return errorMessage;
     }
     return null;
   }
 
-  Future postProfilePic(filePath, filename, token) async {
+  Future postProfilePic(file, token) async {
+    final url = dotenv.env['PROFILE_PIC_ENDPOINT'] ?? 'API_URL not found';
+    String filename = file.path.split('/').last;
+    String filepath = file.path;
+
+    final ext = file.path.split('.').last;
+
+    late String contentType;
+    if (ext == 'png') {
+      contentType = 'image/png';
+    } else if (ext == 'jpg' || ext == 'jpeg') {
+      contentType = 'image/jpeg';
+    } else {
+      throw Exception('Invalid image type');
+    }
+
     FormData data = FormData.fromMap({
-      'key': 'photo',
-      'image': await MultipartFile.fromFile(filePath, filename: filename),
+      'photo': await MultipartFile.fromFile(filepath,
+          filename: filename, contentType: MediaType.parse(contentType)),
     });
-    print('data: ${data.toString()}');
+    //print('data: ${data.toString()}');
     final dio = Dio();
     Response response;
 
     try {
       response = await dio.put(
-        dotenv.env['PROFILE_PIC_ENDPOINT'] ?? 'API_URL not found',
+        url,
         data: data,
-        options: Options(headers: {'authorization': 'Bearer $token'}),
+        options: Options(
+          headers: {
+            'authorization': 'Bearer $token',
+            'Content-Type': contentType
+          },
+        ),
+
         //     onSendProgress: (sent, total) {
         //   print('$sent, $total');
         // }
@@ -162,18 +187,22 @@ class ApiServices {
         print('Body: $body');
 
         return UserModel(
-            email: body['email'],
-            name: body['name'],
-            phone: body['phone'],
-            id: body['id'],
-            token: body['token'],
-            verified: body['verified']);
+          photoUrl: body['url'],
+          // email: body['email'],
+          // name: body['name'],
+          // phone: body['phone'],
+          // id: body['id'],
+          // token: body['token'],
+          // verified: body['verified']
+        );
       } else {
         print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       print('Error Message: $errorMessage');
+      print('Error: $e');
+
       return errorMessage;
     }
     return null;
