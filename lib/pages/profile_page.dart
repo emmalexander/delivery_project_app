@@ -33,55 +33,58 @@ class ProfilePage extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 15),
         child: BlocBuilder<UserBloc, UserState>(
           builder: (context, state) {
-            return Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    Text(
-                      'My Profile',
-                      style: TextStyle(
-                          fontSize: 30.sp, fontWeight: FontWeight.w600),
-                    ),
-                    Text(
-                      'NGN 5,000.00',
-                      style: TextStyle(
-                          fontSize: 18.sp, fontWeight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-                SizedBox(height: 30.h),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    const Text(
-                      'Personal details',
-                      style:
-                          TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-                    ),
-                    InkWell(
-                        onTap: () {
-                          Navigator.pushNamed(context, ChangeProfilePage.id);
-                        },
-                        child: const Text(
-                          'change',
-                          style: TextStyle(fontSize: 15),
-                        ))
-                  ],
-                ),
-                SizedBox(height: 10.h),
-                const ProfileWidget(),
-                SizedBox(height: 20.h),
-                const ProfileListTileWidget(title: 'Orders'),
-                SizedBox(height: 20.h),
-                const ProfileListTileWidget(title: 'Cards'),
-                SizedBox(height: 20.h),
-                const ProfileListTileWidget(title: 'Favorites'),
-                SizedBox(height: 20.h),
-                const ProfileListTileWidget(title: 'Help'),
-              ],
+            return SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: <Widget>[
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.end,
+                    children: [
+                      Text(
+                        'My Profile',
+                        style: TextStyle(
+                            fontSize: 30.sp, fontWeight: FontWeight.w600),
+                      ),
+                      Text(
+                        'NGN 5,000.00',
+                        style: TextStyle(
+                            fontSize: 18.sp, fontWeight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                  SizedBox(height: 30.h),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Personal details',
+                        style: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.w600),
+                      ),
+                      InkWell(
+                          onTap: () {
+                            print('photourl: ${state.photoUrl}');
+                            Navigator.pushNamed(context, ChangeProfilePage.id);
+                          },
+                          child: const Text(
+                            'change',
+                            style: TextStyle(fontSize: 15),
+                          ))
+                    ],
+                  ),
+                  SizedBox(height: 10.h),
+                  const ProfileWidget(),
+                  SizedBox(height: 20.h),
+                  const ProfileListTileWidget(title: 'Orders'),
+                  SizedBox(height: 20.h),
+                  const ProfileListTileWidget(title: 'Cards'),
+                  SizedBox(height: 20.h),
+                  const ProfileListTileWidget(title: 'Favorites'),
+                  SizedBox(height: 20.h),
+                  const ProfileListTileWidget(title: 'Help'),
+                ],
+              ),
             );
           },
         ),

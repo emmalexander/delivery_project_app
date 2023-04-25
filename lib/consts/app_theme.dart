@@ -26,7 +26,7 @@ class AppTheme {
         foregroundColor: Colors.white,
       )),
       inputDecorationTheme: InputDecorationTheme(
-        activeIndicatorBorder: const BorderSide(color: Colors.black),
+        activeIndicatorBorder: const BorderSide(color: Colors.black45),
         labelStyle: const TextStyle(color: Colors.black45),
         focusColor: AppColors.color,
         contentPadding: const EdgeInsets.symmetric(horizontal: 10),

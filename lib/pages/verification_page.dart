@@ -26,7 +26,7 @@ class _VerificationPageState extends State<VerificationPage> {
     socket.onDisconnect((data) => print('Socket.IO server disconnected'));
 
     try {
-      print('here');
+      // print('here');
 
       // Connect to websocket
       socket.connect();

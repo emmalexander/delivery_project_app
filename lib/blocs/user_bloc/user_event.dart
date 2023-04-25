@@ -27,6 +27,8 @@ class GetUserEvent extends UserEvent {}
 
 class RemoveUserToken extends UserEvent {}
 
+class ClearPhotoFileEvent extends UserEvent {}
+
 class AddPhotoUrlEvent extends UserEvent {
   final String photoUrl;
 

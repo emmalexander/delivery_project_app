@@ -8,6 +8,9 @@ class UserModel {
   final int? otp;
   final String? photoUrl;
 
+  final int? balance;
+  final List? orders;
+
   UserModel({
     this.email,
     this.token,
@@ -17,5 +20,7 @@ class UserModel {
     this.name,
     this.verified,
     this.photoUrl,
+    this.balance,
+    this.orders,
   });
 }

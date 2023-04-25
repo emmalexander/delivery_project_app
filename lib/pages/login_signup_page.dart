@@ -84,115 +84,124 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
           return GestureDetector(
             onTap: () => FocusScope.of(context).unfocus(),
             child: Scaffold(
-              body: SingleChildScrollView(
-                child: SizedBox(
-                  height: 980.h,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Container(
-                        height: 300.h,
-                        decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.only(
-                              bottomLeft: Radius.circular(30.r),
-                              bottomRight: Radius.circular(30.r)),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.grey.withOpacity(.3),
-                              spreadRadius: 5,
-                              blurRadius: 7,
-                              offset: const Offset(
-                                  0, 3), // changes position of shadow
-                            ),
-                          ],
-                        ),
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            //Container(),
-                            Center(
-                              child: Image.asset('assets/qc-black.png',
-                                  width: 220.w),
-                            ),
-                            Align(
-                              alignment: Alignment.bottomCenter,
-                              child: TabBar(
-                                  controller: _tabController,
-                                  tabs: const [
-                                    Text(
-                                      'Login',
-                                    ),
-                                    Text(
-                                      'Sign-up',
-                                    ),
-                                  ]),
-                            ),
-                            //SizedBox(height: 1)
-                          ],
-                        ),
+              // resizeToAvoidBottomInset: true,
+              body: SizedBox(
+                height: double.maxFinite,
+                child: Column(
+                  //mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Container(
+                      height: 290.h,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        // borderRadius: BorderRadius.only(
+                        //     bottomLeft: Radius.circular(30.r),
+                        //     bottomRight: Radius.circular(30.r)),
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(.3),
+                            spreadRadius: 5,
+                            blurRadius: 7,
+                            offset: const Offset(
+                                0, 3), // changes position of shadow
+                          ),
+                        ],
                       ),
-                      BlocBuilder<UserBloc, UserState>(
-                        builder: (context, state) {
-                          return SizedBox(
-                            height: 600.h,
-                            child: TabBarView(
-                              controller: _tabController,
-                              children: [
-                                LogInWidget(
-                                  formKey: _loginFormKey,
-                                  emailController: _loginEmailController,
-                                  passwordController: _loginPasswordController,
-                                  loading: state.loginLoading ?? false,
-                                  onPressed: () {
-                                    final isValid =
-                                        _loginFormKey.currentState!.validate();
-                                    FocusScope.of(context).unfocus();
-                                    if (isValid) {
-                                      _loginFormKey.currentState!.save();
-                                      //code goes here
-                                      context
-                                          .read<UserBloc>()
-                                          .add(LogToOtpEvent(
-                                            email: _loginEmailController.text,
-                                            password:
-                                                _loginPasswordController.text,
-                                          ));
-                                    }
-                                  },
-                                ),
-                                SignUpWidget(
-                                  formKey: _signupFormKey,
-                                  emailController: _signupEmailController,
-                                  passwordController: _signupPasswordController,
-                                  phoneController: _phoneController,
-                                  nameController: _nameController,
-                                  onPressed: () {
-                                    final isValid =
-                                        _signupFormKey.currentState!.validate();
-                                    FocusScope.of(context).unfocus();
-                                    if (isValid) {
-                                      _signupFormKey.currentState!.save();
-                                      context
-                                          .read<UserBloc>()
-                                          .add(SignUpToVerificationEvent(
-                                            name: _nameController.text,
-                                            email: _signupEmailController.text,
-                                            phone: _phoneController.text,
-                                            password:
-                                                _signupPasswordController.text,
-                                          ));
-                                    }
-                                  },
-                                  loading: state.signupLoading ?? false,
-                                ),
-                              ],
-                            ),
-                          );
-                        },
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.end,
+                        children: [
+                          //Container(),
+                          Center(
+                            child: Image.asset('assets/qc-black.png',
+                                width: 220.w),
+                          ),
+                          Align(
+                            alignment: Alignment.bottomCenter,
+                            child:
+                                TabBar(controller: _tabController, tabs: const [
+                              Text(
+                                'Login',
+                              ),
+                              Text(
+                                'Sign-up',
+                              ),
+                            ]),
+                          ),
+                          //SizedBox(height: 1)
+                        ],
                       ),
-                    ],
-                  ),
+                    ),
+                    BlocBuilder<UserBloc, UserState>(
+                      builder: (context, state) {
+                        return Expanded(
+                          child: SingleChildScrollView(
+                            child: SizedBox(
+                              width: 400.w,
+                              height: 650.h,
+                              child: TabBarView(
+                                controller: _tabController,
+                                children: [
+                                  LogInWidget(
+                                    formKey: _loginFormKey,
+                                    emailController: _loginEmailController,
+                                    passwordController:
+                                        _loginPasswordController,
+                                    loading: state.loginLoading ?? false,
+                                    onPressed: () {
+                                      final isValid = _loginFormKey
+                                          .currentState!
+                                          .validate();
+                                      FocusScope.of(context).unfocus();
+                                      if (isValid) {
+                                        _loginFormKey.currentState!.save();
+                                        //code goes here
+                                        context
+                                            .read<UserBloc>()
+                                            .add(LogToOtpEvent(
+                                              email: _loginEmailController.text,
+                                              password:
+                                                  _loginPasswordController.text,
+                                            ));
+                                      }
+                                    },
+                                  ),
+                                  SignUpWidget(
+                                    formKey: _signupFormKey,
+                                    emailController: _signupEmailController,
+                                    passwordController:
+                                        _signupPasswordController,
+                                    phoneController: _phoneController,
+                                    nameController: _nameController,
+                                    onPressed: () {
+                                      final isValid = _signupFormKey
+                                          .currentState!
+                                          .validate();
+                                      FocusScope.of(context).unfocus();
+                                      if (isValid) {
+                                        _signupFormKey.currentState!.save();
+                                        context
+                                            .read<UserBloc>()
+                                            .add(SignUpToVerificationEvent(
+                                              name: _nameController.text,
+                                              email:
+                                                  _signupEmailController.text,
+                                              phone: _phoneController.text,
+                                              password:
+                                                  _signupPasswordController
+                                                      .text,
+                                            ));
+                                      }
+                                    },
+                                    loading: state.signupLoading ?? false,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
                 ),
               ),
             ),

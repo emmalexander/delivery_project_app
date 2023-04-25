@@ -1,4 +1,5 @@
 import 'package:delivery_project_app/pages/change_profile_page.dart';
+import 'package:delivery_project_app/pages/check_email_page.dart';
 import 'package:delivery_project_app/pages/first_loading_page.dart';
 import 'package:delivery_project_app/pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
@@ -33,6 +34,8 @@ class AppRouter {
       case FirstLoadingPage.id:
         return MaterialPageRoute(
             builder: (context) => const FirstLoadingPage());
+      case CheckEmailPage.id:
+        return MaterialPageRoute(builder: (context) => const CheckEmailPage());
       default:
         return null;
     }

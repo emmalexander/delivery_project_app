@@ -1,11 +1,12 @@
 import 'dart:io';
-
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/picture_select_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:image_cropper/image_cropper.dart';
 import 'package:image_picker/image_picker.dart';
 
 class ChangeProfilePage extends StatefulWidget {
@@ -42,11 +43,20 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
 
   void takePhoto(ImageSource source) async {
     final pickedImage = await _picker.pickImage(source: source);
-    if (pickedImage != null) {
+    if (pickedImage == null) return null;
+    final croppedImage = await ImageCropper().cropImage(
+      sourcePath: pickedImage.path,
+      aspectRatio: const CropAspectRatio(ratioX: 1, ratioY: 1),
+      aspectRatioPresets: [CropAspectRatioPreset.square],
+      //compressQuality: 70,
+      //compressFormat: ImageCompressFormat.jpg,
+    );
+    if (croppedImage != null) {
       if (!mounted) return;
+      context.read<UserBloc>().add(ClearPhotoFileEvent());
       context
           .read<UserBloc>()
-          .add(ChangeProfilePictureEvent(photoFile: pickedImage));
+          .add(ChangeProfilePictureEvent(photoFile: XFile(croppedImage.path)));
     }
   }
 
@@ -59,6 +69,7 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
             FocusScope.of(context).unfocus();
           },
           child: Scaffold(
+            resizeToAvoidBottomInset: true,
             appBar: AppBar(
               automaticallyImplyLeading: false,
               leading: IconButton(
@@ -76,8 +87,10 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   InkWell(
                       onTap: () {
                         showModalBottomSheet(
-                            shape: const RoundedRectangleBorder(
-                              borderRadius: BorderRadius.zero,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(10.r),
+                                  topLeft: Radius.circular(10.r)),
                             ),
                             context: context,
                             builder: (context) => PictureSelectBottomSheet(
@@ -91,18 +104,39 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                       },
                       child: Stack(
                         children: [
-                          CircleAvatar(
-                            radius: 80,
-                            backgroundImage: state.photoFile == null ||
-                                    state.photoFile!.path.isEmpty
-                                ? const AssetImage('assets/images/profile.png')
-                                    as ImageProvider
-                                : FileImage(
-                                    File(state.photoFile!.path)), //Image.file()
-                          ),
+                          state.photoUrl != null
+                              ? ClipRRect(
+                                  borderRadius: BorderRadius.circular(200.r),
+                                  child: CachedNetworkImage(
+                                    width: 200.w,
+                                    //height: 00.h,
+                                    fit: BoxFit.cover,
+                                    imageUrl: state.photoUrl!,
+                                    placeholder: (context, url) =>
+                                        const CircularProgressIndicator(),
+                                    errorWidget: (context, url, error) =>
+                                        Image.asset(
+                                            'assets/images/profile.png'),
+                                  ),
+
+                                  // state.photoFile == null || state.photoFile!.path.isEmpty
+                                  //     ? const AssetImage('assets/images/profile.png')
+                                  //         as ImageProvider
+                                  //     : FileImage(File(state.photoFile!.path)), //Image.file()
+                                )
+                              : CircleAvatar(
+                                  radius: 80.r,
+                                  backgroundImage: state.photoFile == null ||
+                                          state.photoFile!.path.isEmpty
+                                      ? const AssetImage(
+                                              'assets/images/profile.png')
+                                          as ImageProvider
+                                      : FileImage(File(state
+                                          .photoFile!.path)), //Image.file()
+                                ),
                           const Positioned(
                               bottom: 20,
-                              right: 20,
+                              right: 35,
                               child: Icon(
                                 Icons.camera_alt,
                                 color: Colors.black38,
@@ -181,14 +215,22 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   TextButton(
                       onPressed: () async {
                         File file = File(state.photoFile!.path);
-                        print('token: ${state.userToken}');
+                        // print('token: ${state.userToken}');
+                        showDialog(
+                            context: context,
+                            barrierDismissible: false,
+                            builder: (context) => const Center(
+                                  child: CircularProgressIndicator(),
+                                ));
                         await context
                             .read<ApiServices>()
                             .postProfilePic(file, state.userToken)
                             .then((value) {
                           context
                               .read<UserBloc>()
-                              .add(AddPhotoUrlEvent(photoUrl: value));
+                              .add(AddPhotoUrlEvent(photoUrl: value.photoUrl));
+                          context.read<UserBloc>().add(GetUserEvent());
+                          Navigator.pop(context);
                           Navigator.pop(context);
                         });
                         // await ApiServices()
@@ -196,8 +238,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                         //     .then((value) => context.read<UserBloc>().add(
                         //           AddPhotoUrlEvent(photoUrl: value),
                         //         ));
-
-                        // Navigator.pop(context);
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.h),

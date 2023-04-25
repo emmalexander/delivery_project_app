@@ -1,6 +1,9 @@
+import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/pages/check_email_page.dart';
 import 'package:delivery_project_app/widgets/back_button_widget.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 
@@ -35,7 +38,7 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         FocusScope.of(context).unfocus();
       },
       child: Scaffold(
-        resizeToAvoidBottomInset: false,
+        //resizeToAvoidBottomInset: true,
         appBar: AppBar(
           leading: const BackButtonWidget(),
           automaticallyImplyLeading: false,
@@ -43,55 +46,72 @@ class _ForgotPasswordState extends State<ForgotPassword> {
         body: Container(
           width: double.maxFinite,
           padding: const EdgeInsets.all(20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            // mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Lottie.asset('assets/94138-lock.json', width: 250),
-              Text(
-                'Forgot Password?',
-                style: TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 10.h),
-              Text(
-                'Enter the email address associated with your account',
-                style: TextStyle(
-                    fontSize: 16.sp,
-                    color: Colors.black38,
-                    fontWeight: FontWeight.w600),
-              ),
-              SizedBox(height: 10.h),
-              Form(
-                key: _emailFormKey,
-                child: TextFormField(
-                  controller: _emailController,
-                  keyboardType: TextInputType.emailAddress,
-                  textInputAction: TextInputAction.done,
-                  validator: (value) {
-                    if (value!.isEmpty || !value.contains('@')) {
-                      return 'Please enter a valid email address';
-                    } else {
-                      return null;
+          child: SingleChildScrollView(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              // mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Lottie.asset('assets/94138-lock.json', width: 250),
+                Text(
+                  'Forgot Password?',
+                  style:
+                      TextStyle(fontSize: 22.sp, fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 10.h),
+                Text(
+                  'Enter the email address associated with your account',
+                  style: TextStyle(
+                      fontSize: 16.sp,
+                      color: Colors.black38,
+                      fontWeight: FontWeight.w600),
+                ),
+                SizedBox(height: 10.h),
+                Form(
+                  key: _emailFormKey,
+                  child: TextFormField(
+                    controller: _emailController,
+                    keyboardType: TextInputType.emailAddress,
+                    textInputAction: TextInputAction.done,
+                    validator: (value) {
+                      if (value!.isEmpty || !value.contains('@')) {
+                        return 'Please enter a valid email address';
+                      } else {
+                        return null;
+                      }
+                    },
+                    decoration:
+                        const InputDecoration(labelText: 'Enter email address'),
+                  ),
+                ),
+                SizedBox(height: 20.h),
+                ButtonLoadingWidget(
+                  text: 'Reset Password',
+                  onPressed: () async {
+                    final isValid = _emailFormKey.currentState!.validate();
+                    FocusScope.of(context).unfocus();
+                    if (isValid) {
+                      _emailFormKey.currentState!.save();
+                      //code goes here
+                      showDialog(
+                          context: context,
+                          barrierDismissible: false,
+                          builder: (context) => const Center(
+                                child: CircularProgressIndicator(),
+                              ));
+                      await context
+                          .read<UserBloc>()
+                          .apiServices
+                          .resetPassword(_emailController.text)
+                          .then((value) {
+                        Navigator.pushReplacementNamed(
+                            context, CheckEmailPage.id);
+                      });
                     }
                   },
-                  decoration:
-                      const InputDecoration(labelText: 'Enter email address'),
-                ),
-              ),
-              SizedBox(height: 20.h),
-              ButtonLoadingWidget(
-                text: 'Reset Password',
-                onPressed: () {
-                  final isValid = _emailFormKey.currentState!.validate();
-                  FocusScope.of(context).unfocus();
-                  if (isValid) {
-                    _emailFormKey.currentState!.save();
-                    //code goes here
-                  }
-                },
-                loading: false,
-              )
-            ],
+                  loading: false,
+                )
+              ],
+            ),
           ),
         ),
       ),

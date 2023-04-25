@@ -32,24 +32,17 @@ class ProfileWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               ClipRRect(
-                borderRadius: BorderRadius.circular(50),
+                borderRadius: BorderRadius.circular(50.r),
                 child: CachedNetworkImage(
                   width: 100.w,
                   height: 100.h,
                   fit: BoxFit.cover,
-                  imageUrl:
-                      "https://media.gcflearnfree.org/content/55e0730c7dd48174331f5164_01_17_2014/whatisacomputer_hardware.jpg",
-                  placeholder: (context, url) => SizedBox(
-                      height: 17.h,
-                      width: 17.w,
-                      child: const CircularProgressIndicator()),
-                  errorWidget: (context, url, error) => const Icon(Icons.error),
+                  imageUrl: state.photoUrl ?? '',
+                  placeholder: (context, url) =>
+                      const Center(child: CircularProgressIndicator()),
+                  errorWidget: (context, url, error) =>
+                      Image.asset('assets/images/profile.png'),
                 ),
-
-                // state.photoFile == null || state.photoFile!.path.isEmpty
-                //     ? const AssetImage('assets/images/profile.png')
-                //         as ImageProvider
-                //     : FileImage(File(state.photoFile!.path)), //Image.file()
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,

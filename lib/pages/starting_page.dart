@@ -56,22 +56,19 @@ class _StartingPageState extends State<StartingPage> {
                     strokeWidth: 2, color: Colors.black)),
           ),
           Positioned(
-            top: 100,
-            left: 60,
+            top: 50,
+            left: 50,
             child: Wrap(
               alignment: WrapAlignment.start,
               direction: Axis.vertical,
               children: [
-                const Center(
-                  child: Icon(
-                    Icons.delivery_dining_outlined,
-                    size: 100,
-                  ),
+                Center(
+                  child: Image.asset('assets/qc-black.png', height: 150.w),
                 ),
                 Text(
                   'Food for',
                   style: TextStyle(
-                      fontSize: 65.sp,
+                      fontSize: 60.sp,
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
                       height: 1),
@@ -79,7 +76,7 @@ class _StartingPageState extends State<StartingPage> {
                 Text(
                   'Everyone',
                   style: TextStyle(
-                      fontSize: 65.sp,
+                      fontSize: 60.sp,
                       color: Colors.white,
                       fontWeight: FontWeight.w800,
                       height: 1),

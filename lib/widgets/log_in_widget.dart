@@ -21,11 +21,10 @@ class LogInWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        SizedBox(height: 30.h),
         Form(
           key: formKey,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -41,12 +40,7 @@ class LogInWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Email Address',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Email Address'),
                 ),
                 SizedBox(height: 20.h),
                 TextFormField(
@@ -61,12 +55,7 @@ class LogInWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Password',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Password'),
                 ),
                 SizedBox(height: 20.h),
                 InkWell(
@@ -84,10 +73,11 @@ class LogInWidget extends StatelessWidget {
             ),
           ),
         ),
-        SizedBox(height: 180.h),
+        const Spacer(),
+        //SizedBox(height: 180.h),
         ButtonLoadingWidget(
             text: 'Login', onPressed: onPressed, loading: loading),
-        SizedBox(height: 25.h)
+        SizedBox(height: 70.h)
       ],
     );
   }

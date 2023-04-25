@@ -98,6 +98,10 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
       ));
     });
 
+    on<ClearPhotoFileEvent>((event, emit) {
+      emit(UserState(userToken: state.userToken, photoUrl: ''));
+    });
+
     on<GetUserEvent>((event, emit) async {
       final user = await apiServices.getUser(state.userToken);
       if (user! is UserModel) {

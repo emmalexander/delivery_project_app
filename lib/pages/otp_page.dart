@@ -39,6 +39,7 @@ class _OtpPageState extends State<OtpPage> {
               FocusScope.of(context).unfocus();
             },
             child: Scaffold(
+              resizeToAvoidBottomInset: true,
               appBar: AppBar(
                 automaticallyImplyLeading: false,
                 leading: IconButton(
@@ -90,6 +91,12 @@ class _OtpPageState extends State<OtpPage> {
                               onChanged: (val) {},
                               onCompleted: (val) async {
                                 FocusScope.of(context).unfocus();
+                                showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (context) => const Center(
+                                          child: CircularProgressIndicator(),
+                                        ));
                                 await context
                                     .read<ApiServices>()
                                     .getUserFromOtp(val, state.email)
@@ -101,6 +108,7 @@ class _OtpPageState extends State<OtpPage> {
                                         AddUserTokenEvent(
                                             userToken: value.token!));
                                   } else {
+                                    Navigator.pop(context);
                                     showDialog(
                                         context: context,
                                         builder: (context) => CustomErrorDialog(

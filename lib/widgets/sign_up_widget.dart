@@ -27,7 +27,7 @@ class SignUpWidget extends StatelessWidget {
         Form(
           key: formKey,
           child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 40.w, vertical: 20.h),
+            padding: EdgeInsets.symmetric(horizontal: 20.w, vertical: 20.h),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -46,12 +46,7 @@ class SignUpWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Name',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Name'),
                 ),
                 SizedBox(height: 20.h),
                 TextFormField(
@@ -68,12 +63,7 @@ class SignUpWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Phone Number',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Phone Number'),
                 ),
                 SizedBox(height: 20.h),
                 TextFormField(
@@ -90,12 +80,7 @@ class SignUpWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                    labelText: 'Email Address',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                  decoration: const InputDecoration(labelText: 'Email Address'),
                 ),
                 SizedBox(height: 20.h),
                 TextFormField(
@@ -117,36 +102,16 @@ class SignUpWidget extends StatelessWidget {
                     }
                   },
                   decoration: const InputDecoration(
-                    errorMaxLines: 3,
-                    labelText: 'Password',
-                    focusedBorder: OutlineInputBorder(
-                      borderSide: BorderSide.none,
-                    ),
-                  ),
+                      errorMaxLines: 3, labelText: 'Password'),
                 ),
               ],
             ),
           ),
         ),
-        SizedBox(height: 30.h),
+        const Spacer(),
         ButtonLoadingWidget(
             text: 'Sign up', onPressed: onPressed, loading: loading),
-        // TextButton(
-        //   onPressed: loading ? null : onPressed,
-        //   style: TextButton.styleFrom(
-        //       padding: EdgeInsets.symmetric(horizontal: 100.w, vertical: 15.h)),
-        //   child: loading
-        //       ? SizedBox(
-        //           height: 17.h,
-        //           width: 17.w,
-        //           child: const CircularProgressIndicator(color: Colors.black))
-        //       : Text(
-        //           'Sign up',
-        //           style:
-        //               TextStyle(fontSize: 17.sp, fontWeight: FontWeight.w600),
-        //         ),
-        // ),
-        SizedBox(height: 25.h)
+        SizedBox(height: 70.h)
       ],
     );
   }

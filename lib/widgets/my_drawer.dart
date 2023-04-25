@@ -3,6 +3,7 @@ import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/profile_page.dart';
+import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -126,10 +127,17 @@ class MyDrawer extends StatelessWidget {
                           isLogout: true,
                           title: 'Log out',
                           description: 'Are you sure?',
-                          onPressed: () {
-                            context.read<UserBloc>().add(RemoveUserToken());
-                            Navigator.pushReplacementNamed(
-                                context, LogInSignUpPage.id);
+                          onPressed: () async {
+                            await context
+                                .read<ApiServices>()
+                                .logout(BlocProvider.of<UserBloc>(context)
+                                    .state
+                                    .userToken)
+                                .then((value) {
+                              context.read<UserBloc>().add(RemoveUserToken());
+                              Navigator.pushReplacementNamed(
+                                  context, LogInSignUpPage.id);
+                            });
                           }));
                 },
               ),
