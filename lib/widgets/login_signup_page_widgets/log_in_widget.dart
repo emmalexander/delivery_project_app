@@ -4,19 +4,23 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class LogInWidget extends StatelessWidget {
-  const LogInWidget(
-      {Key? key,
-      required this.formKey,
-      required this.emailController,
-      required this.passwordController,
-      required this.onPressed,
-      required this.loading})
-      : super(key: key);
+  const LogInWidget({
+    Key? key,
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
+    required this.onPressed,
+    required this.loading,
+    required this.iconOnPressed,
+    required this.obscureText,
+  }) : super(key: key);
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
-  final void Function() onPressed;
+  final Function() onPressed;
+  final Function() iconOnPressed;
   final bool loading;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -46,7 +50,7 @@ class LogInWidget extends StatelessWidget {
                 TextFormField(
                   obscuringCharacter: '*',
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: !obscureText,
                   textInputAction: TextInputAction.done,
                   validator: (value) {
                     if (value!.isEmpty) {
@@ -55,7 +59,13 @@ class LogInWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(labelText: 'Password'),
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: iconOnPressed,
+                          icon: Icon(!obscureText
+                              ? Icons.visibility_sharp
+                              : Icons.visibility_off)),
+                      labelText: 'Password'),
                 ),
                 SizedBox(height: 20.h),
                 InkWell(

@@ -2,9 +2,9 @@ import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/otp_page.dart';
 import 'package:delivery_project_app/pages/verification_page.dart';
-import 'package:delivery_project_app/widgets/log_in_widget.dart';
+import 'package:delivery_project_app/widgets/login_signup_page_widgets/log_in_widget.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
-import 'package:delivery_project_app/widgets/sign_up_widget.dart';
+import 'package:delivery_project_app/widgets/login_signup_page_widgets/sign_up_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -67,7 +67,11 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
               context: context,
               builder: (context) => CustomErrorDialog(
                   title: state.errorTitle,
-                  description: state.error,
+                  description: state.error
+                      .toString()
+                      .replaceAll('{', '')
+                      .replaceAll('error:', '')
+                      .replaceAll('}', ''),
                   onPressed: () => Navigator.pop(context)));
         }
       },
@@ -93,7 +97,7 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
                     Container(
                       height: 290.h,
                       decoration: BoxDecoration(
-                        color: Colors.white,
+                        color: Theme.of(context).cardColor,
                         // borderRadius: BorderRadius.only(
                         //     bottomLeft: Radius.circular(30.r),
                         //     bottomRight: Radius.circular(30.r)),
@@ -142,6 +146,13 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
                                 controller: _tabController,
                                 children: [
                                   LogInWidget(
+                                    iconOnPressed: () {
+                                      context
+                                          .read<UserBloc>()
+                                          .add(LoginObscureEvent());
+                                    },
+                                    obscureText:
+                                        state.loginObscureText ?? false,
                                     formKey: _loginFormKey,
                                     emailController: _loginEmailController,
                                     passwordController:
@@ -166,6 +177,13 @@ class _LogInSignUpPageState extends State<LogInSignUpPage>
                                     },
                                   ),
                                   SignUpWidget(
+                                    iconOnPressed: () {
+                                      context
+                                          .read<UserBloc>()
+                                          .add(SignupObscureEvent());
+                                    },
+                                    obscureText:
+                                        state.signupObscureText ?? false,
                                     formKey: _signupFormKey,
                                     emailController: _signupEmailController,
                                     passwordController:

@@ -3,16 +3,18 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SignUpWidget extends StatelessWidget {
-  const SignUpWidget(
-      {Key? key,
-      required this.formKey,
-      required this.emailController,
-      required this.passwordController,
-      required this.nameController,
-      required this.phoneController,
-      required this.onPressed,
-      required this.loading})
-      : super(key: key);
+  const SignUpWidget({
+    Key? key,
+    required this.formKey,
+    required this.emailController,
+    required this.passwordController,
+    required this.nameController,
+    required this.phoneController,
+    required this.onPressed,
+    required this.loading,
+    required this.iconOnPressed,
+    required this.obscureText,
+  }) : super(key: key);
   final GlobalKey<FormState> formKey;
   final TextEditingController emailController;
   final TextEditingController passwordController;
@@ -20,6 +22,8 @@ class SignUpWidget extends StatelessWidget {
   final TextEditingController phoneController;
   final void Function() onPressed;
   final bool loading;
+  final Function() iconOnPressed;
+  final bool obscureText;
   @override
   Widget build(BuildContext context) {
     return Column(
@@ -85,7 +89,7 @@ class SignUpWidget extends StatelessWidget {
                 SizedBox(height: 20.h),
                 TextFormField(
                   controller: passwordController,
-                  obscureText: true,
+                  obscureText: !obscureText,
                   obscuringCharacter: '*',
                   textInputAction: TextInputAction.done,
                   validator: (value) {
@@ -101,8 +105,14 @@ class SignUpWidget extends StatelessWidget {
                       return null;
                     }
                   },
-                  decoration: const InputDecoration(
-                      errorMaxLines: 3, labelText: 'Password'),
+                  decoration: InputDecoration(
+                      suffixIcon: IconButton(
+                          onPressed: iconOnPressed,
+                          icon: Icon(!obscureText
+                              ? Icons.visibility_sharp
+                              : Icons.visibility_off)),
+                      errorMaxLines: 3,
+                      labelText: 'Password'),
                 ),
               ],
             ),

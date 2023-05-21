@@ -1,8 +1,8 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/change_profile_page.dart';
 import 'package:delivery_project_app/widgets/my_drawer.dart';
-import 'package:delivery_project_app/widgets/profile_list_tile_widget.dart';
-import 'package:delivery_project_app/widgets/profile_widget.dart';
+import 'package:delivery_project_app/widgets/profile_page_widgets/profile_list_tile_widget.dart';
+import 'package:delivery_project_app/widgets/profile_page_widgets/profile_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,13 +13,20 @@ class ProfilePage extends StatelessWidget {
   static const id = 'profile_page';
   @override
   Widget build(BuildContext context) {
+    RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
+    mathFunc(Match match) => '${match[1]},';
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
         leading: Builder(
           builder: (BuildContext context) {
             return IconButton(
-              icon: SvgPicture.asset('assets/menu.svg'),
+              icon: SvgPicture.asset(
+                'assets/menu.svg',
+                colorFilter: ColorFilter.mode(
+                    Theme.of(context).textTheme.titleMedium!.color!,
+                    BlendMode.srcIn),
+              ),
               onPressed: () {
                 Scaffold.of(context).openDrawer();
               },
@@ -47,7 +54,7 @@ class ProfilePage extends StatelessWidget {
                             fontSize: 30.sp, fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        'NGN 5,000.00',
+                        'NGN ${state.balance.toString().replaceAllMapped(reg, mathFunc)}.00',
                         style: TextStyle(
                             fontSize: 18.sp, fontWeight: FontWeight.w600),
                       ),
@@ -64,7 +71,6 @@ class ProfilePage extends StatelessWidget {
                       ),
                       InkWell(
                           onTap: () {
-                            print('photourl: ${state.photoUrl}');
                             Navigator.pushNamed(context, ChangeProfilePage.id);
                           },
                           child: const Text(

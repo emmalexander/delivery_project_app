@@ -2,6 +2,7 @@ import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -83,10 +84,6 @@ class _VerificationPageState extends State<VerificationPage> {
       },
       child: BlocBuilder<UserBloc, UserState>(
         builder: (context, state) {
-          // if (state is UserAddedState) {
-          //   // this state should take you to the home page with the userModel as a state variable
-          //   return const HomePage();
-          // }
           return Scaffold(
             appBar: AppBar(
               backgroundColor: Colors.transparent,
@@ -114,13 +111,18 @@ class _VerificationPageState extends State<VerificationPage> {
                   ),
                   Text(
                     'Check email for verification ',
-                    style: TextStyle(fontSize: 17.sp, color: Colors.black54),
+                    style: TextStyle(
+                        fontSize: 17.sp,
+                        color: Theme.of(context)
+                            .textTheme
+                            .titleMedium!
+                            .color!
+                            .withOpacity(.5)),
                   ),
                   SizedBox(
                       height: 17.h,
                       width: 17.w,
-                      child:
-                          const CircularProgressIndicator(color: Colors.black))
+                      child: const CupertinoActivityIndicator())
                 ],
               ),
             ),

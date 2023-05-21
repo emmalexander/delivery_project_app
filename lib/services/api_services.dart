@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/models/restaurant_model.dart';
 import 'package:delivery_project_app/services/exceptions.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -21,7 +22,7 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        print('Body: $body');
+        //print('Body: $body');
 
         return UserModel(
             email: body['email'],
@@ -31,11 +32,11 @@ class ApiServices {
             token: body['token'],
             verified: body['verified']);
       } else {
-        print(response.statusMessage.toString());
+        // print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;
@@ -57,18 +58,71 @@ class ApiServices {
           email: body['user']['email'],
           name: body['user']['name'],
           phone: body['user']['phone'],
-          // token: body['user']['token'],
           id: body['user']['id'],
           otp: body['user']['OTP'],
           verified: body['user']['verified'],
           photoUrl: body['user']['photo'],
+          balance: body['user']['balance'],
+          address: body['user']['location'] == null
+              ? ''
+              : body['user']['location']['address'],
+          location: body['user']['location'] ?? {},
+          lat: body['user']['location'] == null
+              ? ''
+              : body['user']['location']['latitude'],
+          long: body['user']['location'] == null
+              ? ''
+              : body['user']['location']['longitude'],
         );
       } else {
-        print(response.statusMessage.toString());
+        //print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future updateLocation(token, lat, long, address) async {
+    final endPoint = dotenv.env['LOCATION_ENDPOINT'] ?? 'API_URL not found';
+    Map<String, dynamic> data = {
+      'location': '${lat.toString()}, ${long.toString()}',
+      'address': address.toString(),
+    };
+    Response response;
+
+    try {
+      response = await _dio.put(
+        endPoint,
+        options: Options(headers: {'authorization': 'Bearer $token'}),
+        data: data,
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        //print('Body: $body');
+
+        return UserModel(
+          lat: body['latitude'],
+          long: body['longitude'],
+          address: body['address'],
+          // email: body['user']['email'],
+          // name: body['user']['name'],
+          // phone: body['user']['phone'],
+          // id: body['user']['id'],
+          // otp: body['user']['OTP'],
+          // verified: body['user']['verified'],
+          // photoUrl: body['user']['photo'],
+          // balance: body['user']['balance'],
+        );
+      } else {
+        // print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      // print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;
@@ -87,15 +141,39 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        print('Body: $body');
+        //print('Body: $body');
 
         return body.toString();
       } else {
-        print(response.statusMessage.toString());
+        //print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      //print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future retryOtp(email) async {
+    final endPoint = dotenv.env['RETRY_OTP_ENDPOINT'] ?? 'API_URL not found';
+    Map<String, dynamic> query = {'email': email};
+    Response response;
+
+    try {
+      response = await _dio.get(endPoint, queryParameters: query);
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        //print('Body: $body');
+
+        return body.toString();
+      } else {
+        //print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      //print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;
@@ -115,7 +193,7 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        print('Body: $body');
+        // print('Body: $body');
 
         return UserModel(
           email: body['email'],
@@ -126,11 +204,11 @@ class ApiServices {
           verified: body['verified'],
         );
       } else {
-        print(response.statusMessage.toString());
+        //  print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
       //print('Error: $e');
       return errorMessage;
     }
@@ -178,7 +256,7 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        print('Body: $body');
+        //print('Body: $body');
 
         return UserModel(
           photoUrl: body['url'],
@@ -190,12 +268,12 @@ class ApiServices {
           // verified: body['verified']
         );
       } else {
-        print(response.statusMessage.toString());
+        // print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
-      print('Error: $e');
+      //print('Error Message: $errorMessage');
+      //  print('Error: $e');
 
       return errorMessage;
     }
@@ -205,51 +283,17 @@ class ApiServices {
   Future logout(token) async {
     final endPoint = dotenv.env['LOGOUT_ENDPOINT'] ?? 'API_URL not found';
 
-    Response response;
+    // Response response;
 
     try {
-      response = await _dio.get(endPoint,
+      //response =
+
+      await _dio.get(endPoint,
           options: Options(headers: {'authorization': 'Bearer $token'}));
 
-      if (response.statusCode == 200) {
-        final body = response.data;
-        print('Body: $body');
-
-        return UserModel(
-          email: body['user']['email'],
-          name: body['user']['name'],
-          phone: body['user']['phone'],
-          // token: body['user']['token'],
-          id: body['user']['id'],
-          otp: body['user']['OTP'],
-          verified: body['user']['verified'],
-          photoUrl: body['user']['photo'],
-        );
-      } else {
-        print(response.statusMessage.toString());
-      }
-    } on DioError catch (e) {
-      final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
-      return errorMessage;
-    }
-    return null;
-  }
-
-  Future resetPassword(email) async {
-    final endPoint =
-        dotenv.env['RESET_PASSWORD_ENDPOINT'] ?? 'API_URL not found';
-
-    Map<String, dynamic> data = {'email': email};
-
-    Response response;
-
-    try {
-      response = await _dio.put(endPoint, data: data);
-
-      if (response.statusCode == 200) {
-        final body = response.data;
-        print('Body: $body');
+      /*if (response.statusCode == 200) {
+        //final body = response.data;
+        //print('Body: $body');
 
         // return UserModel(
         //   email: body['user']['email'],
@@ -262,12 +306,50 @@ class ApiServices {
         //   photoUrl: body['user']['photo'],
         // );
       } else {
-        print(response.statusMessage.toString());
-      }
+        // print(response.statusMessage.toString());
+      }*/
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
-      print('ERROR: $e');
+      //print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future resetPassword(email) async {
+    final endPoint =
+        dotenv.env['RESET_PASSWORD_ENDPOINT'] ?? 'API_URL not found';
+
+    Map<String, dynamic> data = {'email': email};
+
+    //Response response;
+
+    try {
+      //response =
+
+      await _dio.put(endPoint, data: data);
+
+      /*if (response.statusCode == 200) {
+        //final body = response.data;
+        //print('Body: $body');
+
+        // return UserModel(
+        //   email: body['user']['email'],
+        //   name: body['user']['name'],
+        //   phone: body['user']['phone'],
+        //   // token: body['user']['token'],
+        //   id: body['user']['id'],
+        //   otp: body['user']['OTP'],
+        //   verified: body['user']['verified'],
+        //   photoUrl: body['user']['photo'],
+        // );
+      } else {
+        // print(response.statusMessage.toString());
+      }*/
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      //print('Error Message: $errorMessage');
+      //print('ERROR: $e');
       return errorMessage;
     }
     return null;
@@ -280,8 +362,8 @@ class ApiServices {
       response = await _dio.get('https://api.ojoisaac.me/$ip');
 
       if (response.statusCode == 200) {
-        final body = response.data;
-        print('Body: $body');
+        //final body = response.data;
+        // print('Body: $body');
 
         // return UserModel(
         //   email: body['user']['email'],
@@ -294,11 +376,48 @@ class ApiServices {
         //   photoUrl: body['user']['photo'],
         // );
       } else {
-        print(response.statusMessage.toString());
+        // print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future getRestaurants(start, take, pagingController) async {
+    List<RestaurantModel> restaurants = [];
+    final endPoint = dotenv.env['RESTAURANT_ENDPOINT'] ?? 'API_URL not found';
+    Response response;
+    Map<String, dynamic> query = {
+      'start': start.toString(),
+      'take': take.toString()
+    };
+
+    try {
+      response = await _dio.get(
+        endPoint,
+        queryParameters: query,
+      );
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        print('Body: $body');
+        //final jsonDataList = jsonDecode(body);
+        for (var r in body['restaurant']) {
+          restaurants.add(RestaurantModel.fromJson(r));
+        }
+
+        // print('Body: $restaurants');
+        return restaurants;
+      } else {
+        // print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      // print('Error Message: $errorMessage');
+      pagingController.error = e;
       return errorMessage;
     }
     return null;

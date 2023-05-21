@@ -3,12 +3,19 @@
     <queries>
         <package android:name="com.android.settings"/>
     </queries>
+    <!-- Always include this permission -->
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+
+    <!-- Include only if your app benefits from precise location access. -->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
    <application
         android:label="delivery_project_app"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
+       <meta-data android:name="com.google.android.geo.API_KEY"
+           android:value="AIzaSyAI1PsKinqi50mvaUPU965Ao2jxqOKFPWA"/>
         <activity
             android:name=".MainActivity"
             android:exported="true"

@@ -28,7 +28,13 @@ class CheckEmailPage extends StatelessWidget {
             ),
             Text(
               'A new password has been sent to your email',
-              style: TextStyle(fontSize: 17.sp, color: Colors.black54),
+              style: TextStyle(
+                  fontSize: 17.sp,
+                  color: Theme.of(context)
+                      .textTheme
+                      .titleMedium!
+                      .color!
+                      .withOpacity(.5)),
             ),
             ButtonLoadingWidget(
               text: 'Login',

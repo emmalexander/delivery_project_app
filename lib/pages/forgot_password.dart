@@ -2,6 +2,7 @@ import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/check_email_page.dart';
 import 'package:delivery_project_app/widgets/back_button_widget.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
+import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -62,7 +63,11 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                   'Enter the email address associated with your account',
                   style: TextStyle(
                       fontSize: 16.sp,
-                      color: Colors.black38,
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                       fontWeight: FontWeight.w600),
                 ),
                 SizedBox(height: 10.h),
@@ -95,16 +100,31 @@ class _ForgotPasswordState extends State<ForgotPassword> {
                       showDialog(
                           context: context,
                           barrierDismissible: false,
-                          builder: (context) => const Center(
-                                child: CircularProgressIndicator(),
+                          builder: (context) => WillPopScope(
+                                onWillPop: () async => false,
+                                child: const Center(
+                                  child: CircularProgressIndicator(),
+                                ),
                               ));
                       await context
                           .read<UserBloc>()
                           .apiServices
                           .resetPassword(_emailController.text)
                           .then((value) {
-                        Navigator.pushReplacementNamed(
-                            context, CheckEmailPage.id);
+                        if (value.toString().contains('check email')) {
+                          Navigator.pushReplacementNamed(
+                              context, CheckEmailPage.id);
+                        } else {
+                          Navigator.pop(context);
+                          showDialog(
+                              context: context,
+                              builder: (context) => CustomErrorDialog(
+                                  title: 'Email',
+                                  description: 'Invalid email',
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                  }));
+                        }
                       });
                     }
                   },

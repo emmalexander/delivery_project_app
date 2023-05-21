@@ -20,7 +20,7 @@ class ProfileListTileWidget extends StatelessWidget {
             offset: const Offset(0, 2), // changes position of shadow
           ),
         ],
-        color: Colors.white,
+        color: Theme.of(context).cardColor,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Row(

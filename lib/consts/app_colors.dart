@@ -3,7 +3,12 @@ import 'package:flutter/material.dart';
 class AppColors {
   static Color color = const Color(0xFFEFB60E);
   static Color scaffoldBackgroundColor = const Color(0xFFF2F2F2);
+  static Color scaffoldBackgroundColorDark = const Color(0xFF000000);
   static Color searchBarColor = const Color(0xFFEFEEEE);
+
+  static Color baseShimmerColor = Colors.grey.shade200;
+  static Color highlightShimmerColor = Colors.grey.shade400;
+  static Color widgetShimmerColor = Colors.grey.shade100;
 
   static MaterialColor mainColor = const MaterialColor(0xFFEFB60E, {
     50: Color(0xFFFFF8E1),

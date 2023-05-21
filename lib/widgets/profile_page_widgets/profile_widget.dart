@@ -24,7 +24,7 @@ class ProfileWidget extends StatelessWidget {
                 offset: const Offset(0, 2), // changes position of shadow
               ),
             ],
-            color: Colors.white,
+            color: Theme.of(context).cardColor,
             borderRadius: BorderRadius.circular(20),
           ),
           child: Row(
@@ -48,41 +48,63 @@ class ProfileWidget extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Emmanuel Reo',
+                    state.name ?? 'null',
                     style:
                         TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
                   ),
                   Text(
-                    'emmanuelohiocheoya@gmail.com',
+                    state.email ?? 'null',
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       height: 1,
-                      color: Colors.black.withOpacity(.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                     ),
                   ),
                   SizedBox(
                     width: 200.w,
                     child: Divider(
-                      color: Colors.black.withOpacity(.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                     ),
                   ),
                   Text(
-                    '09031887457',
+                    state.phone ?? 'null',
                     style: TextStyle(
                       height: 1,
-                      color: Colors.black.withOpacity(.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                     ),
                   ),
                   SizedBox(
                     width: 200.w,
                     child: Divider(
-                      color: Colors.black.withOpacity(.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                     ),
                   ),
                   Text(
-                    'Ojodu, Lagos',
+                    state.address ?? 'null',
+                    overflow: TextOverflow.ellipsis,
                     style: TextStyle(
                       height: 1,
-                      color: Colors.black.withOpacity(.5),
+                      color: Theme.of(context)
+                          .textTheme
+                          .titleMedium!
+                          .color!
+                          .withOpacity(.5),
                     ),
                   ),
                 ],

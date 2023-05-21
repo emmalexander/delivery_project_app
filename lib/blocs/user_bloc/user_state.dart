@@ -4,7 +4,6 @@ class UserState extends Equatable {
   final String userToken;
   final bool? loginLoading;
   final bool? signupLoading;
-
   final String? email;
   final String? phone;
   final String? name;
@@ -12,6 +11,13 @@ class UserState extends Equatable {
   final String? photoUrl;
   final bool? verified;
   final XFile? photoFile;
+  final String? lat;
+  final String? long;
+  final String? address;
+  final int? balance;
+  final Map<String, dynamic>? location;
+  final bool? loginObscureText;
+  final bool? signupObscureText;
 
   const UserState({
     required this.userToken,
@@ -24,6 +30,13 @@ class UserState extends Equatable {
     this.photoUrl,
     this.verified,
     this.photoFile,
+    this.lat,
+    this.long,
+    this.address,
+    this.balance,
+    this.location,
+    this.loginObscureText,
+    this.signupObscureText,
   });
 
   @override
@@ -31,7 +44,9 @@ class UserState extends Equatable {
         userToken,
         loginLoading ?? false,
         signupLoading ?? false,
-        photoFile ?? XFile('')
+        photoFile ?? XFile(''),
+        loginObscureText ?? false,
+        signupObscureText ?? false,
       ];
 
   Map<String, dynamic> toMap() {
@@ -61,17 +76,32 @@ class UserStateInitial extends UserState {
     required String photoUrl,
     required bool verified,
     XFile? photoFile,
+    String? lat,
+    String? long,
+    String? address,
+    int? balance,
+    Map<String, dynamic>? location,
+    bool? loginObscureText,
+    bool? signupObscureText,
   }) : super(
-            userToken: userToken,
-            loginLoading: loginLoading,
-            signupLoading: signupLoading,
-            email: email,
-            phone: phone,
-            name: name,
-            id: id,
-            photoUrl: photoUrl,
-            verified: verified,
-            photoFile: photoFile);
+          userToken: userToken,
+          loginLoading: loginLoading,
+          signupLoading: signupLoading,
+          email: email,
+          phone: phone,
+          name: name,
+          id: id,
+          photoUrl: photoUrl,
+          verified: verified,
+          photoFile: photoFile,
+          lat: lat,
+          long: long,
+          address: address,
+          balance: balance,
+          location: location,
+          loginObscureText: loginObscureText,
+          signupObscureText: signupObscureText,
+        );
 }
 
 class UserAddedState extends UserState {

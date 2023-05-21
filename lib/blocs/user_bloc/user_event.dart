@@ -29,6 +29,22 @@ class RemoveUserToken extends UserEvent {}
 
 class ClearPhotoFileEvent extends UserEvent {}
 
+class LoginObscureEvent extends UserEvent {}
+
+class AddLocationEvent extends UserEvent {
+  final String latitude;
+  final String longitude;
+  final String address;
+
+  AddLocationEvent(
+      {required this.latitude, required this.longitude, required this.address});
+
+  @override
+  List<Object> get props => [latitude, longitude, address];
+}
+
+class SignupObscureEvent extends UserEvent {}
+
 class AddPhotoUrlEvent extends UserEvent {
   final String photoUrl;
 

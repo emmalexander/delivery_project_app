@@ -1,10 +1,10 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/models/user_model.dart';
 import 'package:delivery_project_app/pages/first_loading_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
-import 'package:delivery_project_app/widgets/otp_text_field.dart';
+import 'package:delivery_project_app/widgets/otp_page_widgets/otp_text_field.dart';
+import 'package:delivery_project_app/widgets/otp_page_widgets/resend_code_widget.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -19,6 +19,7 @@ class OtpPage extends StatefulWidget {
 }
 
 class _OtpPageState extends State<OtpPage> {
+  bool resendClicked = false;
   @override
   Widget build(BuildContext context) {
     return BlocListener<UserBloc, UserState>(
@@ -71,8 +72,13 @@ class _OtpPageState extends State<OtpPage> {
                       Text(
                         'Enter your OTP code sent to ${state.email} expires in 10 minutes',
                         textAlign: TextAlign.center,
-                        style:
-                            TextStyle(fontSize: 15.sp, color: Colors.black54),
+                        style: TextStyle(
+                            fontSize: 15.sp,
+                            color: Theme.of(context)
+                                .textTheme
+                                .titleMedium!
+                                .color!
+                                .withOpacity(.5)),
                       ),
                       SizedBox(height: 50.h),
                       Container(
@@ -81,7 +87,7 @@ class _OtpPageState extends State<OtpPage> {
                         padding: EdgeInsets.symmetric(
                             vertical: 15.h, horizontal: 25.w),
                         decoration: BoxDecoration(
-                            color: Colors.white,
+                            color: Theme.of(context).cardColor,
                             borderRadius: BorderRadius.circular(15.r)),
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.center,
@@ -94,8 +100,11 @@ class _OtpPageState extends State<OtpPage> {
                                 showDialog(
                                     context: context,
                                     barrierDismissible: false,
-                                    builder: (context) => const Center(
-                                          child: CircularProgressIndicator(),
+                                    builder: (context) => WillPopScope(
+                                          onWillPop: () async => false,
+                                          child: const Center(
+                                            child: CircularProgressIndicator(),
+                                          ),
                                         ));
                                 await context
                                     .read<ApiServices>()
@@ -104,39 +113,29 @@ class _OtpPageState extends State<OtpPage> {
                                   if (value is UserModel) {
                                     Navigator.pushReplacementNamed(
                                         context, FirstLoadingPage.id);
-                                    BlocProvider.of<UserBloc>(context).add(
+                                    context.read<UserBloc>().add(
                                         AddUserTokenEvent(
                                             userToken: value.token!));
+                                    // context
+                                    //     .read<UserBloc>()
+                                    //     .add(GetUserEvent());
                                   } else {
                                     Navigator.pop(context);
                                     showDialog(
                                         context: context,
                                         builder: (context) => CustomErrorDialog(
                                             title: 'Error',
-                                            description: value.toString(),
+                                            description: value
+                                                .toString()
+                                                .replaceAll('{', '')
+                                                .replaceAll('msg:', '')
+                                                .replaceAll('}', ''),
                                             onPressed: () =>
                                                 Navigator.pop(context)));
                                   }
                                 });
-
-                                // context.read<UserBloc>().add(OtpToHomePageEvent(
-                                //     email: state.email!, otp: val));
                               },
                             ),
-                            // ButtonLoadingWidget(
-                            //   text: 'Verify',
-                            //   onPressed: _otpController.text.length > 3
-                            //       ? () {
-                            //           FocusScope.of(context).unfocus();
-                            //           context.read<UserBloc>().add(
-                            //               OtpToHomePageEvent(
-                            //                   email: state.email!,
-                            //                   otp: _otpController.text));
-                            //           //}
-                            //         }
-                            //       : null,
-                            //   loading: state.otpLoading,
-                            // )
                           ],
                         ),
                       ),
@@ -147,14 +146,8 @@ class _OtpPageState extends State<OtpPage> {
                             TextStyle(fontSize: 15.sp, color: Colors.black54),
                       ),
                       SizedBox(height: 10.h),
-                      Text(
-                        'Resend Code',
-                        style: TextStyle(
-                            height: 1,
-                            fontWeight: FontWeight.w600,
-                            fontSize: 15.sp,
-                            color: AppColors.mainColor),
-                      ),
+                      ResendCodeWidget(
+                          resendClicked: resendClicked, email: state.email!),
                     ],
                   ),
                 ),

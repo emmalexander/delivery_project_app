@@ -7,6 +7,10 @@ class UserModel {
   final String? id;
   final int? otp;
   final String? photoUrl;
+  final Map<String, dynamic>? location;
+  final String? address;
+  final String? lat;
+  final String? long;
 
   final int? balance;
   final List? orders;
@@ -22,5 +26,9 @@ class UserModel {
     this.photoUrl,
     this.balance,
     this.orders,
+    this.address,
+    this.lat,
+    this.long,
+    this.location,
   });
 }

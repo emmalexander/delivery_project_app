@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
@@ -19,7 +20,7 @@ class MyDrawer extends StatelessWidget {
       AppCheck.launchApp("com.android.settings");
     } else {
       // Settings app is not installed, show an error message
-      print("Settings app not installed.");
+      //print("Settings app not installed.");
     }
   }
 
@@ -105,7 +106,7 @@ class MyDrawer extends StatelessWidget {
               ),
               const SizedBox(width: 170, child: Divider()),
               ListTile(
-                leading: const Icon(Icons.notifications_none_outlined),
+                leading: const Icon(Icons.notifications_none_rounded),
                 title: const Text('Notifications'),
                 onTap: () {
                   // do something
@@ -128,6 +129,25 @@ class MyDrawer extends StatelessWidget {
                           title: 'Log out',
                           description: 'Are you sure?',
                           onPressed: () async {
+                            showDialog(
+                                barrierDismissible: false,
+                                context: context,
+                                builder: (context) => WillPopScope(
+                                      onWillPop: () async => false,
+                                      child: AlertDialog(
+                                        content: Row(
+                                          children: [
+                                            const CircularProgressIndicator(),
+                                            Container(
+                                                margin: const EdgeInsets.only(
+                                                    left: 7),
+                                                child: const Text(
+                                                    "Logging out...")),
+                                          ],
+                                        ),
+                                      ),
+                                    ));
+
                             await context
                                 .read<ApiServices>()
                                 .logout(BlocProvider.of<UserBloc>(context)
@@ -140,6 +160,24 @@ class MyDrawer extends StatelessWidget {
                             });
                           }));
                 },
+              ),
+              const Spacer(),
+              Padding(
+                padding: const EdgeInsets.all(10),
+                child: BlocBuilder<SwitchBloc, SwitchState>(
+                  builder: (context, state) {
+                    return GestureDetector(
+                        onTap: () {
+                          context.read<SwitchBloc>().add(const SwitchEvent());
+                        },
+                        child: Icon(
+                          state.switchValue
+                              ? Icons.dark_mode
+                              : Icons.light_mode_rounded,
+                          size: 30,
+                        ));
+                  },
+                ),
               ),
             ],
           ),

@@ -1,8 +1,10 @@
 import 'dart:io';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/models/user_model.dart';
 import 'package:delivery_project_app/services/api_services.dart';
-import 'package:delivery_project_app/widgets/picture_select_bottom_sheet.dart';
+import 'package:delivery_project_app/widgets/profile_page_widgets/picture_select_bottom_sheet.dart';
+import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -26,9 +28,10 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
 
   @override
   void initState() {
-    _nameController = TextEditingController();
-    _phoneController = TextEditingController();
-    _addressController = TextEditingController();
+    final blocProviderState = BlocProvider.of<UserBloc>(context).state;
+    _nameController = TextEditingController(text: blocProviderState.name);
+    _phoneController = TextEditingController(text: blocProviderState.phone);
+    _addressController = TextEditingController(text: blocProviderState.address);
 
     super.initState();
   }
@@ -109,7 +112,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                                   borderRadius: BorderRadius.circular(200.r),
                                   child: CachedNetworkImage(
                                     width: 200.w,
-                                    //height: 00.h,
                                     fit: BoxFit.cover,
                                     imageUrl: state.photoUrl!,
                                     placeholder: (context, url) =>
@@ -118,11 +120,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                                         Image.asset(
                                             'assets/images/profile.png'),
                                   ),
-
-                                  // state.photoFile == null || state.photoFile!.path.isEmpty
-                                  //     ? const AssetImage('assets/images/profile.png')
-                                  //         as ImageProvider
-                                  //     : FileImage(File(state.photoFile!.path)), //Image.file()
                                 )
                               : CircleAvatar(
                                   radius: 80.r,
@@ -136,7 +133,7 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                                 ),
                           const Positioned(
                               bottom: 20,
-                              right: 35,
+                              right: 20,
                               child: Icon(
                                 Icons.camera_alt,
                                 color: Colors.black38,
@@ -146,7 +143,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   SizedBox(height: 20.h),
                   TextFormField(
                     controller: _nameController,
-                    //initialValue: state.name,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
                     validator: (value) {
@@ -169,7 +165,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   SizedBox(height: 20.h),
                   TextFormField(
                     controller: _phoneController,
-                    //initialValue: state.phone,
                     keyboardType: TextInputType.phone,
                     textInputAction: TextInputAction.next,
                     validator: (value) {
@@ -226,18 +221,28 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                             .read<ApiServices>()
                             .postProfilePic(file, state.userToken)
                             .then((value) {
-                          context
-                              .read<UserBloc>()
-                              .add(AddPhotoUrlEvent(photoUrl: value.photoUrl));
-                          context.read<UserBloc>().add(GetUserEvent());
-                          Navigator.pop(context);
-                          Navigator.pop(context);
+                          if (value is UserModel) {
+                            context.read<UserBloc>().add(
+                                AddPhotoUrlEvent(photoUrl: value.photoUrl!));
+                            context.read<UserBloc>().add(GetUserEvent());
+
+                            Navigator.pop(context);
+                          } else {
+                            showDialog(
+                                context: context,
+                                builder: (context) => CustomErrorDialog(
+                                      title: 'Error',
+                                      description: value
+                                          .toString()
+                                          .replaceAll('{', '')
+                                          .replaceAll('msg:', '')
+                                          .replaceAll('}', ''),
+                                      onPressed: () {
+                                        Navigator.pop(context);
+                                      },
+                                    ));
+                          }
                         });
-                        // await ApiServices()
-                        //     .postProfilePic(file, state.userToken)
-                        //     .then((value) => context.read<UserBloc>().add(
-                        //           AddPhotoUrlEvent(photoUrl: value),
-                        //         ));
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.h),

@@ -1,3 +1,5 @@
+import 'package:delivery_project_app/blocs/order_bloc/order_bloc.dart';
+import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
 import 'package:delivery_project_app/pages/first_loading_page.dart';
@@ -8,7 +10,8 @@ import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:get_ip_address/get_ip_address.dart';
+
+//import 'package:get_ip_address/get_ip_address.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
@@ -48,18 +51,27 @@ class MyApp extends StatelessWidget {
                           apiServices:
                               RepositoryProvider.of<ApiServices>(context),
                         )),
+                BlocProvider(create: (context) => SwitchBloc()),
+                BlocProvider(create: (context) => OrderBloc()),
               ],
-              child: MaterialApp(
-                builder: (context, widget) {
-                  return MediaQuery(
-                    data: MediaQuery.of(context).copyWith(textScaleFactor: 1.0),
-                    child: widget!,
+              child: BlocBuilder<SwitchBloc, SwitchState>(
+                builder: (context, state) {
+                  return MaterialApp(
+                    builder: (context, widget) {
+                      return MediaQuery(
+                        data: MediaQuery.of(context)
+                            .copyWith(textScaleFactor: 1.0),
+                        child: widget!,
+                      );
+                    },
+                    debugShowCheckedModeBanner: false,
+                    theme: state.switchValue
+                        ? AppThemes.appThemeData[AppTheme.darkTheme]
+                        : AppThemes.appThemeData[AppTheme.lightTheme],
+                    home: const Home(),
+                    onGenerateRoute: AppRouter().onGenerateRoute,
                   );
                 },
-                debugShowCheckedModeBanner: false,
-                theme: AppTheme.appTheme,
-                home: const Home(),
-                onGenerateRoute: AppRouter().onGenerateRoute,
               ),
             ),
           );
@@ -74,13 +86,6 @@ class Home extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<UserBloc, UserState>(
       builder: (context, state) {
-        // if (state is UserAddedState) {
-        //   return const HomePage();
-        // } else if (state is VerificationState) {
-        //   return const VerificationPage();
-        // } else if (state is OtpState) {
-        //   return const OtpPage();
-        // }
         return const FirstLoadingPage();
       },
     );

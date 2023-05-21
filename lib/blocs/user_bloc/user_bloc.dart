@@ -22,7 +22,21 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
           verified: false,
           photoFile: XFile(''),
           photoUrl: '',
+          loginObscureText: false,
+          signupObscureText: false,
+          balance: 0,
         )) {
+    on<LoginObscureEvent>((event, emit) {
+      emit(UserState(
+          userToken: state.userToken,
+          loginObscureText: state.loginObscureText == false ? true : false));
+    });
+    on<SignupObscureEvent>((event, emit) {
+      emit(UserState(
+          userToken: state.userToken,
+          signupObscureText: state.signupObscureText == false ? true : false));
+    });
+
     on<SignUpToVerificationEvent>((event, emit) async {
       emit(UserState(
         userToken: state.userToken,
@@ -113,6 +127,10 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
           id: user.id,
           verified: user.verified,
           photoUrl: user.photoUrl,
+          balance: user.balance,
+          address: user.address,
+          lat: user.lat,
+          long: user.long,
         ));
       } else {
         emit(ErrorState(
@@ -135,6 +153,15 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
       emit(UserState(
         userToken: state.userToken,
         photoFile: event.photoFile,
+      ));
+    });
+
+    on<AddLocationEvent>((event, emit) {
+      emit(UserState(
+        userToken: state.userToken,
+        lat: event.latitude,
+        long: event.longitude,
+        address: event.address,
       ));
     });
   }
