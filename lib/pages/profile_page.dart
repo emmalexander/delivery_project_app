@@ -1,4 +1,5 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/consts/global_constants.dart';
 import 'package:delivery_project_app/pages/change_profile_page.dart';
 import 'package:delivery_project_app/widgets/my_drawer.dart';
 import 'package:delivery_project_app/widgets/profile_page_widgets/profile_list_tile_widget.dart';
@@ -13,8 +14,6 @@ class ProfilePage extends StatelessWidget {
   static const id = 'profile_page';
   @override
   Widget build(BuildContext context) {
-    RegExp reg = RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))');
-    mathFunc(Match match) => '${match[1]},';
     return Scaffold(
       appBar: AppBar(
         scrolledUnderElevation: 0,
@@ -54,7 +53,7 @@ class ProfilePage extends StatelessWidget {
                             fontSize: 30.sp, fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        'NGN ${state.balance.toString().replaceAllMapped(reg, mathFunc)}.00',
+                        'NGN ${state.balance ?? 0.toStringAsFixed(2).replaceAllMapped(thirdNumberCommaPattern, mathFunc)}',
                         style: TextStyle(
                             fontSize: 18.sp, fontWeight: FontWeight.w600),
                       ),

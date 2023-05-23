@@ -1,6 +1,5 @@
 import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/profile_page.dart';
@@ -29,7 +28,7 @@ class MyDrawer extends StatelessWidget {
     return SizedBox(
       width: 370.w,
       child: Drawer(
-        backgroundColor: AppColors.mainColor,
+        backgroundColor: Theme.of(context).primaryColor,
         child: Padding(
           padding: const EdgeInsets.all(15),
           child: Column(
@@ -155,8 +154,11 @@ class MyDrawer extends StatelessWidget {
                                     .userToken)
                                 .then((value) {
                               context.read<UserBloc>().add(RemoveUserToken());
-                              Navigator.pushReplacementNamed(
-                                  context, LogInSignUpPage.id);
+                              Navigator.pushNamedAndRemoveUntil(
+                                context,
+                                LogInSignUpPage.id,
+                                (Route<dynamic> route) => false,
+                              );
                             });
                           }));
                 },

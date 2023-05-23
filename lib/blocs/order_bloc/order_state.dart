@@ -1,21 +1,38 @@
 part of 'order_bloc.dart';
 
 class OrderState extends Equatable {
-  final int counter;
-  const OrderState({required this.counter});
+  final int quantity;
+
+  const OrderState({this.quantity = 1});
 
   @override
-  List<Object> get props => [counter];
+  List<Object> get props => [quantity];
+
+  /* Map<String, dynamic> toMap() {
+    return {
+      'cart': cart!.map((x) => x.toMap()).toList(),
+    };
+  }
+
+  factory OrderState.fromMap(Map<String, dynamic> map) {
+    return OrderState(
+      cart: List<MealModel>.from(
+          map['pendingTasks']?.map((x) => MealModel.fromJson(x))),
+      quantity: map['counter'] ?? 1,
+    );
+  }*/
 }
 
 class OrderInitial extends OrderState {
-  const OrderInitial({required int counter}) : super(counter: 1);
+  const OrderInitial(
+      {required int quantity, required List<MealModel> cartItems})
+      : super(quantity: 1);
 }
 
 class IncrementState extends OrderState {
-  const IncrementState(int increasedValue) : super(counter: increasedValue);
+  const IncrementState(int increasedValue) : super(quantity: increasedValue);
 }
 
 class DecrementState extends OrderState {
-  const DecrementState(int decreasedValue) : super(counter: decreasedValue);
+  const DecrementState(int decreasedValue) : super(quantity: decreasedValue);
 }

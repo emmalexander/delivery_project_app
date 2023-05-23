@@ -1,4 +1,5 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/consts/global_constants.dart';
 import 'package:delivery_project_app/models/restaurant_model.dart';
 import 'package:delivery_project_app/pages/location_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
@@ -17,9 +18,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:infinite_scroll_pagination/infinite_scroll_pagination.dart';
 
 class HomePage extends StatefulWidget {
-  const HomePage({
-    Key? key,
-  }) : super(key: key);
+  const HomePage({Key? key}) : super(key: key);
 
   static const id = 'home_page';
 
@@ -83,19 +82,6 @@ class _HomePageState extends State<HomePage> {
         _pagingController.appendPage(value, nextPageKey);
       }
     });
-  }
-
-  String getShortForm(int number) {
-    if (number < 1000) {
-      return number
-          .toString(); // Return the number as is if it's less than 1000
-    } else if (number < 1000000) {
-      double shortNumber = number / 1000; // Convert to thousands
-      return '${shortNumber.toStringAsFixed(0)}K'; // Format to no decimal places and append 'k'
-    } else {
-      double shortNumber = number / 1000000; // Convert to millions
-      return '${shortNumber.toStringAsFixed(0)}M'; // Format to no decimal places and append 'M'
-    }
   }
 
   @override

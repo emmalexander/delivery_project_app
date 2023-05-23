@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/pages/cart_list_page.dart';
 import 'package:delivery_project_app/pages/change_profile_page.dart';
 import 'package:delivery_project_app/pages/check_email_page.dart';
 import 'package:delivery_project_app/pages/first_loading_page.dart';
@@ -42,6 +43,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const LocationPage());
       case MenuPage.id:
         return MaterialPageRoute(builder: (context) => const MenuPage());
+      case CartListPage.id:
+        return MaterialPageRoute(builder: (context) => const CartListPage());
       default:
         return null;
     }

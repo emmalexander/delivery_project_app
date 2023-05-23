@@ -7,11 +7,13 @@ enum AppTheme { lightTheme, darkTheme }
 class AppThemes {
   static final appThemeData = {
     AppTheme.lightTheme: ThemeData(
+        dividerTheme: DividerThemeData(color: AppColors.black),
+        primaryColor: AppColors.color,
         tabBarTheme: TabBarTheme(
           labelStyle: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
           labelColor: Colors.black,
           labelPadding: EdgeInsets.symmetric(vertical: 10.h),
-          indicatorColor: AppColors.mainColor,
+          indicatorColor: AppColors.color,
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.scaffoldBackgroundColor,
@@ -19,13 +21,13 @@ class AppThemes {
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
         fontFamily: 'SF-Pro-Rounded',
-        primarySwatch: AppColors.mainColor,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: AppColors.mainColor,
+        // primarySwatch: AppColors.mainColor,
+        colorScheme: ColorScheme.fromSeed(
+          seedColor: AppColors.color,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: AppColors.color,
           foregroundColor: Colors.white,
         )),
         inputDecorationTheme: InputDecorationTheme(
@@ -50,11 +52,13 @@ class AppThemes {
         )),
     //
     AppTheme.darkTheme: ThemeData(
+        dividerTheme: DividerThemeData(color: AppColors.white),
+        primaryColor: AppColors.scaffoldBackgroundColorDark,
         tabBarTheme: TabBarTheme(
           labelStyle: TextStyle(fontSize: 18.sp, fontWeight: FontWeight.w600),
           labelColor: Colors.black,
           labelPadding: EdgeInsets.symmetric(vertical: 10.h),
-          indicatorColor: AppColors.mainColor,
+          indicatorColor: AppColors.color,
         ),
         appBarTheme: AppBarTheme(
           backgroundColor: AppColors.scaffoldBackgroundColorDark,
@@ -62,17 +66,18 @@ class AppThemes {
         useMaterial3: true,
         scaffoldBackgroundColor: AppColors.scaffoldBackgroundColorDark,
         fontFamily: 'SF-Pro-Rounded',
-        primarySwatch: AppColors.mainColor,
+        //primarySwatch: AppColors.mainColor,
         cardColor: Colors.white12,
-        colorScheme: ColorScheme.fromSwatch(
-          primarySwatch: AppColors.mainColor,
-          brightness: Brightness.dark,
-          cardColor: Colors.white12,
-          backgroundColor: Colors.black,
+        colorScheme: ColorScheme.fromSeed(
+          background: Colors.black,
+          //primarySwatch: AppColors.mainColor,
+          brightness: Brightness.dark, seedColor: AppColors.color,
+          // cardColor: Colors.white12,
+          // backgroundColor: Colors.black,
         ),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
-          backgroundColor: AppColors.mainColor,
+          backgroundColor: AppColors.color,
           foregroundColor: Colors.white,
         )),
         inputDecorationTheme: InputDecorationTheme(
@@ -90,7 +95,7 @@ class AppThemes {
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(22),
                 ),
-                backgroundColor: AppColors.mainColor,
+                backgroundColor: AppColors.color,
                 foregroundColor: Colors.white)),
         textSelectionTheme: const TextSelectionThemeData(
           cursorColor: Colors.blueAccent,

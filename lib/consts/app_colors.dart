@@ -4,6 +4,8 @@ class AppColors {
   static Color color = const Color(0xFFEFB60E);
   static Color scaffoldBackgroundColor = const Color(0xFFF2F2F2);
   static Color scaffoldBackgroundColorDark = const Color(0xFF000000);
+  static Color black = Colors.black;
+  static Color white = Colors.white;
   static Color searchBarColor = const Color(0xFFEFEEEE);
 
   static Color baseShimmerColor = Colors.grey.shade200;

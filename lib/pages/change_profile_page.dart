@@ -95,6 +95,7 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                                   topRight: Radius.circular(10.r),
                                   topLeft: Radius.circular(10.r)),
                             ),
+                            backgroundColor: Theme.of(context).canvasColor,
                             context: context,
                             builder: (context) => PictureSelectBottomSheet(
                                   onPressedCamera: () {

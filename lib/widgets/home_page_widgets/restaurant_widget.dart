@@ -20,7 +20,7 @@ class RestaurantWidget extends StatelessWidget {
     return GestureDetector(
       onTap: onPressed,
       child: Container(
-        margin: const EdgeInsets.all(10),
+        margin: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
             boxShadow: [
               BoxShadow(
@@ -45,7 +45,7 @@ class RestaurantWidget extends StatelessWidget {
                     //show a shimmer effect
                     const ImageLoadingWidget(),
                 errorWidget: (context, url, error) =>
-                    Image.asset('assets/images/restaurant.png'),
+                    const Center(child: Icon(Icons.warning_rounded)),
               ),
             ),
             SizedBox(height: 10.h),

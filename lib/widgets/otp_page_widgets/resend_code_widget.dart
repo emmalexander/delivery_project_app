@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/otp_page_widgets/timer_widget.dart';

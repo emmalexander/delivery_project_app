@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/blocs/cart_bloc/cart_bloc.dart';
 import 'package:delivery_project_app/blocs/order_bloc/order_bloc.dart';
 import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
@@ -53,6 +54,7 @@ class MyApp extends StatelessWidget {
                         )),
                 BlocProvider(create: (context) => SwitchBloc()),
                 BlocProvider(create: (context) => OrderBloc()),
+                BlocProvider(create: (context) => CartBloc()),
               ],
               child: BlocBuilder<SwitchBloc, SwitchState>(
                 builder: (context, state) {
