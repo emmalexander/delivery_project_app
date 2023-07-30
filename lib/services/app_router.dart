@@ -6,7 +6,6 @@ import 'package:delivery_project_app/pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/location_page.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
-import 'package:delivery_project_app/pages/menu_page.dart';
 import 'package:delivery_project_app/pages/otp_page.dart';
 import 'package:delivery_project_app/pages/profile_page.dart';
 import 'package:delivery_project_app/pages/starting_page.dart';
@@ -41,8 +40,8 @@ class AppRouter {
         return MaterialPageRoute(builder: (context) => const CheckEmailPage());
       case LocationPage.id:
         return MaterialPageRoute(builder: (context) => const LocationPage());
-      case MenuPage.id:
-        return MaterialPageRoute(builder: (context) => const MenuPage());
+      // case MenuPage.id:
+      //   return MaterialPageRoute(builder: (context) => const MenuPage());
       case CartListPage.id:
         return MaterialPageRoute(builder: (context) => const CartListPage());
       default:

@@ -1,6 +1,6 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/global_constants.dart';
-import 'package:delivery_project_app/pages/location_page.dart';
+import 'package:delivery_project_app/models/restaurant_model.dart';
 import 'package:delivery_project_app/pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/menu_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
@@ -8,7 +8,6 @@ import 'package:delivery_project_app/widgets/home_page_widgets/home_app_bar.dart
 import 'package:delivery_project_app/widgets/my_drawer.dart';
 import 'package:delivery_project_app/widgets/home_page_widgets/restaurant_widget.dart';
 import 'package:delivery_project_app/widgets/search_bar.dart';
-import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -25,7 +24,7 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final ApiServices apiServices;
 
-  List restaurants = [];
+  List<RestaurantModel> restaurants = [];
   bool hasMore = true;
   final _controller = ScrollController();
   int page = 1;
@@ -46,17 +45,17 @@ class _HomePageState extends State<HomePage> {
     });
     apiServices.getUser(blocProviderState.userToken).then((value) {
       if (value.location.isEmpty) {
-        showDialog(
-            barrierDismissible: false,
-            context: context,
-            builder: (context) => CustomErrorDialog(
-                  title: 'No Location',
-                  description: 'Please add location',
-                  onPressed: () {
-                    Navigator.pushNamed(context, LocationPage.id);
-                  },
-                  isLogout: false,
-                ));
+        // showDialog(
+        //     barrierDismissible: false,
+        //     context: context,
+        //     builder: (context) => CustomErrorDialog(
+        //           title: 'No Location',
+        //           description: 'Please add location',
+        //           onPressed: () {
+        //             Navigator.pushNamed(context, LocationPage.id);
+        //           },
+        //           isLogout: false,
+        //         ));
       }
     }).onError((error, stackTrace) {
       BlocProvider.of<UserBloc>(context).add(RemoveUserToken());
@@ -152,8 +151,15 @@ class _HomePageState extends State<HomePage> {
                             if (index < restaurants.length) {
                               return RestaurantWidget(
                                 onPressed: () {
-                                  Navigator.pushNamed(context, MenuPage.id,
-                                      arguments: restaurants[index].id);
+                                  Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                          builder: (context) => MenuPage(
+                                                restaurantModel:
+                                                    restaurants[index],
+                                              )));
+                                  // Navigator.pushNamed(context, MenuPage.id,
+                                  //     arguments: restaurants[index].id);
                                 },
                                 restaurantName: restaurants[index].name ?? '',
                                 imageUrl: restaurants[index].photoUrl ?? '',

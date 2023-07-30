@@ -3,8 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuTitleHeader extends StatelessWidget {
-  const MenuTitleHeader({Key? key}) : super(key: key);
-
+  const MenuTitleHeader(
+      {Key? key, required this.restaurantName, required this.available})
+      : super(key: key);
+  final String restaurantName;
+  final bool available;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -18,18 +21,18 @@ class MenuTitleHeader extends StatelessWidget {
         children: [
           Center(
               child: Text(
-            'Restaurant Name',
+            restaurantName,
             style: TextStyle(fontSize: 26.sp),
           )),
-          const Wrap(
+          Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
             spacing: 3,
             children: [
-              Text('Status: '),
-              Text('Available'),
+              const Text('Status: '),
+              const Text('Available'),
               Icon(
                 Icons.circle,
-                color: Colors.greenAccent,
+                color: available ? Colors.greenAccent : Colors.redAccent,
                 size: 15,
               )
             ],

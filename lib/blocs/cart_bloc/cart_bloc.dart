@@ -1,4 +1,4 @@
-import 'package:delivery_project_app/models/meal_model.dart';
+import 'package:delivery_project_app/models/menu_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -12,13 +12,13 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       //  final cartItems = state.cartItems ?? [];
       emit(CartState(
         //quantity: state.quantity,
-        cartItems: List.from(state.cartItems)..add(event.meal),
+        cartItems: List.from(state.cartItems)..add(event.menuModel),
       ));
       //state.cart!.add(event.meal);
     });
     on<RemoveMealFromCartEvent>((event, emit) {
-      final updatedCart = List<MealModel>.from(state.cartItems)
-        ..remove(event.meal);
+      final updatedCart = List<MenuModel>.from(state.cartItems)
+        ..remove(event.menuModel);
       emit(CartState(cartItems: updatedCart));
     });
   }

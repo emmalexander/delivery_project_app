@@ -6,9 +6,10 @@ class BackButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      icon: const Icon(
+      icon: Icon(
         Icons.arrow_back_ios_new_outlined,
         size: 20,
+        color: Theme.of(context).textTheme.bodySmall!.color,
       ),
       onPressed: () {
         Navigator.pop(context);

@@ -6,17 +6,17 @@ abstract class CartEvent extends Equatable {
 }
 
 class AddMealToCartEvent extends CartEvent {
-  final MealModel meal;
-  AddMealToCartEvent({required this.meal});
+  final MenuModel menuModel;
+  AddMealToCartEvent({required this.menuModel});
 
   @override
-  List<Object> get props => [meal];
+  List<Object> get props => [menuModel];
 }
 
 class RemoveMealFromCartEvent extends CartEvent {
-  final MealModel meal;
-  RemoveMealFromCartEvent({required this.meal});
+  final MenuModel menuModel;
+  RemoveMealFromCartEvent({required this.menuModel});
 
   @override
-  List<Object> get props => [meal];
+  List<Object> get props => [menuModel];
 }

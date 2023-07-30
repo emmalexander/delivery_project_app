@@ -30,7 +30,8 @@ class DioExceptions implements Exception {
         message = "Send timeout in connection with API server";
         break;
       case DioErrorType.unknown:
-        message = "An unknown error occurred with API server";
+        //print('Dio: ${dioError.error.toString()}');
+        message = dioError.error.toString();
         break;
       case DioErrorType.badCertificate:
         message = "SSL certificate error occurred";

@@ -2,13 +2,20 @@ import 'package:delivery_project_app/blocs/cart_bloc/cart_bloc.dart';
 import 'package:delivery_project_app/blocs/order_bloc/order_bloc.dart';
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/models/meal_model.dart';
+import 'package:delivery_project_app/models/menu_model.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuDialog extends StatelessWidget {
-  const MenuDialog({Key? key}) : super(key: key);
-
+  const MenuDialog({
+    Key? key,
+    required this.model,
+    required this.restaurantId,
+  }) : super(key: key);
+  final Menu model;
+  final String restaurantId;
   @override
   Widget build(BuildContext context) {
     return BlocBuilder<OrderBloc, OrderState>(
@@ -23,23 +30,23 @@ class MenuDialog extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.asset(
-                      'assets/meal1.jpg',
+                    child: Image.network(
+                      model.photo!,
                       height: 180.h,
                     )),
                 SizedBox(height: 20.h),
-                const Row(
+                Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('Menu 1'),
+                    Text(model.name!),
                     Wrap(
                       spacing: 5,
                       children: [
                         Text(
-                          '\u20A610',
-                          style: TextStyle(fontWeight: FontWeight.w600),
+                          '\u20A6${model.price}',
+                          style: const TextStyle(fontWeight: FontWeight.w600),
                         ),
-                        Text('per portion')
+                        const Text('per portion')
                       ],
                     )
                   ],
@@ -89,27 +96,34 @@ class MenuDialog extends StatelessWidget {
 
                 context.read<CartBloc>().add(
                       AddMealToCartEvent(
-                        meal: MealModel(
-                          id: 'aswerq12',
-                          name: 'burger',
-                          available: true,
-                          price: 10.0,
-                          photoUrl:
-                              'https://media-cdn.tripadvisor.com/media/photo-s/1a/99/aa/92/outdoor-seating-area.jpg',
-                          quantity: state.quantity,
-                        ),
+                        menuModel: MenuModel(
+                            menu: model,
+                            quantity: state.quantity,
+                            restaurantId: restaurantId),
+                        // meal: model,
+                        // quantity: state.quantity,
+                        // restaurantId: restaurantId,
                       ),
                     );
-                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                  backgroundColor: Theme.of(context).cardColor,
-                  content: Text(
-                    'Meal 1 Added to cart',
-                    style: TextStyle(
-                      color: Theme.of(context).textTheme.bodyMedium!.color,
-                    ),
-                  ),
-                  duration: const Duration(seconds: 2),
-                ));
+                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                //   backgroundColor: Theme.of(context).cardColor,
+                //   content: Text(
+                //     '${model.name} Added to cart',
+                //     style: TextStyle(
+                //       color: Theme.of(context).textTheme.bodyMedium!.color,
+                //     ),
+                //   ),
+                //   duration: const Duration(seconds: 2),
+                // ));
+
+                Fluttertoast.showToast(
+                    msg: '${model.name} Added to cart',
+                    toastLength: Toast.LENGTH_SHORT,
+                    gravity: ToastGravity.BOTTOM,
+                    timeInSecForIosWeb: 1,
+                    backgroundColor: Colors.greenAccent,
+                    textColor: Theme.of(context).textTheme.bodySmall!.color,
+                    fontSize: 16.0);
                 Navigator.pop(context);
 
                 // TODO Try and get the total number of quantity to display in the badge

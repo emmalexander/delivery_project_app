@@ -7,11 +7,12 @@ class CartWidget extends StatelessWidget {
       {Key? key,
       required this.mealName,
       required this.price,
-      required this.quantity})
+      required this.quantity,
+      required this.imgUrl})
       : super(key: key);
-  final String mealName;
+  final String mealName, imgUrl;
   final String price;
-  final String quantity;
+  final int quantity;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -23,9 +24,12 @@ class CartWidget extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Image.asset(
-            'assets/meal1.jpg',
-            width: 90,
+          ClipRRect(
+            borderRadius: BorderRadius.circular(10.r),
+            child: Image.network(
+              imgUrl,
+              width: 90,
+            ),
           ),
           const SizedBox(width: 15),
           Column(
@@ -55,18 +59,22 @@ class CartWidget extends StatelessWidget {
                           IconButton(
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                //context.read<OrderBloc>().add(OrderDecrementEvent());
+                                // context
+                                //     .read<OrderBloc>()
+                                //     .add(OrderDecrementEvent());
                               },
                               icon: const Icon(
                                 Icons.remove,
                                 size: 15,
                               )),
-                          Text(quantity),
+                          Text(quantity.toString()),
                           IconButton(
                               padding: EdgeInsets.zero,
                               onPressed: () {
-                                // context.read<OrderBloc>().add(OrderIncrementEvent());
-                                //print(state.quantity);
+                                // context
+                                //     .read<OrderBloc>()
+                                //     .add(OrderIncrementEvent());
+                                // print(state.quantity);
                               },
                               icon: const Icon(
                                 Icons.add,
