@@ -386,7 +386,7 @@ class ApiServices {
     return null;
   }
 
-  Future getRestaurants(start, take, pagingController) async {
+  Future getRestaurants(start, take) async {
     List<RestaurantModel> restaurants = [];
     final endPoint = dotenv.env['RESTAURANT_ENDPOINT'] ?? 'API_URL not found';
     Response response;
@@ -416,8 +416,7 @@ class ApiServices {
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      // print('Error Message: $errorMessage');
-      pagingController.error = e;
+      print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;

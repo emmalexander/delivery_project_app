@@ -12,8 +12,8 @@ class HomePageLoadingList extends StatelessWidget {
         HomePageLoadingWidget(),
         HomePageLoadingWidget(),
         HomePageLoadingWidget(),
-        HomePageLoadingWidget(),
-        HomePageLoadingWidget(),
+        // HomePageLoadingWidget(),
+        // HomePageLoadingWidget(),
       ],
     );
   }

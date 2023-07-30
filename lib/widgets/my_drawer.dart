@@ -45,10 +45,7 @@ class MyDrawer extends StatelessWidget {
               ListTile(
                 leading: const Icon(Icons.home_outlined),
                 title: const Text('Home'),
-                trailing: const Icon(
-                  Icons.arrow_forward_ios_rounded,
-                  size: 15,
-                ),
+                trailing: const Icon(Icons.arrow_forward_ios_rounded, size: 15),
                 onTap: () {
                   // do something
                   Navigator.pushReplacementNamed(context, HomePage.id);

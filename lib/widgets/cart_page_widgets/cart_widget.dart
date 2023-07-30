@@ -15,7 +15,7 @@ class CartWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      margin: const EdgeInsets.symmetric(vertical: 10),
+      margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 10),
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
         color: Theme.of(context).cardColor,
@@ -41,7 +41,7 @@ class CartWidget extends StatelessWidget {
                         fontWeight: FontWeight.w600,
                         color: AppColors.mainColor),
                   ),
-                  const SizedBox(width: 120),
+                  const SizedBox(width: 80),
                   Container(
                     height: 30,
                     //width: 100,

@@ -78,7 +78,7 @@ class _MenuPageState extends State<MenuPage> {
           ),
           SliverList(
               delegate: SliverChildBuilderDelegate(
-            childCount: 10,
+            childCount: 6,
             (context, index) => const Padding(
               padding: EdgeInsets.all(8.0),
               child: MenuWidget(),
