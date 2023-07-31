@@ -55,7 +55,7 @@ dependencies:
   image_cropper: ^3.0.3
   get_ip_address: ^0.0.5
   geolocator: ^9.0.2
-  android_intent_plus: ^3.1.7
+  android_intent_plus: ^4.0.1
   flutter_google_places_sdk: ^0.3.2+8
   geocoding: ^2.1.0
   fancy_shimmer_image: ^2.0.2

@@ -5,10 +5,10 @@ packages:
     dependency: "direct main"
     description:
       name: android_intent_plus
-      sha256: "6bcdcd20461ac7a0c785f6298cdda96ad275d5bcbc1ecf28829cbe03ec6690be"
+      sha256: "2c87d8330ba5deef5fe20e77f4d178190b3b24531dce08368030ab4be40a9d4e"
       url: "https://pub.dev"
     source: hosted
-    version: "3.1.7"
+    version: "4.0.1"
   appcheck:
     dependency: "direct main"
     description:
