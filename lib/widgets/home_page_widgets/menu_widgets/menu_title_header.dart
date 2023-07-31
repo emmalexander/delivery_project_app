@@ -4,10 +4,14 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MenuTitleHeader extends StatelessWidget {
   const MenuTitleHeader(
-      {Key? key, required this.restaurantName, required this.available})
+      {Key? key,
+      required this.restaurantName,
+      required this.available,
+      required this.rating})
       : super(key: key);
   final String restaurantName;
   final bool available;
+  final String? rating;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -22,7 +26,7 @@ class MenuTitleHeader extends StatelessWidget {
           Center(
               child: Text(
             restaurantName,
-            style: TextStyle(fontSize: 26.sp),
+            style: TextStyle(fontSize: 26.sp, fontWeight: FontWeight.w600),
           )),
           Wrap(
             crossAxisAlignment: WrapCrossAlignment.center,
@@ -42,11 +46,14 @@ class MenuTitleHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  const Text('80%'),
+                  rating == null ? const Text('No rating') : Text('$rating%'),
                   SizedBox(width: 5.w),
-                  const Icon(
-                    CupertinoIcons.hand_thumbsup,
-                    size: 18,
+                  IconButton(
+                    icon: const Icon(
+                      CupertinoIcons.hand_thumbsup,
+                      size: 20,
+                    ),
+                    onPressed: () {},
                   ),
                 ],
               ),

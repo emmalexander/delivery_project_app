@@ -92,7 +92,6 @@ flutter:
     - .env
     - assets/
     - assets/images/
-    - assets/resaurant1.jpg
 
 
   fonts:

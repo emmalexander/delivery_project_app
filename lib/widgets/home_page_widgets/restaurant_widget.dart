@@ -10,11 +10,13 @@ class RestaurantWidget extends StatelessWidget {
       {Key? key,
       required this.restaurantName,
       required this.imageUrl,
-      required this.onPressed})
+      required this.onPressed,
+      required this.rating})
       : super(key: key);
   final String restaurantName;
   final String imageUrl;
   final Function() onPressed;
+  final String? rating;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -68,7 +70,9 @@ class RestaurantWidget extends StatelessWidget {
                 children: [
                   Row(
                     children: [
-                      const Text('80%'),
+                      rating == null
+                          ? const Text('No rating')
+                          : Text('$rating%'),
                       SizedBox(width: 5.w),
                       const Icon(
                         CupertinoIcons.hand_thumbsup,

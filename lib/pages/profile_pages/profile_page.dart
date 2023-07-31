@@ -1,6 +1,6 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/global_constants.dart';
-import 'package:delivery_project_app/pages/change_profile_page.dart';
+import 'package:delivery_project_app/pages/profile_pages/change_profile_page.dart';
 import 'package:delivery_project_app/widgets/my_drawer.dart';
 import 'package:delivery_project_app/widgets/profile_page_widgets/profile_list_tile_widget.dart';
 import 'package:delivery_project_app/widgets/profile_page_widgets/profile_widget.dart';
@@ -53,7 +53,9 @@ class ProfilePage extends StatelessWidget {
                             fontSize: 30.sp, fontWeight: FontWeight.w600),
                       ),
                       Text(
-                        'NGN ${state.balance ?? 0.toStringAsFixed(2).replaceAllMapped(thirdNumberCommaPattern, mathFunc)}',
+                        state.balance == null
+                            ? 'NGN 0.00'
+                            : 'NGN ${state.balance!.toStringAsFixed(2).replaceAllMapped(thirdNumberCommaPattern, mathFunc)}',
                         style: TextStyle(
                             fontSize: 18.sp, fontWeight: FontWeight.w600),
                       ),

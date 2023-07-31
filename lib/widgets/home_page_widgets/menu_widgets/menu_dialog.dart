@@ -30,8 +30,9 @@ class MenuDialog extends StatelessWidget {
               children: [
                 ClipRRect(
                     borderRadius: BorderRadius.circular(10),
-                    child: Image.network(
-                      model.photo!,
+                    child: FadeInImage.assetNetwork(
+                      image: model.photo!,
+                      placeholder: 'assets/Loading_icon.gif',
                       height: 180.h,
                     )),
                 SizedBox(height: 20.h),
@@ -84,47 +85,51 @@ class MenuDialog extends StatelessWidget {
             SizedBox(height: 15.h),
             GestureDetector(
               onTap: () {
-                // final cartItems =
-                //     BlocProvider.of<CartBloc>(context).state.cartItems;
-                // TODO Check if item is in cart already
+                final cartItems =
+                    BlocProvider.of<CartBloc>(context).state.cartItems;
+                // Check if item is in cart already
 
-                /* if(cartItems.any((item) => item.id == meal.id)){
-                  //show snackbar
-                }else{
+                if (cartItems.any((item) => item.menu.id == model.id)) {
+                  Fluttertoast.showToast(
+                      msg: 'Already in cart',
+                      toastLength: Toast.LENGTH_SHORT,
+                      gravity: ToastGravity.BOTTOM,
+                      timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.greenAccent,
+                      textColor: Theme.of(context).textTheme.bodySmall!.color,
+                      fontSize: 16.0);
+                } else {
                   //add to cart
-                }*/
-
-                context.read<CartBloc>().add(
-                      AddMealToCartEvent(
-                        menuModel: MenuModel(
-                            menu: model,
-                            quantity: state.quantity,
-                            restaurantId: restaurantId),
-                        // meal: model,
-                        // quantity: state.quantity,
-                        // restaurantId: restaurantId,
-                      ),
-                    );
-                // ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                //   backgroundColor: Theme.of(context).cardColor,
-                //   content: Text(
-                //     '${model.name} Added to cart',
-                //     style: TextStyle(
-                //       color: Theme.of(context).textTheme.bodyMedium!.color,
-                //     ),
-                //   ),
-                //   duration: const Duration(seconds: 2),
-                // ));
-
-                Fluttertoast.showToast(
-                    msg: '${model.name} Added to cart',
-                    toastLength: Toast.LENGTH_SHORT,
-                    gravity: ToastGravity.BOTTOM,
-                    timeInSecForIosWeb: 1,
-                    backgroundColor: Colors.greenAccent,
-                    textColor: Theme.of(context).textTheme.bodySmall!.color,
-                    fontSize: 16.0);
-                Navigator.pop(context);
+                  if (cartItems
+                      .any((item) => item.restaurantId != restaurantId)) {
+                    Fluttertoast.showToast(
+                        msg: 'You can only order from one Restaurant at a time',
+                        toastLength: Toast.LENGTH_LONG,
+                        gravity: ToastGravity.TOP,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.red.withOpacity(.7),
+                        textColor: Theme.of(context).textTheme.bodySmall!.color,
+                        fontSize: 16.0);
+                  } else {
+                    context.read<CartBloc>().add(
+                          AddMealToCartEvent(
+                            menuModel: MenuModel(
+                                menu: model,
+                                quantity: state.quantity,
+                                restaurantId: restaurantId),
+                          ),
+                        );
+                    Fluttertoast.showToast(
+                        msg: '${model.name} Added to cart',
+                        toastLength: Toast.LENGTH_SHORT,
+                        gravity: ToastGravity.BOTTOM,
+                        timeInSecForIosWeb: 1,
+                        backgroundColor: Colors.greenAccent,
+                        textColor: Theme.of(context).textTheme.bodySmall!.color,
+                        fontSize: 16.0);
+                    Navigator.pop(context);
+                  }
+                }
 
                 // TODO Try and get the total number of quantity to display in the badge
                 /*  int totalQuantity = 0;

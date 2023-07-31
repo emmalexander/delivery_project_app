@@ -1,5 +1,5 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/pages/check_email_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/check_email_page.dart';
 import 'package:delivery_project_app/widgets/back_button_widget.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';

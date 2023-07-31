@@ -1,7 +1,7 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/global_constants.dart';
 import 'package:delivery_project_app/models/restaurant_model.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/menu_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/home_page_widgets/home_app_bar.dart';
@@ -24,13 +24,11 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   late final ApiServices apiServices;
 
-  List<RestaurantModel> restaurants = [];
+  List<Restaurant> restaurants = [];
   bool hasMore = true;
   final _controller = ScrollController();
   int page = 1;
   bool isLoading = false;
-
-  //final _numberOfPostsPerRequest = 10;
 
   @override
   void initState() {
@@ -89,14 +87,16 @@ class _HomePageState extends State<HomePage> {
         ScaffoldMessenger.of(context)
             .showSnackBar(SnackBar(content: Text(value)));
       } else {
-        setState(() {
-          page++;
-          isLoading = false;
-          if (value.length < limit) {
-            hasMore = false;
-          }
-          restaurants.addAll(value);
-        });
+        if (value is RestaurantModel) {
+          setState(() {
+            page++;
+            isLoading = false;
+            if (value.restaurant!.length < limit) {
+              hasMore = false;
+            }
+            restaurants.addAll(value.restaurant!);
+          });
+        }
       }
     });
   }
@@ -141,7 +141,8 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(height: 10.h),
                   Expanded(
                     child: RefreshIndicator(
-                      backgroundColor: Colors.white,
+                      backgroundColor: Theme.of(context).highlightColor,
+                      color: Theme.of(context).cardColor,
                       onRefresh: () => Future.sync(() => refresh()),
                       child: ListView.builder(
                           controller: _controller,
@@ -162,7 +163,8 @@ class _HomePageState extends State<HomePage> {
                                   //     arguments: restaurants[index].id);
                                 },
                                 restaurantName: restaurants[index].name ?? '',
-                                imageUrl: restaurants[index].photoUrl ?? '',
+                                imageUrl: restaurants[index].photo ?? '',
+                                rating: restaurants[index].rating,
                               );
                             } else {
                               return Padding(

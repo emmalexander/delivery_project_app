@@ -1,7 +1,7 @@
 import 'dart:async';
 
 import 'package:delivery_project_app/consts/app_colors.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -47,14 +47,14 @@ class _StartingPageState extends State<StartingPage> {
             bottom: -50,
             child: Image.asset('assets/images/blur.png'),
           ),
-          Positioned(
-            bottom: 20,
-            child: SizedBox(
-                height: 17.h,
-                width: 17.w,
-                child: const CircularProgressIndicator(
-                    strokeWidth: 2, color: Colors.black)),
-          ),
+          // Positioned(
+          //   bottom: 20,
+          //   child: SizedBox(
+          //       height: 17.h,
+          //       width: 17.w,
+          //       child: const CircularProgressIndicator(
+          //           strokeWidth: 2, color: Colors.black)),
+          // ),
           Positioned(
             top: 50,
             left: 50,

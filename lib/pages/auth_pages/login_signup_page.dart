@@ -1,7 +1,7 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/otp_page.dart';
-import 'package:delivery_project_app/pages/verification_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/otp_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/verification_page.dart';
 import 'package:delivery_project_app/widgets/login_signup_page_widgets/log_in_widget.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:delivery_project_app/widgets/login_signup_page_widgets/sign_up_widget.dart';

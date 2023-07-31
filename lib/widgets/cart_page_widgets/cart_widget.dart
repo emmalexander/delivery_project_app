@@ -26,8 +26,9 @@ class CartWidget extends StatelessWidget {
         children: [
           ClipRRect(
             borderRadius: BorderRadius.circular(10.r),
-            child: Image.network(
-              imgUrl,
+            child: FadeInImage.assetNetwork(
+              image: imgUrl,
+              placeholder: 'assets/Loading_icon.gif',
               width: 90,
             ),
           ),

@@ -1,15 +1,16 @@
-import 'package:delivery_project_app/pages/cart_list_page.dart';
-import 'package:delivery_project_app/pages/change_profile_page.dart';
-import 'package:delivery_project_app/pages/check_email_page.dart';
-import 'package:delivery_project_app/pages/first_loading_page.dart';
-import 'package:delivery_project_app/pages/forgot_password.dart';
+import 'package:delivery_project_app/pages/cart/cart_list_page.dart';
+import 'package:delivery_project_app/pages/order_successful_page.dart';
+import 'package:delivery_project_app/pages/profile_pages/change_profile_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/check_email_page.dart';
+import 'package:delivery_project_app/pages/start_up/first_loading_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/location_page.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
-import 'package:delivery_project_app/pages/otp_page.dart';
-import 'package:delivery_project_app/pages/profile_page.dart';
-import 'package:delivery_project_app/pages/starting_page.dart';
-import 'package:delivery_project_app/pages/verification_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/otp_page.dart';
+import 'package:delivery_project_app/pages/profile_pages/profile_page.dart';
+import 'package:delivery_project_app/pages/start_up/starting_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/verification_page.dart';
 import 'package:flutter/material.dart';
 
 class AppRouter {
@@ -44,6 +45,9 @@ class AppRouter {
       //   return MaterialPageRoute(builder: (context) => const MenuPage());
       case CartListPage.id:
         return MaterialPageRoute(builder: (context) => const CartListPage());
+      case OrderSuccessfulPage.id:
+        return MaterialPageRoute(
+            builder: (context) => const OrderSuccessfulPage());
       default:
         return null;
     }

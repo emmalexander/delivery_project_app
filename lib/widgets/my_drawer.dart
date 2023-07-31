@@ -1,8 +1,8 @@
 import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
-import 'package:delivery_project_app/pages/profile_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/profile_pages/profile_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';

@@ -22,7 +22,7 @@ class ChangeProfilePage extends StatefulWidget {
 class _ChangeProfilePageState extends State<ChangeProfilePage> {
   late TextEditingController _nameController;
   late TextEditingController _phoneController;
-  late TextEditingController _addressController;
+  //late TextEditingController _addressController;
 
   final ImagePicker _picker = ImagePicker();
 
@@ -31,7 +31,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
     final blocProviderState = BlocProvider.of<UserBloc>(context).state;
     _nameController = TextEditingController(text: blocProviderState.name);
     _phoneController = TextEditingController(text: blocProviderState.phone);
-    _addressController = TextEditingController(text: blocProviderState.address);
 
     super.initState();
   }
@@ -40,7 +39,6 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
   void dispose() {
     _nameController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
     super.dispose();
   }
 
@@ -146,6 +144,7 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                     controller: _nameController,
                     keyboardType: TextInputType.name,
                     textInputAction: TextInputAction.next,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
                         return 'Name field is required';
@@ -167,10 +166,11 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                   TextFormField(
                     controller: _phoneController,
                     keyboardType: TextInputType.phone,
-                    textInputAction: TextInputAction.next,
+                    textInputAction: TextInputAction.done,
+                    autovalidateMode: AutovalidateMode.onUserInteraction,
                     validator: (value) {
                       if (value == null || value.isEmpty) {
-                        return 'phone field required';
+                        return 'Phone field required';
                       }
                       if (value.length > 14 || value.length < 11) {
                         return 'Invalid phone number format';
@@ -185,32 +185,9 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                       ),
                     ),
                   ),
-                  SizedBox(height: 20.h),
-                  TextFormField(
-                    controller: _addressController,
-                    keyboardType: TextInputType.emailAddress,
-                    textInputAction: TextInputAction.next,
-                    validator: (value) {
-                      if (value!.isEmpty) {
-                        return 'Address field required';
-                      }
-                      if (value.length < 5) {
-                        return 'Invalid address';
-                      } else {
-                        return null;
-                      }
-                    },
-                    decoration: const InputDecoration(
-                      labelText: 'Address',
-                      focusedBorder: OutlineInputBorder(
-                        borderSide: BorderSide.none,
-                      ),
-                    ),
-                  ),
                   const Spacer(),
                   TextButton(
                       onPressed: () async {
-                        File file = File(state.photoFile!.path);
                         // print('token: ${state.userToken}');
                         showDialog(
                             context: context,
@@ -218,32 +195,59 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                             builder: (context) => const Center(
                                   child: CircularProgressIndicator(),
                                 ));
-                        await context
-                            .read<ApiServices>()
-                            .postProfilePic(file, state.userToken)
-                            .then((value) {
-                          if (value is UserModel) {
-                            context.read<UserBloc>().add(
-                                AddPhotoUrlEvent(photoUrl: value.photoUrl!));
+                        if (state.photoFile == null) {
+                          // Update name and phone
+                          context
+                              .read<ApiServices>()
+                              .updateInfo(
+                                token: state.userToken,
+                                name: _nameController.text,
+                                phone: _phoneController.text,
+                              )
+                              .then((value) {
                             context.read<UserBloc>().add(GetUserEvent());
-
                             Navigator.pop(context);
-                          } else {
-                            showDialog(
-                                context: context,
-                                builder: (context) => CustomErrorDialog(
-                                      title: 'Error',
-                                      description: value
-                                          .toString()
-                                          .replaceAll('{', '')
-                                          .replaceAll('msg:', '')
-                                          .replaceAll('}', ''),
-                                      onPressed: () {
-                                        Navigator.pop(context);
-                                      },
-                                    ));
-                          }
-                        });
+                            Navigator.pop(context);
+                          });
+                        } else {
+                          File file = File(state.photoFile!.path);
+                          // Update name and phone as well
+                          context
+                              .read<ApiServices>()
+                              .postProfilePic(file, state.userToken)
+                              .then((value) {
+                            if (value is UserModel) {
+                              // context.read<UserBloc>().add(
+                              //     AddPhotoUrlEvent(photoUrl: value.photoUrl!));
+                              context
+                                  .read<ApiServices>()
+                                  .updateInfo(
+                                    token: state.userToken,
+                                    name: _nameController.text,
+                                    phone: _phoneController.text,
+                                  )
+                                  .then((value) {
+                                context.read<UserBloc>().add(GetUserEvent());
+                                Navigator.pop(context);
+                                Navigator.pop(context);
+                              });
+                            } else {
+                              showDialog(
+                                  context: context,
+                                  builder: (context) => CustomErrorDialog(
+                                        title: 'Error',
+                                        description: value
+                                            .toString()
+                                            .replaceAll('{', '')
+                                            .replaceAll('msg:', '')
+                                            .replaceAll('}', ''),
+                                        onPressed: () {
+                                          Navigator.pop(context);
+                                        },
+                                      ));
+                            }
+                          });
+                        }
                       },
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 15.h),

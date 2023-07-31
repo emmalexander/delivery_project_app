@@ -67,9 +67,10 @@ class MenuWidget extends StatelessWidget {
             ),
             ClipRRect(
                 borderRadius: BorderRadius.circular(10.r),
-                child: Image.network(
-                  model.photo!,
+                child: FadeInImage.assetNetwork(
                   height: 80,
+                  placeholder: 'assets/Loading_icon.gif',
+                  image: model.photo!,
                 ))
           ],
         ),

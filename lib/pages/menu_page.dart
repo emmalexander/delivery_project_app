@@ -1,6 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:delivery_project_app/models/meal_model.dart';
-import 'package:delivery_project_app/models/restaurant_model.dart';
+import 'package:delivery_project_app/models/restaurant_model.dart'
+    as restaurant_model;
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/back_button_widget.dart';
 import 'package:delivery_project_app/widgets/home_page_widgets/home_page_image_loading_widget.dart';
@@ -16,7 +17,7 @@ class MenuPage extends StatefulWidget {
   const MenuPage({Key? key, required this.restaurantModel}) : super(key: key);
   static const id = 'menu_page';
 
-  final RestaurantModel restaurantModel;
+  final restaurant_model.Restaurant restaurantModel;
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
@@ -24,15 +25,17 @@ class MenuPage extends StatefulWidget {
 class _MenuPageState extends State<MenuPage> {
   PaletteColor? dyColor;
   List<Menu>? menu = <Menu>[];
+  late MealModel mealModel;
   @override
   void initState() {
-    addColor(widget.restaurantModel.photoUrl);
+    addColor(widget.restaurantModel.photo);
     context
         .read<ApiServices>()
         .getMenu(restaurantId: widget.restaurantModel.id)
         .then((model) {
       if (model is MealModel) {
         setState(() {
+          mealModel = model;
           menu = model.menu;
         });
       }
@@ -58,55 +61,61 @@ class _MenuPageState extends State<MenuPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: CustomScrollView(
-        slivers: [
-          SliverAppBar(
-            toolbarHeight: 100.h,
-            automaticallyImplyLeading: false,
-            title: Container(
-                width: 40.w,
-                height: 40.h,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20.r),
-                  color: Theme.of(context).highlightColor,
+      body: menu!.isEmpty
+          ? const Center(
+              child: CupertinoActivityIndicator(),
+            )
+          : CustomScrollView(
+              slivers: [
+                SliverAppBar(
+                  toolbarHeight: 100.h,
+                  automaticallyImplyLeading: false,
+                  title: Container(
+                      width: 40.w,
+                      height: 40.h,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20.r),
+                        color: Theme.of(context).highlightColor,
+                      ),
+                      child: const BackButtonWidget()),
+                  bottom: PreferredSize(
+                    preferredSize: Size.fromHeight(50.h),
+                    child: MenuTitleHeader(
+                        restaurantName: widget.restaurantModel.name!,
+                        rating: widget.restaurantModel.rating,
+                        available: widget.restaurantModel.available!),
+                  ),
+                  backgroundColor:
+                      dyColor == null ? Colors.white : dyColor!.color,
+                  pinned: true,
+                  expandedHeight: 300.h,
+                  flexibleSpace: FlexibleSpaceBar(
+                    background: CachedNetworkImage(
+                      width: double.maxFinite,
+                      height: 150.h,
+                      fit: BoxFit.cover,
+                      imageUrl: widget.restaurantModel.photo!,
+                      placeholder: (context, url) =>
+                          //show a shimmer effect
+                          const ImageLoadingWidget(),
+                      errorWidget: (context, url, error) =>
+                          const Center(child: Icon(Icons.warning_rounded)),
+                    ),
+                  ),
                 ),
-                child: const BackButtonWidget()),
-            bottom: PreferredSize(
-              preferredSize: Size.fromHeight(50.h),
-              child: MenuTitleHeader(
-                  restaurantName: widget.restaurantModel.name!,
-                  available: widget.restaurantModel.available!),
+                SliverList(
+                    delegate: SliverChildBuilderDelegate(
+                  childCount: menu!.length,
+                  (context, index) => Padding(
+                    padding: const EdgeInsets.all(8.0),
+                    child: MenuWidget(
+                      model: menu![index],
+                      restaurantId: widget.restaurantModel.id!,
+                    ),
+                  ),
+                ))
+              ],
             ),
-            backgroundColor: dyColor == null ? Colors.white : dyColor!.color,
-            pinned: true,
-            expandedHeight: 300.h,
-            flexibleSpace: FlexibleSpaceBar(
-              background: CachedNetworkImage(
-                width: double.maxFinite,
-                height: 150.h,
-                fit: BoxFit.cover,
-                imageUrl: widget.restaurantModel.photoUrl!,
-                placeholder: (context, url) =>
-                    //show a shimmer effect
-                    const ImageLoadingWidget(),
-                errorWidget: (context, url, error) =>
-                    const Center(child: Icon(Icons.warning_rounded)),
-              ),
-            ),
-          ),
-          SliverList(
-              delegate: SliverChildBuilderDelegate(
-            childCount: menu!.length,
-            (context, index) => Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: MenuWidget(
-                model: menu![index],
-                restaurantId: widget.restaurantModel.id!,
-              ),
-            ),
-          ))
-        ],
-      ),
     );
   }
 }

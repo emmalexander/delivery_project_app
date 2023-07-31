@@ -1,5 +1,5 @@
 import 'package:delivery_project_app/blocs/cart_bloc/cart_bloc.dart';
-import 'package:delivery_project_app/pages/cart_list_page.dart';
+import 'package:delivery_project_app/pages/cart/cart_list_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';

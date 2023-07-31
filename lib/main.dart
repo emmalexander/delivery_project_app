@@ -3,7 +3,7 @@ import 'package:delivery_project_app/blocs/order_bloc/order_bloc.dart';
 import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_theme.dart';
-import 'package:delivery_project_app/pages/first_loading_page.dart';
+import 'package:delivery_project_app/pages/start_up/first_loading_page.dart';
 import 'package:delivery_project_app/services/app_router.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:flutter/material.dart';

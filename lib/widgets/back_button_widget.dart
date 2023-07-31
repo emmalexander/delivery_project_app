@@ -1,3 +1,4 @@
+import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:flutter/material.dart';
 
 class BackButtonWidget extends StatelessWidget {
@@ -9,7 +10,7 @@ class BackButtonWidget extends StatelessWidget {
       icon: Icon(
         Icons.arrow_back_ios_new_outlined,
         size: 20,
-        color: Theme.of(context).textTheme.bodySmall!.color,
+        color: AppColors.black,
       ),
       onPressed: () {
         Navigator.pop(context);

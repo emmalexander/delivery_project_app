@@ -21,5 +21,9 @@ class CartBloc extends Bloc<CartEvent, CartState> {
         ..remove(event.menuModel);
       emit(CartState(cartItems: updatedCart));
     });
+    on<ClearCartEvent>((event, emit) {
+      final updatedCart = List<MenuModel>.from(state.cartItems)..clear();
+      emit(CartState(cartItems: updatedCart));
+    });
   }
 }

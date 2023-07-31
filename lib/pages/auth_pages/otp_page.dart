@@ -1,7 +1,7 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/models/user_model.dart';
-import 'package:delivery_project_app/pages/first_loading_page.dart';
-import 'package:delivery_project_app/pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/start_up/first_loading_page.dart';
+import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/otp_page_widgets/otp_text_field.dart';
 import 'package:delivery_project_app/widgets/otp_page_widgets/resend_code_widget.dart';

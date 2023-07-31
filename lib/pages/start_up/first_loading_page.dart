@@ -1,7 +1,7 @@
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/app_colors.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/starting_page.dart';
+import 'package:delivery_project_app/pages/start_up/starting_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

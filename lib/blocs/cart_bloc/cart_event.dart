@@ -20,3 +20,5 @@ class RemoveMealFromCartEvent extends CartEvent {
   @override
   List<Object> get props => [menuModel];
 }
+
+class ClearCartEvent extends CartEvent {}
