@@ -53,7 +53,9 @@ class MenuTitleHeader extends StatelessWidget {
                       CupertinoIcons.hand_thumbsup,
                       size: 20,
                     ),
-                    onPressed: () {},
+                    onPressed: () {
+                      // TODO Integrate Like restaurant endpoint
+                    },
                   ),
                 ],
               ),
