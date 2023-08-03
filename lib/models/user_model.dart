@@ -11,7 +11,8 @@ class UserModel {
   final String? address;
   final String? lat;
   final String? long;
-
+  final List? likes;
+  final List? dislikes;
   final int? balance;
   final List? orders;
 
@@ -29,6 +30,8 @@ class UserModel {
     this.address,
     this.lat,
     this.long,
+    this.likes,
+    this.dislikes,
     this.location,
   });
 }

@@ -70,6 +70,7 @@ class MyApp extends StatelessWidget {
                     theme: state.switchValue
                         ? AppThemes.appThemeData[AppTheme.darkTheme]
                         : AppThemes.appThemeData[AppTheme.lightTheme],
+                    darkTheme: AppThemes.appThemeData[AppTheme.darkTheme],
                     home: const Home(),
                     onGenerateRoute: AppRouter().onGenerateRoute,
                   );

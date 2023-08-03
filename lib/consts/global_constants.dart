@@ -12,3 +12,9 @@ String getShortForm(int number) {
     return '${shortNumber.toStringAsFixed(0)}M'; // Format to no decimal places and append 'M'
   }
 }
+
+enum LikeStatus {
+  Liked,
+  Disliked,
+  NotRated,
+}

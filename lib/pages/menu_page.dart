@@ -1,4 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
+import 'package:delivery_project_app/consts/global_constants.dart';
 import 'package:delivery_project_app/models/meal_model.dart';
 import 'package:delivery_project_app/models/restaurant_model.dart'
     as restaurant_model;
@@ -14,10 +16,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:palette_generator/palette_generator.dart';
 
 class MenuPage extends StatefulWidget {
-  const MenuPage({Key? key, required this.restaurantModel}) : super(key: key);
+  const MenuPage({Key? key, required this.restaurantModel, required this.like})
+      : super(key: key);
   static const id = 'menu_page';
 
   final restaurant_model.Restaurant restaurantModel;
+  final LikeStatus like;
   @override
   State<MenuPage> createState() => _MenuPageState();
 }
@@ -81,6 +85,9 @@ class _MenuPageState extends State<MenuPage> {
                   bottom: PreferredSize(
                     preferredSize: Size.fromHeight(50.h),
                     child: MenuTitleHeader(
+                        like: widget.like,
+                        restaurantId: widget.restaurantModel.id!,
+                        token: context.read<UserBloc>().state.userToken,
                         restaurantName: widget.restaurantModel.name!,
                         rating: widget.restaurantModel.rating,
                         available: widget.restaurantModel.available!),

@@ -1,17 +1,27 @@
-import 'package:flutter/cupertino.dart';
+import 'package:delivery_project_app/consts/global_constants.dart';
+import 'package:delivery_project_app/services/api_services.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 class MenuTitleHeader extends StatelessWidget {
   const MenuTitleHeader(
       {Key? key,
       required this.restaurantName,
       required this.available,
-      required this.rating})
+      required this.rating,
+      required this.like,
+      required this.restaurantId,
+      required this.token})
       : super(key: key);
   final String restaurantName;
   final bool available;
   final String? rating;
+  final LikeStatus like;
+  final String restaurantId;
+  final String token;
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -46,15 +56,75 @@ class MenuTitleHeader extends StatelessWidget {
             children: [
               Row(
                 children: [
-                  rating == null ? const Text('No rating') : Text('$rating%'),
-                  SizedBox(width: 5.w),
                   IconButton(
-                    icon: const Icon(
-                      CupertinoIcons.hand_thumbsup,
+                    icon: Icon(
+                      like == LikeStatus.Liked
+                          ? Icons.thumb_down_outlined
+                          : like == LikeStatus.Disliked
+                              ? Icons.thumb_down
+                              : Icons.thumb_down_outlined,
                       size: 20,
                     ),
                     onPressed: () {
-                      // TODO Integrate Like restaurant endpoint
+                      //debugPrint(restaurantId);
+                      if (like == LikeStatus.NotRated) {
+                        context
+                            .read<ApiServices>()
+                            .rateRestaurant(
+                              like: false,
+                              restaurantId: restaurantId,
+                              token: token,
+                            )
+                            .then((value) {
+                          debugPrint(value.toString());
+                        });
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'You already rated this Restaurant',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.greenAccent,
+                            textColor:
+                                Theme.of(context).textTheme.bodySmall!.color,
+                            fontSize: 16.0);
+                      }
+                    },
+                  ),
+                  rating == null ? const Text('No rating') : Text('$rating%'),
+                  SizedBox(width: 5.w),
+                  IconButton(
+                    icon: Icon(
+                      like == LikeStatus.Liked
+                          ? Icons.thumb_up_rounded
+                          : like == LikeStatus.Disliked
+                              ? Icons.thumb_up_outlined
+                              : Icons.thumb_up_outlined,
+                      size: 20,
+                    ),
+                    onPressed: () {
+                      if (like == LikeStatus.NotRated) {
+                        context
+                            .read<ApiServices>()
+                            .rateRestaurant(
+                              like: true,
+                              restaurantId: restaurantId,
+                              token: token,
+                            )
+                            .then((value) {
+                          debugPrint(value.toString());
+                        });
+                      } else {
+                        Fluttertoast.showToast(
+                            msg: 'You already rated this Restaurant',
+                            toastLength: Toast.LENGTH_SHORT,
+                            gravity: ToastGravity.BOTTOM,
+                            timeInSecForIosWeb: 1,
+                            backgroundColor: Colors.greenAccent,
+                            textColor:
+                                Theme.of(context).textTheme.bodySmall!.color,
+                            fontSize: 16.0);
+                      }
                     },
                   ),
                 ],

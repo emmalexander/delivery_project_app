@@ -22,9 +22,7 @@ class AppThemes {
         scaffoldBackgroundColor: AppColors.scaffoldBackgroundColor,
         fontFamily: 'SF-Pro-Rounded',
         // primarySwatch: AppColors.mainColor,
-        colorScheme: ColorScheme.fromSeed(
-          seedColor: AppColors.color,
-        ),
+        colorScheme: ColorScheme.fromSeed(seedColor: AppColors.color),
         elevatedButtonTheme: ElevatedButtonThemeData(
             style: ElevatedButton.styleFrom(
           backgroundColor: AppColors.color,

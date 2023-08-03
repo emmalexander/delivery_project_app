@@ -73,7 +73,7 @@ class MyDrawer extends StatelessWidget {
                   size: 15,
                 ),
                 onTap: () {
-                  // do something
+                  // TODO Create Orders Page and get orders from the getUser api collect data using the OrdersModel
                 },
               ),
               const SizedBox(width: 170, child: Divider()),

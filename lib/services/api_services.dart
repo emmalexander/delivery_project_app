@@ -64,6 +64,8 @@ class ApiServices {
           verified: body['user']['verified'],
           photoUrl: body['user']['photo'],
           balance: body['user']['balance'],
+          likes: body['user']['like'],
+          dislikes: body['user']['dislike'],
           address: body['user']['location'] == null
               ? ''
               : body['user']['location']['address'],
@@ -440,7 +442,7 @@ class ApiServices {
     Response response;
     //Map<String, dynamic> data = {'name': name, 'phone': phone};
     Map<String, dynamic>? queryParameters = {
-      'restaurantId': restaurantId,
+      'restaurant': restaurantId,
       'like': like,
     };
 
@@ -450,15 +452,15 @@ class ApiServices {
           options: Options(headers: {'authorization': 'Bearer $token'}));
 
       if (response.statusCode == 200) {
-        final body = response.data;
-        print('Body: $body');
+        //final body = response.data;
+        //print('Body: $body');
         return;
       } else {
-        print(response.statusMessage.toString());
+        // print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;

@@ -131,7 +131,6 @@ class MenuDialog extends StatelessWidget {
                   }
                 }
 
-                // TODO Try and get the total number of quantity to display in the badge
                 /*  int totalQuantity = 0;
                 for (var cartItem in cartItems) {
                   totalQuantity = totalQuantity + cartItem.quantity!;

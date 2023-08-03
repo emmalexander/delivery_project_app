@@ -8,6 +8,7 @@ import 'package:delivery_project_app/widgets/home_page_widgets/home_app_bar.dart
 import 'package:delivery_project_app/widgets/my_drawer.dart';
 import 'package:delivery_project_app/widgets/home_page_widgets/restaurant_widget.dart';
 import 'package:delivery_project_app/widgets/search_bar.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -29,6 +30,7 @@ class _HomePageState extends State<HomePage> {
   final _controller = ScrollController();
   int page = 1;
   bool isLoading = false;
+  bool? like;
 
   @override
   void initState() {
@@ -102,6 +104,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   Future refresh() async {
+    //debugPrint(BlocProvider.of<UserBloc>(context).state.userToken);
     setState(() {
       isLoading = false;
       hasMore = true;
@@ -109,6 +112,21 @@ class _HomePageState extends State<HomePage> {
       restaurants.clear();
     });
     _fetchPage();
+  }
+
+  LikeStatus getRestaurantStatus(
+      List likes, List dislikes, String restaurantId) {
+    bool isLiked = likes.any((like) => like['restaurantId'] == restaurantId);
+    bool isDisliked =
+        dislikes.any((dislike) => dislike['restaurantId'] == restaurantId);
+
+    if (isLiked) {
+      return LikeStatus.Liked;
+    } else if (isDisliked) {
+      return LikeStatus.Disliked;
+    } else {
+      return LikeStatus.NotRated;
+    }
   }
 
   @override
@@ -158,9 +176,11 @@ class _HomePageState extends State<HomePage> {
                                           builder: (context) => MenuPage(
                                                 restaurantModel:
                                                     restaurants[index],
+                                                like: getRestaurantStatus(
+                                                    state.likes!,
+                                                    state.dislikes!,
+                                                    restaurants[index].id!),
                                               )));
-                                  // Navigator.pushNamed(context, MenuPage.id,
-                                  //     arguments: restaurants[index].id);
                                 },
                                 restaurantName: restaurants[index].name ?? '',
                                 imageUrl: restaurants[index].photo ?? '',
@@ -172,7 +192,7 @@ class _HomePageState extends State<HomePage> {
                                     const EdgeInsets.symmetric(vertical: 10),
                                 child: Center(
                                   child: hasMore
-                                      ? CircularProgressIndicator(
+                                      ? CupertinoActivityIndicator(
                                           color: Theme.of(context)
                                               .textTheme
                                               .titleMedium!

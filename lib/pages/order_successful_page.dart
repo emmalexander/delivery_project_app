@@ -32,10 +32,10 @@ class _OrderSuccessfulPageState extends State<OrderSuccessfulPage> {
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(Icons.check_circle, size: 35, color: Colors.green),
+          Icon(Icons.electric_bike, size: 35, color: Colors.green),
           SizedBox(height: 20),
           Text(
-            'Order Successful',
+            'Order is on its way',
             style: TextStyle(fontWeight: FontWeight.w600),
           )
         ],

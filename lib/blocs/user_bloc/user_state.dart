@@ -14,6 +14,8 @@ class UserState extends Equatable {
   final String? lat;
   final String? long;
   final String? address;
+  final List? likes;
+  final List? dislikes;
   final int? balance;
   final Map<String, dynamic>? location;
   final bool? loginObscureText;
@@ -31,6 +33,8 @@ class UserState extends Equatable {
     this.verified,
     this.photoFile,
     this.lat,
+    this.likes,
+    this.dislikes,
     this.long,
     this.address,
     this.balance,
@@ -58,8 +62,8 @@ class UserState extends Equatable {
   factory UserState.fromMap(Map<String, dynamic> map) {
     return UserState(
       userToken: map['userToken'] ?? '',
-      loginLoading: map['loginLoading'] ?? false,
-      signupLoading: map['signupLoading'] ?? false,
+      //loginLoading: map['loginLoading'] ?? false,
+      //signupLoading: map['signupLoading'] ?? false,
     );
   }
 }
@@ -83,6 +87,8 @@ class UserStateInitial extends UserState {
     Map<String, dynamic>? location,
     bool? loginObscureText,
     bool? signupObscureText,
+    List? likes,
+    List? dislikes,
   }) : super(
           userToken: userToken,
           loginLoading: loginLoading,
@@ -101,6 +107,8 @@ class UserStateInitial extends UserState {
           location: location,
           loginObscureText: loginObscureText,
           signupObscureText: signupObscureText,
+          likes: likes,
+          dislikes: dislikes,
         );
 }
 

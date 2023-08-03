@@ -117,30 +117,33 @@ class UserBloc extends HydratedBloc<UserEvent, UserState> {
     });
 
     on<GetUserEvent>((event, emit) async {
-      final user = await apiServices.getUser(state.userToken);
-      if (user! is UserModel) {
-        emit(UserState(
-          userToken: state.userToken,
-          name: user.name,
-          email: user.email,
-          phone: user.phone,
-          id: user.id,
-          verified: user.verified,
-          photoUrl: user.photoUrl,
-          balance: user.balance,
-          address: user.address,
-          lat: user.lat,
-          long: user.long,
-        ));
-      } else {
-        emit(ErrorState(
-          error: user.toString(),
-          userToken: state.userToken,
-          errorTitle: 'No User',
-          loginLoading: false,
-          signupLoading: false,
-        ));
-      }
+      await apiServices.getUser(state.userToken).then((user) {
+        if (user is UserModel) {
+          emit(UserState(
+            userToken: state.userToken,
+            name: user.name,
+            email: user.email,
+            phone: user.phone,
+            id: user.id,
+            verified: user.verified,
+            photoUrl: user.photoUrl,
+            balance: user.balance,
+            address: user.address,
+            lat: user.lat,
+            long: user.long,
+            likes: user.likes,
+            dislikes: user.dislikes,
+          ));
+        } else {
+          emit(ErrorState(
+            error: user.toString(),
+            userToken: state.userToken,
+            errorTitle: 'No User',
+            loginLoading: false,
+            signupLoading: false,
+          ));
+        }
+      });
     });
     on<AddPhotoUrlEvent>((event, emit) {
       UserState(
