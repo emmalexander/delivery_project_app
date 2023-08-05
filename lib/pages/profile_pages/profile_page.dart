@@ -50,7 +50,7 @@ class ProfilePage extends StatelessWidget {
                       Text(
                         'My Profile',
                         style: TextStyle(
-                            fontSize: 30.sp, fontWeight: FontWeight.w600),
+                            fontSize: 25.sp, fontWeight: FontWeight.w600),
                       ),
                       Text(
                         state.balance == null

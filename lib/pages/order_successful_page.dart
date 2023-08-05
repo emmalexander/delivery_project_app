@@ -18,7 +18,7 @@ class _OrderSuccessfulPageState extends State<OrderSuccessfulPage> {
 
   void _navigateToHome() {
     Future.delayed(
-        const Duration(seconds: 3),
+        const Duration(seconds: 50),
         () => Navigator.pushNamedAndRemoveUntil(
               context,
               HomePage.id,
@@ -29,16 +29,18 @@ class _OrderSuccessfulPageState extends State<OrderSuccessfulPage> {
   @override
   Widget build(BuildContext context) {
     return const Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(Icons.electric_bike, size: 35, color: Colors.green),
-          SizedBox(height: 20),
-          Text(
-            'Order is on its way',
-            style: TextStyle(fontWeight: FontWeight.w600),
-          )
-        ],
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(Icons.electric_bike, size: 100, color: Colors.green),
+            SizedBox(height: 20),
+            Text(
+              'Your Order is on the way',
+              style: TextStyle(fontWeight: FontWeight.w600),
+            )
+          ],
+        ),
       ),
     );
   }

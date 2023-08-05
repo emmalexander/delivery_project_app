@@ -25,5 +25,26 @@ class CartBloc extends Bloc<CartEvent, CartState> {
       final updatedCart = List<MenuModel>.from(state.cartItems)..clear();
       emit(CartState(cartItems: updatedCart));
     });
+
+    on<QuantityIncreaseEvent>((event, emit) {
+      if (state.cartItems[event.index].quantity! < 10) {
+        state.cartItems[event.index] = MenuModel(
+            menu: state.cartItems[event.index].menu,
+            restaurantId: state.cartItems[event.index].restaurantId,
+            quantity: state.cartItems[event.index].quantity! + 1);
+        emit(CartState(cartItems: state.cartItems));
+      }
+    });
+    on<QuantityDecreaseEvent>((event, emit) {
+      if (state.cartItems[event.index].quantity! > 1) {
+        state.cartItems[event.index] = MenuModel(
+            menu: state.cartItems[event.index].menu,
+            restaurantId: state.cartItems[event.index].restaurantId,
+            quantity: state.cartItems[event.index].quantity! - 1);
+        emit(CartState(cartItems: state.cartItems));
+      } else {
+        emit(CartState(cartItems: state.cartItems));
+      }
+    });
   }
 }

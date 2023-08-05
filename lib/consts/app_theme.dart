@@ -39,7 +39,7 @@ class AppThemes {
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 backgroundColor: AppColors.color,
                 foregroundColor: Colors.black)),
@@ -91,7 +91,7 @@ class AppThemes {
         textButtonTheme: TextButtonThemeData(
             style: TextButton.styleFrom(
                 shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(22),
+                  borderRadius: BorderRadius.circular(30),
                 ),
                 backgroundColor: AppColors.color,
                 foregroundColor: Colors.white)),

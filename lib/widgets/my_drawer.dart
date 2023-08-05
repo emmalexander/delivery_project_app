@@ -2,7 +2,9 @@ import 'package:delivery_project_app/blocs/switch_bloc/switch_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
 import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
+import 'package:delivery_project_app/pages/orders/orders_page.dart';
 import 'package:delivery_project_app/pages/profile_pages/profile_page.dart';
+import 'package:delivery_project_app/pages/promo/promo_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
@@ -73,7 +75,10 @@ class MyDrawer extends StatelessWidget {
                   size: 15,
                 ),
                 onTap: () {
-                  // TODO Create Orders Page and get orders from the getUser api collect data using the OrdersModel
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const OrdersScreen()));
                 },
               ),
               const SizedBox(width: 170, child: Divider()),
@@ -85,7 +90,10 @@ class MyDrawer extends StatelessWidget {
                   size: 15,
                 ),
                 onTap: () {
-                  // do something
+                  Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PromoPage()));
                 },
               ),
               const SizedBox(width: 170, child: Divider()),

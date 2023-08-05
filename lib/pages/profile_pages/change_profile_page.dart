@@ -42,7 +42,7 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
     super.dispose();
   }
 
-  void takePhoto(ImageSource source) async {
+  void _takePhoto(ImageSource source) async {
     final pickedImage = await _picker.pickImage(source: source);
     if (pickedImage == null) return null;
     final croppedImage = await ImageCropper().cropImage(
@@ -97,10 +97,10 @@ class _ChangeProfilePageState extends State<ChangeProfilePage> {
                             context: context,
                             builder: (context) => PictureSelectBottomSheet(
                                   onPressedCamera: () {
-                                    takePhoto(ImageSource.camera);
+                                    _takePhoto(ImageSource.camera);
                                   },
                                   onPressedGallery: () {
-                                    takePhoto(ImageSource.gallery);
+                                    _takePhoto(ImageSource.gallery);
                                   },
                                 ));
                       },

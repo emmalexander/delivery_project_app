@@ -22,3 +22,20 @@ class RemoveMealFromCartEvent extends CartEvent {
 }
 
 class ClearCartEvent extends CartEvent {}
+
+class QuantityIncreaseEvent extends CartEvent {
+  //final MenuModel menuModel;
+  final int index;
+  QuantityIncreaseEvent({required this.index});
+
+  @override
+  List<Object> get props => [index];
+}
+
+class QuantityDecreaseEvent extends CartEvent {
+  final int index;
+  QuantityDecreaseEvent({required this.index});
+
+  @override
+  List<Object> get props => [index];
+}

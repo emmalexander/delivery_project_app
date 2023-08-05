@@ -8,11 +8,15 @@ class CartWidget extends StatelessWidget {
       required this.mealName,
       required this.price,
       required this.quantity,
-      required this.imgUrl})
+      required this.imgUrl,
+      required this.increaseQuantity,
+      required this.decreaseQuantity})
       : super(key: key);
   final String mealName, imgUrl;
   final String price;
   final int quantity;
+  final Function() decreaseQuantity;
+  final Function() increaseQuantity;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -29,7 +33,7 @@ class CartWidget extends StatelessWidget {
             child: FadeInImage.assetNetwork(
               image: imgUrl,
               placeholder: 'assets/Loading_icon.gif',
-              width: 90,
+              height: 60,
             ),
           ),
           const SizedBox(width: 15),
@@ -59,12 +63,7 @@ class CartWidget extends StatelessWidget {
                         children: [
                           IconButton(
                               padding: EdgeInsets.zero,
-                              onPressed: () {
-                                // TODO Implement Increase/Decrease Quantity
-                                // context
-                                //     .read<OrderBloc>()
-                                //     .add(OrderDecrementEvent());
-                              },
+                              onPressed: decreaseQuantity,
                               icon: const Icon(
                                 Icons.remove,
                                 size: 15,
@@ -72,13 +71,7 @@ class CartWidget extends StatelessWidget {
                           Text(quantity.toString()),
                           IconButton(
                               padding: EdgeInsets.zero,
-                              onPressed: () {
-                                // TODO Implement Increase/Decrease Quantity
-                                // context
-                                //     .read<OrderBloc>()
-                                //     .add(OrderIncrementEvent());
-                                // print(state.quantity);
-                              },
+                              onPressed: increaseQuantity,
                               icon: const Icon(
                                 Icons.add,
                                 size: 15,

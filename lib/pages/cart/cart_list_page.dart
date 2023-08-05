@@ -5,6 +5,7 @@ import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:delivery_project_app/widgets/cart_page_widgets/cart_widget.dart';
 import 'package:delivery_project_app/widgets/cart_page_widgets/empty_cart_widget.dart';
+import 'package:delivery_project_app/widgets/show_custom_dialog.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_slidable/flutter_slidable.dart';
@@ -20,6 +21,71 @@ class CartListPage extends StatefulWidget {
 
 class _CartListPageState extends State<CartListPage> {
   bool loading = false;
+
+  void _orderMeal(
+      {required CartState state,
+      required UserState userState,
+      required BuildContext context}) {
+    Navigator.pop(context);
+    setState(() {
+      loading = true;
+    });
+    List<Map<String, dynamic>> menuList = [];
+    for (var menu in state.cartItems) {
+      menuList.add({'quantity': menu.quantity, 'id': menu.menu.id});
+    }
+    context
+        .read<ApiServices>()
+        .orderFood(
+            restaurantId: state.cartItems.first.restaurantId,
+            menuList: menuList,
+            token: userState.userToken)
+        .then((value) {
+      setState(() {
+        loading = false;
+      });
+      context.read<CartBloc>().add(ClearCartEvent());
+      //Take User to Success Screen
+      Navigator.pushNamed(context, OrderSuccessfulPage.id);
+    });
+  }
+
+  Future<void> _order(
+      {required CartState state,
+      required UserState userState,
+      required BuildContext context}) async {
+    int sum = 0;
+    for (var v in state.cartItems) {
+      sum = sum + (v.menu.price! * v.quantity!);
+    }
+    //debugPrint(sum.toString());
+    // Order
+    if (sum > userState.balance!) {
+      Fluttertoast.showToast(
+          msg: 'You do not have \u20A6$sum in your wallet',
+          toastLength: Toast.LENGTH_LONG,
+          gravity: ToastGravity.TOP,
+          //timeInSecForIosWeb: 1,
+          backgroundColor: Colors.redAccent,
+          textColor: Theme.of(context).textTheme.bodySmall!.color,
+          fontSize: 16.0);
+    } else {
+      setState(() {
+        loading = false;
+      });
+
+      showDialog(
+          context: context,
+          builder: (context) => CustomErrorDialog(
+              title: 'Proceed?',
+              description: 'Total Cost is \u20A6$sum',
+              onPressed: () {
+                _orderMeal(
+                    state: state, userState: userState, context: context);
+              }));
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,6 +163,20 @@ class _CartListPageState extends State<CartListPage> {
                                     price: state.cartItems[index].menu.price
                                         .toString(),
                                     quantity: state.cartItems[index].quantity!,
+                                    increaseQuantity: () {
+                                      setState(() {
+                                        context.read<CartBloc>().add(
+                                            QuantityIncreaseEvent(
+                                                index: index));
+                                      });
+                                    },
+                                    decreaseQuantity: () {
+                                      setState(() {
+                                        context.read<CartBloc>().add(
+                                            QuantityDecreaseEvent(
+                                                index: index));
+                                      });
+                                    },
                                   ),
                                 );
                               }),
@@ -109,55 +189,11 @@ class _CartListPageState extends State<CartListPage> {
                           padding: const EdgeInsets.only(bottom: 30),
                           child: ButtonLoadingWidget(
                               text: 'Order',
-                              onPressed: () async {
-                                int sum = 0;
-                                for (var v in state.cartItems) {
-                                  sum = sum + (v.menu.price! * v.quantity!);
-                                }
-                                //debugPrint(sum.toString());
-                                // Order
-                                if (sum > userState.balance!) {
-                                  Fluttertoast.showToast(
-                                      msg: 'You don\'t enough money for that',
-                                      toastLength: Toast.LENGTH_LONG,
-                                      gravity: ToastGravity.TOP,
-                                      //timeInSecForIosWeb: 1,
-                                      backgroundColor: Colors.redAccent,
-                                      textColor: Theme.of(context)
-                                          .textTheme
-                                          .bodySmall!
-                                          .color,
-                                      fontSize: 16.0);
-                                } else {
-                                  setState(() {
-                                    loading = true;
-                                  });
-                                  List<Map<String, dynamic>> menuList = [];
-                                  for (var menu in state.cartItems) {
-                                    menuList.add({
-                                      'quantity': menu.quantity,
-                                      'id': menu.menu.id
-                                    });
-                                  }
-                                  context
-                                      .read<ApiServices>()
-                                      .orderFood(
-                                          restaurantId: state
-                                              .cartItems.first.restaurantId,
-                                          menuList: menuList,
-                                          token: userState.userToken)
-                                      .then((value) {
-                                    setState(() {
-                                      loading = false;
-                                    });
-                                    context
-                                        .read<CartBloc>()
-                                        .add(ClearCartEvent());
-                                    //Take User to Success Screen
-                                    Navigator.pushNamed(
-                                        context, OrderSuccessfulPage.id);
-                                  });
-                                }
+                              onPressed: () {
+                                _order(
+                                    state: state,
+                                    userState: userState,
+                                    context: context);
                               },
                               loading: loading),
                         ))

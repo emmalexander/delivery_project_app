@@ -1,4 +1,5 @@
 import 'package:delivery_project_app/models/meal_model.dart';
+import 'package:delivery_project_app/models/orders_model.dart';
 import 'package:delivery_project_app/models/restaurant_model.dart';
 import 'package:delivery_project_app/services/exceptions.dart';
 import 'package:dio/dio.dart';
@@ -83,6 +84,30 @@ class ApiServices {
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       // print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future getOrders({token}) async {
+    final endPoint = dotenv.env['USER_ENDPOINT'] ?? 'API_URL not found';
+    Response response;
+
+    try {
+      response = await _dio.get(endPoint,
+          options: Options(headers: {'authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        print('Body: $body');
+
+        return OrdersModel.fromJson(body['user']);
+      } else {
+        print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;
