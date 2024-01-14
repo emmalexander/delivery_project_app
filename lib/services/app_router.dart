@@ -1,11 +1,11 @@
 import 'package:delivery_project_app/pages/cart/cart_list_page.dart';
-import 'package:delivery_project_app/pages/order_successful_page.dart';
+import 'package:delivery_project_app/pages/cart/order_successful_page.dart';
 import 'package:delivery_project_app/pages/profile_pages/change_profile_page.dart';
 import 'package:delivery_project_app/pages/auth_pages/check_email_page.dart';
 import 'package:delivery_project_app/pages/start_up/first_loading_page.dart';
 import 'package:delivery_project_app/pages/auth_pages/forgot_password.dart';
 import 'package:delivery_project_app/pages/home_page.dart';
-import 'package:delivery_project_app/pages/location_page.dart';
+import 'package:delivery_project_app/pages/location/location_page.dart';
 import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
 import 'package:delivery_project_app/pages/auth_pages/otp_page.dart';
 import 'package:delivery_project_app/pages/profile_pages/profile_page.dart';

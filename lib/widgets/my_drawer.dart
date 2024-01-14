@@ -133,25 +133,25 @@ class MyDrawer extends StatelessWidget {
                           title: 'Log out',
                           description: 'Are you sure?',
                           onPressed: () async {
-                            showDialog(
-                                barrierDismissible: false,
-                                context: context,
-                                builder: (context) => WillPopScope(
-                                      onWillPop: () async => false,
-                                      child: AlertDialog(
-                                        content: Row(
-                                          children: [
-                                            const CircularProgressIndicator(),
-                                            Container(
-                                                margin: const EdgeInsets.only(
-                                                    left: 7),
-                                                child: const Text(
-                                                    "Logging out...")),
-                                          ],
-                                        ),
-                                      ),
-                                    ));
-
+                            // showDialog(
+                            //     barrierDismissible: false,
+                            //     context: context,
+                            //     builder: (context) => WillPopScope(
+                            //           onWillPop: () async => false,
+                            //           child: AlertDialog(
+                            //             content: Row(
+                            //               children: [
+                            //                 const CircularProgressIndicator(),
+                            //                 const SizedBox(width: 10),
+                            //                 Container(
+                            //                     margin: const EdgeInsets.only(
+                            //                         left: 7),
+                            //                     child: const Text(
+                            //                         "Logging out...")),
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ));
                             await context
                                 .read<ApiServices>()
                                 .logout(BlocProvider.of<UserBloc>(context)

@@ -49,9 +49,7 @@ class MenuWidget extends StatelessWidget {
                     const Text('Available'),
                     Icon(
                       Icons.circle,
-                      color: model.available!
-                          ? Colors.greenAccent
-                          : Colors.redAccent,
+                      color: model.available! ? Colors.green : Colors.red,
                       size: 15,
                     )
                   ],

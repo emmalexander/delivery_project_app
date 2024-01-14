@@ -1,6 +1,6 @@
 import 'package:delivery_project_app/blocs/cart_bloc/cart_bloc.dart';
 import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
-import 'package:delivery_project_app/pages/order_successful_page.dart';
+import 'package:delivery_project_app/pages/cart/order_successful_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/button_widget.dart';
 import 'package:delivery_project_app/widgets/cart_page_widgets/cart_widget.dart';
@@ -94,6 +94,28 @@ class _CartListPageState extends State<CartListPage> {
           'Cart',
           style: TextStyle(fontWeight: FontWeight.w600),
         ),
+        centerTitle: true,
+        actions: [
+          IconButton(
+              onPressed: () {
+                if (context.read<CartBloc>().state.cartItems.isEmpty) {
+                  Fluttertoast.showToast(
+                      msg: 'Cart is empty',
+                      toastLength: Toast.LENGTH_LONG,
+                      gravity: ToastGravity.BOTTOM,
+                      //timeInSecForIosWeb: 1,
+                      backgroundColor: Colors.red,
+                      textColor: Theme.of(context).textTheme.bodySmall!.color,
+                      fontSize: 16.0);
+                } else {
+                  context.read<CartBloc>().add(ClearCartEvent());
+                }
+              },
+              icon: const Icon(
+                Icons.delete_forever,
+                color: Colors.red,
+              ))
+        ],
       ),
       body: BlocBuilder<UserBloc, UserState>(
         builder: (context, userState) {

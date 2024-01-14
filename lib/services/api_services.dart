@@ -99,15 +99,15 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        print('Body: $body');
+        //print('Body: $body');
 
         return OrdersModel.fromJson(body['user']);
       } else {
-        print(response.statusMessage.toString());
+        //print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
-      print('Error Message: $errorMessage');
+      // print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;
@@ -136,14 +136,6 @@ class ApiServices {
           lat: body['latitude'],
           long: body['longitude'],
           address: body['address'],
-          // email: body['user']['email'],
-          // name: body['user']['name'],
-          // phone: body['user']['phone'],
-          // id: body['user']['id'],
-          // otp: body['user']['OTP'],
-          // verified: body['user']['verified'],
-          // photoUrl: body['user']['photo'],
-          // balance: body['user']['balance'],
         );
       } else {
         // print(response.statusMessage.toString());
@@ -225,7 +217,6 @@ class ApiServices {
 
         return UserModel(
           email: body['email'],
-          //name: body['name'],
           phone: body['phone'],
           token: body['token'],
           id: body['id'],
@@ -276,32 +267,15 @@ class ApiServices {
             'Content-Type': contentType
           },
         ),
-
-        //     onSendProgress: (sent, total) {
-        //   print('$sent, $total');
-        // }
       );
 
       if (response.statusCode == 200) {
-        //final body = response.data;
-        //print('Body: $body');
-
-        // return UserModel(
-        //   photoUrl: body['url'],
-        //   // email: body['email'],
-        //   // name: body['name'],
-        //   // phone: body['phone'],
-        //   // id: body['id'],
-        //   // token: body['token'],
-        //   // verified: body['verified']
-        // );
       } else {
         //print(response.statusMessage.toString());
       }
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       //print('Error Message: $errorMessage');
-      //  print('Error: $e');
 
       return errorMessage;
     }
@@ -393,10 +367,7 @@ class ApiServices {
 
       if (response.statusCode == 200) {
         final body = response.data;
-        //print('Body: $body');
-        //final jsonDataList = jsonDecode(body);
 
-        // print('Body: $restaurants');
         return MealModel.fromJson(body);
       } else {
         // print(response.statusMessage.toString());
@@ -486,6 +457,31 @@ class ApiServices {
     } on DioError catch (e) {
       final errorMessage = DioExceptions.fromDioError(e).toString();
       // print('Error Message: $errorMessage');
+      return errorMessage;
+    }
+    return null;
+  }
+
+  Future makePayment({orderId, token}) async {
+    final endPoint = dotenv.env['MAKE_PAYMENT'] ?? 'API_URL not found';
+    Response response;
+    Map<String, dynamic> data = {'orderId': orderId};
+
+    try {
+      response = await _dio.put(endPoint,
+          data: data,
+          options: Options(headers: {'authorization': 'Bearer $token'}));
+
+      if (response.statusCode == 200) {
+        final body = response.data;
+        print('Body: $body');
+        //return;
+      } else {
+        // print(response.statusMessage.toString());
+      }
+    } on DioError catch (e) {
+      final errorMessage = DioExceptions.fromDioError(e).toString();
+      print('Error Message: $errorMessage');
       return errorMessage;
     }
     return null;

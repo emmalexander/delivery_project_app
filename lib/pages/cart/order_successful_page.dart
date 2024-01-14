@@ -36,7 +36,8 @@ class _OrderSuccessfulPageState extends State<OrderSuccessfulPage> {
             Icon(Icons.electric_bike, size: 100, color: Colors.green),
             SizedBox(height: 20),
             Text(
-              'Your Order is on the way',
+              'You will be redirected to order screen\n to complete payment',
+              textAlign: TextAlign.center,
               style: TextStyle(fontWeight: FontWeight.w600),
             )
           ],

@@ -46,7 +46,7 @@ class MenuTitleHeader extends StatelessWidget {
               const Text('Available'),
               Icon(
                 Icons.circle,
-                color: available ? Colors.greenAccent : Colors.redAccent,
+                color: available ? Colors.green : Colors.redAccent,
                 size: 15,
               )
             ],
@@ -57,14 +57,21 @@ class MenuTitleHeader extends StatelessWidget {
               Row(
                 children: [
                   IconButton(
-                    icon: Icon(
-                      like == LikeStatus.Liked
-                          ? Icons.thumb_down_outlined
-                          : like == LikeStatus.Disliked
-                              ? Icons.thumb_down
-                              : Icons.thumb_down_outlined,
-                      size: 20,
-                    ),
+                    icon: like == LikeStatus.Liked
+                        ? const Icon(
+                            Icons.thumb_down_outlined,
+                            size: 20,
+                          )
+                        : like == LikeStatus.Disliked
+                            ? const Icon(
+                                Icons.thumb_down,
+                                size: 20,
+                                color: Colors.red,
+                              )
+                            : const Icon(
+                                Icons.thumb_down_outlined,
+                                size: 20,
+                              ),
                     onPressed: () {
                       //debugPrint(restaurantId);
                       if (like == LikeStatus.NotRated) {
@@ -84,7 +91,7 @@ class MenuTitleHeader extends StatelessWidget {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.greenAccent,
+                            backgroundColor: Colors.green.withOpacity(.3),
                             textColor:
                                 Theme.of(context).textTheme.bodySmall!.color,
                             fontSize: 16.0);
@@ -94,14 +101,21 @@ class MenuTitleHeader extends StatelessWidget {
                   rating == null ? const Text('No rating') : Text('$rating%'),
                   SizedBox(width: 5.w),
                   IconButton(
-                    icon: Icon(
-                      like == LikeStatus.Liked
-                          ? Icons.thumb_up_rounded
-                          : like == LikeStatus.Disliked
-                              ? Icons.thumb_up_outlined
-                              : Icons.thumb_up_outlined,
-                      size: 20,
-                    ),
+                    icon: like == LikeStatus.Liked
+                        ? const Icon(
+                            Icons.thumb_up_rounded,
+                            size: 20,
+                            color: Colors.green,
+                          )
+                        : like == LikeStatus.Disliked
+                            ? const Icon(
+                                Icons.thumb_up_outlined,
+                                size: 20,
+                              )
+                            : const Icon(
+                                Icons.thumb_up_outlined,
+                                size: 20,
+                              ),
                     onPressed: () {
                       if (like == LikeStatus.NotRated) {
                         context
@@ -120,7 +134,7 @@ class MenuTitleHeader extends StatelessWidget {
                             toastLength: Toast.LENGTH_SHORT,
                             gravity: ToastGravity.BOTTOM,
                             timeInSecForIosWeb: 1,
-                            backgroundColor: Colors.greenAccent,
+                            backgroundColor: Colors.green.withOpacity(.3),
                             textColor:
                                 Theme.of(context).textTheme.bodySmall!.color,
                             fontSize: 16.0);

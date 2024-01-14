@@ -95,7 +95,7 @@ class MenuDialog extends StatelessWidget {
                       toastLength: Toast.LENGTH_SHORT,
                       gravity: ToastGravity.BOTTOM,
                       timeInSecForIosWeb: 1,
-                      backgroundColor: Colors.greenAccent,
+                      backgroundColor: Colors.green.withOpacity(.3),
                       textColor: Theme.of(context).textTheme.bodySmall!.color,
                       fontSize: 16.0);
                 } else {
@@ -124,7 +124,7 @@ class MenuDialog extends StatelessWidget {
                         toastLength: Toast.LENGTH_SHORT,
                         gravity: ToastGravity.BOTTOM,
                         timeInSecForIosWeb: 1,
-                        backgroundColor: Colors.greenAccent,
+                        backgroundColor: Colors.green.withOpacity(.3),
                         textColor: Theme.of(context).textTheme.bodySmall!.color,
                         fontSize: 16.0);
                     Navigator.pop(context);

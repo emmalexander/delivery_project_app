@@ -2,7 +2,7 @@ import 'package:delivery_project_app/blocs/user_bloc/user_bloc.dart';
 import 'package:delivery_project_app/consts/global_constants.dart';
 import 'package:delivery_project_app/models/restaurant_model.dart';
 import 'package:delivery_project_app/pages/auth_pages/login_signup_page.dart';
-import 'package:delivery_project_app/pages/menu_page.dart';
+import 'package:delivery_project_app/pages/menu/menu_page.dart';
 import 'package:delivery_project_app/services/api_services.dart';
 import 'package:delivery_project_app/widgets/home_page_widgets/home_app_bar.dart';
 import 'package:delivery_project_app/widgets/my_drawer.dart';
